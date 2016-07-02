@@ -1,0 +1,467 @@
+[June 03, 2016, 16:27:29] [zcmd] [Megan Winterfield] /anos
+[June 03, 2016, 17:04:35] [zcmd] [Megan Winterfield] /go ls
+[June 03, 2016, 17:04:36] [zcmd] [Megan Winterfield] /go rodeo
+[June 03, 2016, 17:05:05] [zcmd] [Megan Winterfield] /go rodeo
+[June 03, 2016, 17:12:16] [zcmd] [Megan Winterfield] /jetpack
+[June 03, 2016, 17:12:16] [/JETPACK] Megan Winterfield has given Megan Winterfield a jetpack.
+[June 03, 2016, 17:12:32] [zcmd] [Megan Winterfield] /go ls
+[June 03, 2016, 17:12:33] [zcmd] [Megan Winterfield] /go sf
+[June 03, 2016, 17:31:37] [zcmd] [Megan Winterfield] /park
+[June 03, 2016, 18:49:40] [zcmd] [Megan Winterfield] /go rodeo
+[June 03, 2016, 18:49:41] [zcmd] [Megan Winterfield] /jetpack
+[June 03, 2016, 18:49:41] [/JETPACK] Megan Winterfield has given Megan Winterfield a jetpack.
+[June 03, 2016, 18:50:11] [zcmd] [Megan Winterfield] /park
+[June 03, 2016, 21:47:20] [zcmd] [Megan Winterfield] /togspeedo
+[June 03, 2016, 21:51:58] [zcmd] [Megan Winterfield] /togspeedo
+[June 03, 2016, 21:53:35] [zcmd] [Megan Winterfield] /tog speedo
+[June 03, 2016, 21:53:37] [zcmd] [Megan Winterfield] /togspeedo
+[June 03, 2016, 21:54:48] [zcmd] [Megan Winterfield] /go ls
+[June 03, 2016, 21:54:52] [zcmd] [Megan Winterfield] /dn
+[June 03, 2016, 21:54:54] [zcmd] [Megan Winterfield] /dn
+[June 03, 2016, 21:54:54] [zcmd] [Megan Winterfield] /dn
+[June 05, 2016, 00:07:30] [zcmd] [Megan Winterfield] /gate
+[June 05, 2016, 00:07:33] [zcmd] [Megan Winterfield] /r .
+[June 05, 2016, 00:07:33] [June 05, 2016, 00:07:33] [/RADIO] [Group: 19] .
+
+[June 05, 2016, 00:07:36] [zcmd] [Megan Winterfield] /makeleader
+[June 05, 2016, 00:07:38] [zcmd] [Megan Winterfield] /makeleader 0
+[June 05, 2016, 00:07:40] [/MAKELEADER] Megan Winterfield has made Megan Winterfield the leader of group (the) LSPD(1)
+[June 05, 2016, 00:07:40] [zcmd] [Megan Winterfield] /gate
+[June 05, 2016, 00:07:41] [zcmd] [Megan Winterfield] /gate
+[June 05, 2016, 00:07:45] [zcmd] [Megan Winterfield] /sellgun
+[June 05, 2016, 00:08:07] [zcmd] [Megan Winterfield] /nextjob
+[June 05, 2016, 00:08:11] [zcmd] [Megan Winterfield] /editjob 0
+[June 05, 2016, 00:08:13] [zcmd] [Megan Winterfield] /editjob 0 position
+[June 05, 2016, 00:08:17] [zcmd] [Megan Winterfield] /editjob 0 position
+[June 05, 2016, 00:08:19] [zcmd] [Megan Winterfield] /editjob 0 exterior
+[June 05, 2016, 00:08:19] [June 05, 2016, 00:08:19] [/EDITJOB] Megan Winterfield has moved the position of job 0 to X: 1521.894165, Y: -1686.484985, Z: 13.546875
+
+[June 05, 2016, 00:08:32] [zcmd] [Megan Winterfield] /editjob 0 type 1
+[June 05, 2016, 00:08:32] [June 05, 2016, 00:08:32] [/EDITJOB] Megan Winterfield has modified the type of job 0 to 1
+
+[June 05, 2016, 00:08:35] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:08:37] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:08:38] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:08:39] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:08:40] [zcmd] [Megan Winterfield] /sellgun
+[June 05, 2016, 00:08:42] [zcmd] [Megan Winterfield] /repair
+[June 05, 2016, 00:08:45] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:09:08] [zcmd] [Megan Winterfield] /veh 400
+[June 05, 2016, 00:09:10] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:09:11] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:09:15] [zcmd] [Megan Winterfield] /repair
+[June 05, 2016, 00:09:17] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:09:38] [zcmd] [Megan Winterfield] /editjob
+[June 05, 2016, 00:09:44] [zcmd] [Megan Winterfield] /editjob 0 type 0
+[June 05, 2016, 00:09:51] [zcmd] [Megan Winterfield] /editjob 0 type 1
+[June 05, 2016, 00:09:51] [June 05, 2016, 00:09:51] [/EDITJOB] Megan Winterfield has modified the type of job 0 to 1
+
+[June 05, 2016, 00:09:53] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:09:56] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:09:56] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:09:57] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:11:51] [zcmd] [Megan Winterfield] /veh 400
+[June 05, 2016, 00:11:52] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:11:55] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:11:56] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:11:57] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:12:04] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:12:10] [zcmd] [Megan Winterfield] /nextjob
+[June 05, 2016, 00:12:12] [zcmd] [Megan Winterfield] /editjob 0 exterior
+[June 05, 2016, 00:12:12] [June 05, 2016, 00:12:12] [/EDITJOB] Megan Winterfield has moved the position of job 0 to X: 1520.588134, Y: -1669.903442, Z: 13.546875
+
+[June 05, 2016, 00:12:17] [zcmd] [Megan Winterfield] /editjob 0 type 1
+[June 05, 2016, 00:12:17] [June 05, 2016, 00:12:17] [/EDITJOB] Megan Winterfield has modified the type of job 0 to 1
+
+[June 05, 2016, 00:12:18] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:12:20] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:12:22] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:12:24] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:12:26] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:12:29] [zcmd] [Megan Winterfield] /repair
+[June 05, 2016, 00:12:33] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:12:37] [zcmd] [Megan Winterfield] /sellgun
+[June 05, 2016, 00:14:08] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:14:16] [zcmd] [Megan Winterfield] /washhandsup
+[June 05, 2016, 00:14:21] [zcmd] [Megan Winterfield] /washhands
+[June 05, 2016, 00:14:22] [zcmd] [Megan Winterfield] /washhands
+[June 05, 2016, 00:14:35] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:14:36] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:15:15] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:15:16] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:15:18] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:27:26] [zcmd] [Megan Winterfield] /jobname
+[June 05, 2016, 00:27:29] [zcmd] [Megan Winterfield] /near jobs
+[June 05, 2016, 00:27:34] [zcmd] [Megan Winterfield] /jobname 0 Arms Dealer
+[June 05, 2016, 00:27:34] [June 05, 2016, 00:27:34] [/JOBNAME] Megan Winterfield has modified job 0's name to Arms Dealer
+
+[June 05, 2016, 00:35:46] [zcmd] [Megan Winterfield] /nextjob
+[June 05, 2016, 00:35:48] [zcmd] [Megan Winterfield] /editjob
+[June 05, 2016, 00:35:51] [zcmd] [Megan Winterfield] /editjob 1 position
+[June 05, 2016, 00:35:51] [June 05, 2016, 00:35:51] [/EDITJOB] Megan Winterfield has moved the position of job 1 to X: 1521.041625, Y: -1666.621093, Z: 13.546875
+
+[June 05, 2016, 00:35:58] [zcmd] [Megan Winterfield] /editjob 1 type 1
+[June 05, 2016, 00:35:58] [June 05, 2016, 00:35:58] [/EDITJOB] Megan Winterfield has modified the type of job 1 to 1
+
+[June 05, 2016, 00:36:02] [zcmd] [Megan Winterfield] /jobname 1 Mechanic
+[June 05, 2016, 00:36:02] [June 05, 2016, 00:36:02] [/JOBNAME] Megan Winterfield has modified job 1's name to Mechanic
+
+[June 05, 2016, 00:36:05] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:06] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:08] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:11] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:13] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:36:14] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:16] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:17] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:19] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:36:21] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:36:23] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:37:16] [zcmd] [Megan Winterfield] /editjob 0 type 0
+[June 05, 2016, 00:37:18] [zcmd] [Megan Winterfield] /editjob 0 type 1
+[June 05, 2016, 00:37:18] [June 05, 2016, 00:37:18] [/EDITJOB] Megan Winterfield has modified the type of job 0 to 1
+
+[June 05, 2016, 00:37:25] [zcmd] [Megan Winterfield] /editjob 1 type 2
+[June 05, 2016, 00:37:25] [June 05, 2016, 00:37:25] [/EDITJOB] Megan Winterfield has modified the type of job 1 to 2
+
+[June 05, 2016, 00:39:18] [zcmd] [Megan Winterfield] /joinjob[
+[June 05, 2016, 00:39:19] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:39:21] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:39:23] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:39:26] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:39:31] [zcmd] [Megan Winterfield] /sellgun
+[June 05, 2016, 00:39:37] [zcmd] [Megan Winterfield] /sellgun 0 flowers
+[June 05, 2016, 00:39:41] [zcmd] [Megan Winterfield] /sellgun 0 knuckles
+[June 05, 2016, 00:39:45] [zcmd] [Megan Winterfield] /sellgun 0 knuckles
+[June 05, 2016, 00:39:46] [zcmd] [Megan Winterfield] /sellgun 0 knuckles
+[June 05, 2016, 00:39:47] [zcmd] [Megan Winterfield] /sellgun 0 knuckles
+[June 05, 2016, 00:39:48] [zcmd] [Megan Winterfield] /sellgun 0 knuckles
+[June 05, 2016, 00:39:56] [zcmd] [Megan Winterfield] /sellgun 0 
+[June 05, 2016, 00:39:57] [zcmd] [Megan Winterfield] /sellgun 0
+[June 05, 2016, 00:39:60] [zcmd] [Megan Winterfield] /sellgun 0 cane
+[June 05, 2016, 00:40:03] [zcmd] [Megan Winterfield] /sellgun 0 bat
+[June 05, 2016, 00:40:04] [zcmd] [Megan Winterfield] /sellgun 0 bat
+[June 05, 2016, 00:40:06] [zcmd] [Megan Winterfield] /sellgun 0
+[June 05, 2016, 00:40:07] [zcmd] [Megan Winterfield] /sellgun 0 bat
+[June 05, 2016, 00:40:08] [zcmd] [Megan Winterfield] /sellgun 0 bat
+[June 05, 2016, 00:40:09] [zcmd] [Megan Winterfield] /sellgun 0 bat
+[June 05, 2016, 00:40:10] [zcmd] [Megan Winterfield] /sellgun 0 bat
+[June 05, 2016, 00:40:17] [zcmd] [Megan Winterfield] /skill
+[June 05, 2016, 00:40:19] [zcmd] [Megan Winterfield] /skill 1
+[June 05, 2016, 00:40:22] [zcmd] [Megan Winterfield] /skill 2
+[June 05, 2016, 00:40:23] [zcmd] [Megan Winterfield] /skill 3
+[June 05, 2016, 00:40:29] [zcmd] [Megan Winterfield] /skill
+[June 05, 2016, 00:40:36] [zcmd] [Megan Winterfield] /sellgun 0
+[June 05, 2016, 00:40:38] [zcmd] [Megan Winterfield] /sellgun 0 shovel
+[June 05, 2016, 00:41:38] [zcmd] [Megan Winterfield] /sellgun 0 club
+[June 05, 2016, 00:41:42] [zcmd] [Megan Winterfield] /sellgun 0 pool
+[June 05, 2016, 00:41:43] [zcmd] [Megan Winterfield] /sellgun 0 pool
+[June 05, 2016, 00:41:45] [zcmd] [Megan Winterfield] /sellgun 0 pool
+[June 05, 2016, 00:41:46] [zcmd] [Megan Winterfield] /sellgun 0 pool
+[June 05, 2016, 00:41:47] [zcmd] [Megan Winterfield] /sellgun 0 pool
+[June 05, 2016, 00:41:49] [zcmd] [Megan Winterfield] /sellgun 0 pool
+[June 05, 2016, 00:41:55] [zcmd] [Megan Winterfield] /sellgun 0 katana
+[June 05, 2016, 00:41:56] [zcmd] [Megan Winterfield] /sellgun 0 katana
+[June 05, 2016, 00:41:57] [zcmd] [Megan Winterfield] /sellgun 0 katana
+[June 05, 2016, 00:41:58] [zcmd] [Megan Winterfield] /sellgun 0 katana
+[June 05, 2016, 00:41:59] [zcmd] [Megan Winterfield] /sellgun 0 katana
+[June 05, 2016, 00:42:19] [zcmd] [Megan Winterfield] /veh 420
+[June 05, 2016, 00:42:22] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:42:25] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:42:26] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:42:29] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:45:05] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:45:07] [zcmd] [Megan Winterfield] /quitjob
+[June 05, 2016, 00:45:09] [zcmd] [Megan Winterfield] /joinjob
+[June 05, 2016, 00:45:11] [zcmd] [Megan Winterfield] /veh 400
+[June 05, 2016, 00:45:13] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:45:20] [zcmd] [Megan Winterfield] /hotwire
+[June 05, 2016, 00:45:25] [zcmd] [Megan Winterfield] /car lights
+[June 05, 2016, 00:45:57] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:45:59] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:45:60] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:46:03] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:46:08] [zcmd] [Megan Winterfield] /repair
+[June 05, 2016, 00:46:15] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:46:39] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:47:03] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:47:19] [zcmd] [Megan Winterfield] /washhands
+[June 05, 2016, 00:47:20] [zcmd] [Megan Winterfield] /washhands
+[June 05, 2016, 00:49:21] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:49:23] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 00:49:26] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:49:39] [zcmd] [Megan Winterfield] /repair
+[June 05, 2016, 00:49:40] [zcmd] [Megan Winterfield] /repair 0 0
+[June 05, 2016, 00:49:54] [zcmd] [Megan Winterfield] /fix
+[June 05, 2016, 00:50:26] [zcmd] [Megan Winterfield] /repair 0 0
+[June 05, 2016, 00:50:27] [zcmd] [Megan Winterfield] /repair 0 1
+[June 05, 2016, 00:50:31] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:45] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:46] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:47] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:49] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:50] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:51] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:53] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:54] [zcmd] [Megan Winterfield] /repair 0 -1
+[June 05, 2016, 00:50:57] [zcmd] [Megan Winterfield] /repair 0 0
+[June 05, 2016, 00:51:03] [zcmd] [Megan Winterfield] /destroyvehicles
+[June 05, 2016, 01:14:42] [zcmd] [Megan Winterfield] /time
+[June 05, 2016, 01:17:41] [zcmd] [Megan Winterfield] /time
+[June 05, 2016, 01:18:01] [zcmd] [Megan Winterfield] /veh 400
+[June 05, 2016, 01:18:05] [zcmd] [Megan Winterfield] /respray
+[June 05, 2016, 01:18:10] [zcmd] [Megan Winterfield] /respray 0 5 5 0
+[June 05, 2016, 01:18:15] [zcmd] [Megan Winterfield] /agiveweapon
+[June 05, 2016, 01:18:31] [zcmd] [Megan Winterfield] /agiveweapon 0 43
+[June 05, 2016, 01:18:31] [/AGIVEAWEAPON] Megan Winterfield has given Megan Winterfield a Camera(43) | Ammo: 99999
+[June 05, 2016, 01:18:34] [zcmd] [Megan Winterfield] /respray 0 5 5 0
+[June 05, 2016, 01:18:56] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 01:18:58] [zcmd] [Megan Winterfield] /go lv
+[June 05, 2016, 01:18:60] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 01:19:06] [zcmd] [Megan Winterfield] /go rodeo
+[June 05, 2016, 01:19:06] [zcmd] [Megan Winterfield] /jetpack
+[June 05, 2016, 01:19:06] [/JETPACK] Megan Winterfield has given Megan Winterfield a jetpack.
+[June 05, 2016, 01:19:32] [zcmd] [Megan Winterfield] /respray
+[June 05, 2016, 01:19:37] [zcmd] [Megan Winterfield] /respray 0 36 0 0
+[June 05, 2016, 01:19:42] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 01:19:44] [zcmd] [Megan Winterfield] /respray 0 36 0 0
+[June 05, 2016, 01:19:52] [zcmd] [Megan Winterfield] /respray 0 36 0 0
+[June 05, 2016, 01:19:54] [zcmd] [Megan Winterfield] /car hood
+[June 05, 2016, 01:20:03] [zcmd] [Megan Winterfield] /time
+[June 05, 2016, 01:25:46] [zcmd] [Megan Winterfield] /time
+[June 05, 2016, 01:26:32] [zcmd] [Megan Winterfield] /colourcar
+[June 05, 2016, 01:26:33] [zcmd] [Megan Winterfield] /respray
+[June 05, 2016, 01:26:41] [zcmd] [Megan Winterfield] /respray 0 36 1 0
+[June 05, 2016, 01:26:45] [zcmd] [Megan Winterfield] /agiveweapon 0 41
+[June 05, 2016, 01:26:45] [/AGIVEAWEAPON] Megan Winterfield has given Megan Winterfield a Spray Can(41) | Ammo: 99999
+[June 05, 2016, 01:26:47] [zcmd] [Megan Winterfield] /respray 0 36 1 0
+[June 05, 2016, 01:26:52] [zcmd] [Megan Winterfield] /respray 0 36 1 0
+[June 05, 2016, 01:26:58] [zcmd] [Megan Winterfield] /respray 0 36 1 0
+[June 05, 2016, 01:29:26] [zcmd] [Megan Winterfield] /go rodeo
+[June 05, 2016, 01:30:23] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:30:47] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:11] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:13] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:17] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:19] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:20] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:20] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:21] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:21] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:31:25] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:43:47] [zcmd] [Megan Winterfield] /pm 0  test
+[June 05, 2016, 01:44:23] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:49:23] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:51:25] [zcmd] [Megan Winterfield] /park
+[June 05, 2016, 01:54:49] [zcmd] [Megan Winterfield] /time
+[June 05, 2016, 04:03:55] [zcmd] [Megan Winterfield] /stats
+[June 05, 2016, 04:04:56] [zcmd] [Megan Winterfield] /editgroup
+[June 05, 2016, 04:05:01] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 04:05:03] [zcmd] [Megan Winterfield] /go rodeo
+[June 05, 2016, 04:05:26] [zcmd] [Megan Winterfield] /go
+[June 05, 2016, 04:05:28] [zcmd] [Megan Winterfield] /goto
+[June 05, 2016, 04:05:35] [zcmd] [Megan Winterfield] /stats
+[June 05, 2016, 04:05:37] [zcmd] [Megan Winterfield] /editgroup
+[June 05, 2016, 04:05:56] [June 05, 2016, 04:05:56] [/EDITGROUP] Megan Winterfield changed group 1's rank 0 pay to 53
+
+[June 05, 2016, 04:06:01] [June 05, 2016, 04:06:01] [/EDITGROUP] Megan Winterfield changed group 1's rank 1 pay to 49
+
+[June 05, 2016, 04:06:04] [June 05, 2016, 04:06:04] [/EDITGROUP] Megan Winterfield changed group 1's rank 2 pay to 49
+
+[June 05, 2016, 04:06:07] [June 05, 2016, 04:06:07] [/EDITGROUP] Megan Winterfield changed group 1's rank 3 pay to 49
+
+[June 05, 2016, 04:06:10] [June 05, 2016, 04:06:10] [/EDITGROUP] Megan Winterfield changed group 1's rank 4 pay to 49
+
+[June 05, 2016, 04:06:14] [June 05, 2016, 04:06:14] [/EDITGROUP] Megan Winterfield changed group 1's rank 4 pay to 50
+
+[June 05, 2016, 04:06:17] [June 05, 2016, 04:06:17] [/EDITGROUP] Megan Winterfield changed group 1's rank 5 pay to 51
+
+[June 05, 2016, 04:06:19] [June 05, 2016, 04:06:19] [/EDITGROUP] Megan Winterfield changed group 1's rank 6 pay to 51
+
+[June 05, 2016, 04:06:23] [June 05, 2016, 04:06:23] [/EDITGROUP] Megan Winterfield changed group 1's rank 7 pay to 51
+
+[June 05, 2016, 04:06:25] [June 05, 2016, 04:06:25] [/EDITGROUP] Megan Winterfield changed group 1's rank 8 pay to 52
+
+[June 05, 2016, 04:06:28] [June 05, 2016, 04:06:28] [/EDITGROUP] Megan Winterfield changed group 1's rank 9 pay to 53
+
+[June 05, 2016, 04:06:32] [zcmd] [Megan Winterfield] /stats
+[June 05, 2016, 04:43:32] [zcmd] [Megan Winterfield] /drop
+[June 05, 2016, 04:43:35] [zcmd] [Megan Winterfield] /drop weapon
+[June 05, 2016, 04:43:40] [zcmd] [Megan Winterfield] /drop weapon
+[June 05, 2016, 04:43:41] [zcmd] [Megan Winterfield] /drop weapon
+[June 05, 2016, 04:43:42] [zcmd] [Megan Winterfield] /drop weapon
+[June 05, 2016, 04:43:43] [zcmd] [Megan Winterfield] /drop weapon
+[June 05, 2016, 07:12:35] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:12:36] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:12:55] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 07:13:19] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 07:13:21] [zcmd] [Megan Winterfield] /spec off
+[June 05, 2016, 07:13:21] [/SPEC] Megan Winterfield has stopped spectating.
+[June 05, 2016, 07:13:26] [zcmd] [Megan Winterfield] /set 0 skin 9
+[June 05, 2016, 07:13:26] [/SET] Megan Winterfield has modified Megan Winterfield's skin to 9.
+[June 05, 2016, 07:13:28] [zcmd] [Megan Winterfield] /set 0 skin 93
+[June 05, 2016, 07:13:28] [/SET] Megan Winterfield has modified Megan Winterfield's skin to 93.
+[June 05, 2016, 07:13:29] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 07:13:32] [zcmd] [Megan Winterfield] /go lv
+[June 05, 2016, 07:13:33] [zcmd] [Megan Winterfield] /a .
+[June 05, 2016, 07:13:33] [/ADMIN] Executive Administrator Megan Winterfield: .
+[June 05, 2016, 07:13:35] [zcmd] [Megan Winterfield] /go lsvip
+[June 05, 2016, 07:13:37] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 07:13:39] [zcmd] [Megan Winterfield] /go allsaints
+[June 05, 2016, 07:17:15] [zcmd] [Megan Winterfield] /set 0 hp 0
+[June 05, 2016, 07:17:17] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:17:17] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:17:29] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 07:18:52] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:18:52] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:19:29] [zcmd] [Megan Winterfield] /set 0 health 5
+[June 05, 2016, 07:19:29] [/SET] Megan Winterfield has modified Megan Winterfield's health to 5.
+[June 05, 2016, 07:20:15] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 07:21:58] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:21:58] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:22:12] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 07:22:40] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:22:40] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:24:01] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 07:25:14] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:25:14] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:25:33] [zcmd] [Megan Winterfield] /go ls
+[June 05, 2016, 07:25:37] [zcmd] [Megan Winterfield] /spec off
+[June 05, 2016, 07:25:37] [/SPEC] Megan Winterfield has stopped spectating.
+[June 05, 2016, 07:28:07] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 07:28:07] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 07:37:50] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 08:17:40] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 08:17:40] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 08:21:09] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 08:21:09] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 08:21:18] [zcmd] [Megan Winterfield] /accept death
+[June 05, 2016, 08:21:29] [zcmd] [Megan Winterfield] /revive
+[June 05, 2016, 08:21:31] [zcmd] [Megan Winterfield] /revive 0
+[June 05, 2016, 08:21:31] [/REVIVE] Megan Winterfield has been released from the hopsital by Executive Administrator Megan Winterfield.
+[June 05, 2016, 08:21:33] [zcmd] [Megan Winterfield] /set 0 health 0
+[June 05, 2016, 08:21:33] [/SET] Megan Winterfield has modified Megan Winterfield's health to 0.
+[June 05, 2016, 08:21:45] [zcmd] [Megan Winterfield] /set 0 health 3
+[June 05, 2016, 08:21:45] [/SET] Megan Winterfield has modified Megan Winterfield's health to 3.
+[June 09, 2016, 22:02:07] [zcmd] [Megan Winterfield] /goo ls
+[June 09, 2016, 22:02:08] [zcmd] [Megan Winterfield] /go ls
+[June 09, 2016, 22:03:08] [zcmd] [Megan Winterfield] /freeze 0
+[June 09, 2016, 22:03:08] [/FREEZE] Megan Winterfield has frozen Megan Winterfield.
+[June 09, 2016, 22:03:09] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:10] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:10] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:11] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:12] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:15] [zcmd] [Megan Winterfield] /dn
+[June 09, 2016, 22:03:37] [zcmd] [Megan Winterfield] /freeze 0
+[June 09, 2016, 22:03:37] [/FREEZE] Megan Winterfield has frozen Megan Winterfield.
+[June 09, 2016, 22:03:38] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:39] [zcmd] [Megan Winterfield] /up
+[June 09, 2016, 22:03:42] [zcmd] [Megan Winterfield] /dn
+[June 09, 2016, 22:03:59] [zcmd] [Megan Winterfield] /go ls
+[June 09, 2016, 22:04:02] [zcmd] [Megan Winterfield] /unfreeze 0
+[June 09, 2016, 22:04:02] [/UNFREEZE] Megan Winterfield has unfrozen Megan Winterfield.
+[June 09, 2016, 22:04:05] [zcmd] [Megan Winterfield] /payday
+[June 09, 2016, 22:04:42] [zcmd] [Megan Winterfield] /payday
+[June 09, 2016, 22:04:51] [zcmd] [Megan Winterfield] /stats
+[June 10, 2016, 19:58:03] [zcmd] [Jason] /veh 522
+[June 10, 2016, 19:59:27] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:03:21] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:03:22] [zcmd] [Jason] /jetpack
+[June 10, 2016, 20:03:22] [/JETPACK] Jason has given Jason a jetpack.
+[June 10, 2016, 20:03:57] [zcmd] [Jason] /makeleader 0
+[June 10, 2016, 20:03:58] [/MAKELEADER] Jason has made Jason the leader of group (the) FBI(2)
+[June 10, 2016, 20:04:07] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:04:10] [zcmd] [Jason] /go fbi
+[June 10, 2016, 20:04:10] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:04:13] [zcmd] [Jason] /veh 522
+[June 10, 2016, 20:04:22] [zcmd] [Jason] /makeleader 0
+[June 10, 2016, 20:04:45] [zcmd] [Jason] /gate
+[June 10, 2016, 20:04:46] [zcmd] [Jason] /gate
+[June 10, 2016, 20:04:50] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:05:44] [zcmd] [Jason] /go doc
+[June 10, 2016, 20:06:48] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:07:06] [zcmd] [Jason] /go mall
+[June 10, 2016, 20:07:07] [zcmd] [Jason] /jetpack
+[June 10, 2016, 20:07:07] [/JETPACK] Jason has given Jason a jetpack.
+[June 10, 2016, 20:07:32] [zcmd] [Jason] /go mall
+[June 10, 2016, 20:07:33] [zcmd] [Jason] /jetpack
+[June 10, 2016, 20:07:33] [/JETPACK] Jason has given Jason a jetpack.
+[June 10, 2016, 20:07:36] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:07:56] [zcmd] [Jason] /gate
+[June 10, 2016, 20:07:57] [zcmd] [Jason] /gate
+[June 10, 2016, 20:08:03] [zcmd] [Jason] /go ls
+[June 10, 2016, 20:08:58] [zcmd] [Jason] /go mall
+[June 10, 2016, 20:10:52] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:53] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:53] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:53] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:54] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:54] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:55] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:56] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:56] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:56] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:58] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:59] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:59] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:59] [zcmd] [Jason] /up
+[June 10, 2016, 20:10:60] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:02] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:03] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:03] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:04] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:04] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:05] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:05] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:06] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:06] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:06] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:07] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:07] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:08] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:08] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:08] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:09] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:09] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:10] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:10] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:10] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:11] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:31] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:31] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:31] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:32] [zcmd] [Jason] /lt
+[June 10, 2016, 20:11:32] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:33] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:33] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:33] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:34] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:34] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:34] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:35] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:35] [zcmd] [Jason] /up
+[June 10, 2016, 20:11:36] [zcmd] [Jason] /up
+[June 10, 2016, 20:15:39] [zcmd] [Jason] /go ls
+[June 21, 2016, 02:35:19] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:35:25] [zcmd] [Megan Winterfield] /goto lv
+[June 21, 2016, 02:35:26] [zcmd] [Megan Winterfield] /go lv
+[June 21, 2016, 02:35:28] [zcmd] [Megan Winterfield] /go ls
+[June 21, 2016, 02:35:30] [zcmd] [Megan Winterfield] /veh 522
+[June 21, 2016, 02:35:50] [zcmd] [Megan Winterfield] /go palomino
+[June 21, 2016, 02:35:53] [zcmd] [Megan Winterfield] /go rc
+[June 21, 2016, 02:35:60] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:01] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:05] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:07] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:10] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:12] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:12] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:14] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:14] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:15] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:36:16] [zcmd] [Megan Winterfield] /boat
+[June 21, 2016, 02:37:07] [zcmd] [Megan Winterfield] /kcp
+[June 21, 2016, 02:37:09] [zcmd] [Megan Winterfield] /kcp
+[June 21, 2016, 02:37:10] [zcmd] [Megan Winterfield] /boat
+[June 29, 2016, 18:34:48] [zcmd] [Megan Winterfield] /help
