@@ -2746,7 +2746,7 @@ CMD:jobskill(playerid, params[])
 	    if(Player[playerid][AdminLevel] >= 3)
 	    {
 	        SendClientMessage(playerid, WHITE, "SYNTAX: /jobskill [playerid] [job] [value]");
-	        return SendClientMessage(playerid, GREY, "Jobs: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler, 7 - Lawyer");
+	        return SendClientMessage(playerid, GREY, "Jobs: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler");
 	    }
 	    else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
     }
@@ -2756,7 +2756,7 @@ CMD:jobskill(playerid, params[])
     	{
     		if(IsPlayerConnectedEx(id))
     		{
-    			if(Usage < 1 || Usage > 7) return SendClientMessage(playerid, GREY, "Jobs: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler, 7 - Lawyer");
+    			if(Usage < 1 || Usage > 6) return SendClientMessage(playerid, GREY, "Jobs: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler");
     			Player[id][JobSkill][Usage - 1] = Value;
 
     			format(Array, sizeof(Array), "You have modified %s's %s skill to %d.", GetName(id), Job[Usage - 1][JobName], Value);

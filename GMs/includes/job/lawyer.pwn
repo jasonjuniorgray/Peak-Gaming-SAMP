@@ -31,24 +31,22 @@ CMD:clear(playerid, params[])
 			}
 
 			if(id == playerid && Player[playerid][JobSkill][6] < 400) return SendClientMessage(playerid, WHITE, "You cannot clear yourself!");
-
-			for(new i; i < 6; i++)
+			else if(id == playerid && Player[playerid][JobSkill][6] > 400)
 			{
-				if(Player[playerid][Crimes][i] >= 1) 
-				{
-					SetPVarInt(playerid, "Offering", 1);
-					SetPVarInt(id, "ClearingCharge", i);
-					SetPVarInt(id, "ClearingID", playerid);
-					SetPVarInt(id, "ClearingWait", waittime);
-					SetPVarInt(id, "ClearingPrice", price);
-
-					format(Array, sizeof(Array), "You have offered %s a clear for $%s.", GetName(id), FormatNumberToString(price));
-  					SendClientMessage(playerid, LIGHTBLUE, Array);
-					format(Array, sizeof(Array), "%s has offered to clear a charge you have for $%s, type /accept clear to accept it.", GetName(playerid), FormatNumberToString(price));
-  					SendClientMessage(id, LIGHTBLUE, Array);
-					break;
-				}
+				return 1;
 			}
+			else
+			{
+				SetPVarInt(playerid, "Offering", 1);
+				SetPVarInt(id, "ClearingID", playerid);
+				SetPVarInt(id, "ClearingWait", waittime);
+				SetPVarInt(id, "ClearingPrice", price);
+
+				format(Array, sizeof(Array), "You have offered %s a clear for $%s.", GetName(id), FormatNumberToString(price));
+	  			SendClientMessage(playerid, LIGHTBLUE, Array);
+				format(Array, sizeof(Array), "%s has offered to clear a charge you have for $%s, type /accept clear to accept it.", GetName(playerid), FormatNumberToString(price));
+	  			SendClientMessage(id, LIGHTBLUE, Array);
+	  		}
 
 			return SendClientMessage(playerid, WHITE, "This player doesn't have any more cimes to clear.");
 		}

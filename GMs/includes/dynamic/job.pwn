@@ -78,7 +78,7 @@ CMD:editjob(playerid, params[])
         }
         else if(strcmp(usage, "type", true) == 0)
         {
-            if(amount < 1 || amount > 10)  return SendClientMessage(playerid, GREY, "Types: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler, 7 - Lawyer, 8 - Pizza Boy");
+            if(amount < 1 || amount > 10)  return SendClientMessage(playerid, GREY, "Types: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler, 7 - Pizza Boy");
             Job[id][JobType] = amount;
 
             format(Array, sizeof(Array), "You have modified the type of job %d to %d", id, amount);

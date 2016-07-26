@@ -1,6 +1,18 @@
 GamemodeMySQLInitiate()
 {
-    SQL = mysql_connect(SQL_HOST, SQL_USER, SQL_DB, SQL_PASS);
+	Array[0] = 0;
+
+	new File: MySQLFile = fopen("mysql.ini", io_read), Host[50], User[50], DB[50], Pass[50];
+	while(fread(MySQLFile, Array, sizeof(Array))) 
+	{
+		if(GetValue(Array, "Host", Host, sizeof(Host))) continue;
+		if(GetValue(Array, "DB", DB, sizeof(DB))) continue;
+		if(GetValue(Array, "User", User, sizeof(User))) continue;
+		if(GetValue(Array, "Pass", Pass, sizeof(Pass))) continue;
+	}
+	fclose(MySQLFile);
+
+    SQL = mysql_connect(Host, User, DB, Pass);
     if(mysql_errno() != 0)
     {
         print("[SQL] The connection to the database has failed, server shutting down...");
@@ -183,9 +195,9 @@ public OnPlayerLogin(playerid)
 		Player[playerid][Fightstyle] = cache_get_field_content_int(row, "Fightstyle");
 		Player[playerid][JailTime] = cache_get_field_content_int(row, "JailTime");
 		Player[playerid][ArrestedBy] = cache_get_field_content_int(row, "ArrestedBy");
-
-		cache_get_field_content(row,  "Crimes", result, SQL, 128);
-		sscanf(result, "p<|>e<dddddd>", Player[playerid][Crimes]);
+		Player[playerid][TotalCrimes] = cache_get_field_content_int(row, "TotalCrimes");
+		Player[playerid][TotalArrests] = cache_get_field_content_int(row, "TotalArrests");
+		Player[playerid][Crimes] = cache_get_field_content_int(row, "Crimes");
 
 		Player[playerid][Speedo] = cache_get_field_content_int(row, "Speedo");
 		Player[playerid][OnDuty] = cache_get_field_content_int(row, "OnDuty");
@@ -534,14 +546,9 @@ SavePlayerData(playerid, type)
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "Fightstyle", Player[playerid][Fightstyle]);
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "JailTime", Player[playerid][JailTime]);
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "ArrestedBy", Player[playerid][ArrestedBy]);
-
-				string[0] = 0;
-				for(new i = 0; i < 6; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][Crimes][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "Crimes", string);
+				SavePlayerInteger(Query, Player[playerid][DatabaseID], "TotalCrimes", Player[playerid][TotalCrimes]);
+				SavePlayerInteger(Query, Player[playerid][DatabaseID], "TotalArrests", Player[playerid][TotalArrests]);
+				SavePlayerInteger(Query, Player[playerid][DatabaseID], "Crimes", Player[playerid][Crimes]);
 
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "Speedo", Player[playerid][Speedo]);
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "OnDuty", Player[playerid][OnDuty]);

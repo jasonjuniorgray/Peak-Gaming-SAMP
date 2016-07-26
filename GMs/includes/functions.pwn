@@ -668,6 +668,14 @@ Log(type, string[], group = -1)
 	return 1;
 }
 
+GetValue(parse[], value[], destination[], length) 
+{
+	new Equal = strfind(parse, "=", false), Length = strlen(parse);
+	while(Length-- && parse[Length] <= ' ') parse[Length] = 0;
+	if(strcmp(parse, value, false, Equal) == 0) { strmid(destination, parse, Equal + 1, Length + 1, length); return 1; }
+	return 0;
+}
+
 AntiDeAMX()
 {
     new a[][] = {

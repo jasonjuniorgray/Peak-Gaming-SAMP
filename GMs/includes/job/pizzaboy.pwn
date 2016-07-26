@@ -4,7 +4,7 @@ CMD:getpizza(playerid, params[])
 {
     if(IsPlayerConnectedEx(playerid))
     {
-        if(Job[Player[playerid][PlayerJob]][JobType] == 8)
+        if(Job[Player[playerid][PlayerJob]][JobType] == 7)
         {
             if(Vehicle[GetRealVehicleID(GetPlayerVehicleID(playerid))][Model] != 0 && Vehicle[GetRealVehicleID(GetPlayerVehicleID(playerid))][VehicleJob] == Player[playerid][PlayerJob])
             {
@@ -52,7 +52,7 @@ hook OnPlayerEnterCheckpoint(playerid)
 {
     if(GetPVarInt(playerid, "PizzaRun") >= 1)
     {
-        if(Job[Player[playerid][PlayerJob]][JobType] == 8)
+        if(Job[Player[playerid][PlayerJob]][JobType] == 7)
         {
             DisablePlayerCheckpointEx(playerid);
 

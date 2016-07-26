@@ -38,7 +38,7 @@ CMD:skill(playerid, params[])
 	if(isnull(params))
 	{
 		SendClientMessage(playerid, WHITE, "SYNTAX: /skill [usage]");
-		return SendClientMessage(playerid, GREY, "Usages: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler, 7 - Lawyer");
+		return SendClientMessage(playerid, GREY, "Usages: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler");
 	}
 	else 
 	{
@@ -94,18 +94,10 @@ CMD:skill(playerid, params[])
 				else if(level >= 200 && level < 400) { SendClientMessage(playerid, WHITE, "Your skill level for Drug Smuggler is 4."); format(Array, sizeof(Array), "You need to smuggle %d more drugs to level up.", 400 - level); SendClientMessage(playerid, GREY, Array); }
 				else if(level >= 400) { SendClientMessage(playerid, WHITE, "Your skill level for Drug Smuggler is 5."); }
 			}
-			case 6:
-			{
-				if(level >= 0 && level < 50) { SendClientMessage(playerid, WHITE, "Your skill level for Lawyer is 1."); format(Array, sizeof(Array), "You need to clear %d more players to level up.", 50 - level); SendClientMessage(playerid, GREY, Array); }
-				else if(level >= 50 && level < 100) { SendClientMessage(playerid, WHITE, "Your skill level for Lawyer is 2."); format(Array, sizeof(Array), "You need to clear %d more players to level up.", 100 - level); SendClientMessage(playerid, GREY, Array); }
-				else if(level >= 100 && level < 200) { SendClientMessage(playerid, WHITE, "Your skill level for Lawyer is 3."); format(Array, sizeof(Array), "You need to clear %d more players to level up.", 200 - level); SendClientMessage(playerid, GREY, Array); }
-				else if(level >= 200 && level < 400) { SendClientMessage(playerid, WHITE, "Your skill level for Lawyer is 4."); format(Array, sizeof(Array), "You need to clear %d more players to level up.", 400 - level); SendClientMessage(playerid, GREY, Array); }
-				else if(level >= 400) { SendClientMessage(playerid, WHITE, "Your skill level for Lawyer is 5."); }
-			}
 			default:
 			{
 				SendClientMessage(playerid, WHITE, "/skill [job]");
-				return SendClientMessage(playerid, GREY, "Types: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler, 7 - Lawyer");
+				return SendClientMessage(playerid, GREY, "Types: 1 - Arms Dealer, 2 - Mechanic, 3 - Bodyguard, 4 - Detective, 5 - Trucker, 6 - Drug Smuggler");
 			}
 		}
 	}

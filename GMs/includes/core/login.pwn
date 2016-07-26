@@ -53,10 +53,8 @@ OnPlayerLoginForward(playerid)
         SetTimerEx("LimboTimer", 15000, FALSE, "i", playerid);
         SetPlayerHealth(playerid, 15.0);
     }
-
-    new crimes = 0;
-    for(new i; i < 5; i++) if(Player[playerid][Crimes][i] > 0) crimes++;
-    SetPlayerWantedLevel(playerid, crimes);
+    
+    if(Player[playerid][Crimes] > 0) SetPlayerWantedLevel(playerid, Player[playerid][Crimes]);
 
     format(Array, sizeof(Array), "%s has logged in as a %s.", GetName(playerid), GetPlayerAdminLevel(playerid));
     if(Player[playerid][AdminLevel] >= 1) SendToAdmins(ORANGE, Array, 0, 1);

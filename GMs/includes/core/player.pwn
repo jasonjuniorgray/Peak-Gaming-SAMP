@@ -207,31 +207,6 @@ CMD:accept(playerid, params[])
 			DeletePVar(playerid, "GuardAmount");
 			DeletePVar(playerid, "GuardPrice");
 		}
-		else if(strcmp(params, "clear", true) == 0)
-		{
-			Array[0] = 0;
-			if(GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
-			if(!GetPVarType(playerid, "ClearingID") || GetPVarInt(playerid, "ClearingID") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has offered you a clear!");
-
-			new id = GetPVarInt(playerid, "ClearingID");
-
-			if(!GetPVarType(id, "Offering") || GetPVarInt(id, "Offering") == INVALID_PLAYER_ID || GetPVarInt(id, "Offering") != playerid) return SendClientMessage(playerid, GREY, "The lawyer has canceled the offer!");
-
-            SendClientMessage(playerid, WHITE, "A lawyer has had one of your charges cleared.");
-            SendClientMessage(id, WHITE, "The client has accepted your offer and the money has been transfered.");
-            SetPlayerWantedLevel(playerid, GetPlayerWantedLevel(playerid) - 1);
-
-            GiveMoneyEx(playerid, -GetPVarInt(playerid, "ClearingPrice"));
-            GiveMoneyEx(id, GetPVarInt(playerid, "ClearingPrice"));
-
-            IncreaseJobSkill(playerid, 2, 1);
-
-            SetPVarInt(id, "LawyerTime", gettime() + GetPVarInt(playerid, "ClearingWait"));
-
-			DeletePVar(playerid, "ClearingID");
-			DeletePVar(playerid, "ClearingWait");
-			DeletePVar(playerid, "ClearingPrice");
-		}
 	}
 	return 1;
 }

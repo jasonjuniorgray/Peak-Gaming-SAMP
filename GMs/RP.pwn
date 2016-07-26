@@ -121,7 +121,6 @@
 #include ./includes/job/bodyguard.pwn
 #include ./includes/job/detective.pwn
 #include ./includes/job/drugsmuggler.pwn
-#include ./includes/job/lawyer.pwn
 #include ./includes/job/mechanic.pwn
 #include ./includes/job/pizzaboy.pwn
 #include ./includes/job/trucker.pwn

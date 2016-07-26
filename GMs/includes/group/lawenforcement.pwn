@@ -119,7 +119,7 @@ CMD:arrest(playerid, params[])
 						{
 							if(IsPlayerInRangeOfPoint(playerid, 5.0, Arrest[i][ArrestPos][0], Arrest[i][ArrestPos][1], Arrest[i][ArrestPos][2]))
 							{
-								//if playerhascharges
+								if(Player[id][Crimes] > 0)
 								{
 									if(playerid == id) return SendClientMessage(playerid, WHITE, "You cannot arrest yourself!");
 
@@ -149,13 +149,20 @@ CMD:arrest(playerid, params[])
 
 										ArrestPlayer(id, playerid, time, fine, Group[Player[playerid][PlayerGroup]][GroupType]);
 
+										DisableCrimes(id);
+
 	    								format(Array, sizeof(Array), "%s %s has arrested %s for %d minutes with a $%s fine.", GroupRankNames[Player[playerid][PlayerGroup]][Player[playerid][GroupRank]], GetName(playerid), GetName(id), time, FormatNumberToString(fine));
 	    								SendGroupMessage(Player[playerid][PlayerGroup], Array, DEFAULT);
 
 	    								Log(16, Array, Player[playerid][PlayerGroup]);
+
+	    								Player[id][Crimes] = 0;
+	    								Player[id][TotalArrests]++;
+	    								SetPlayerWantedLevel(playerid, 0);
 	    								return 1;
 	    							}
 	    						}
+	    						else return SendClientMessage(playerid, WHITE, "This player does not have any active charges.");
 	    					}
 	    				}
 	    				return SendClientMessage(playerid, WHITE, "You are not near an arrest point");
@@ -215,11 +222,9 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					if(IsPlayerConnectedEx(id))
 					{
 						Array[0] = 0;
-						new slot = GetPlayerFreeCrimeSlot(id);
 
-						if(slot == -1) return SendClientMessage(playerid, WHITE, "That player is already at a six star wanted level.");
-
-						Player[id][Crimes][slot] = listitem + 1; // Always add 1 and subtract 1 when getting crimes because of samp ID's starting at zero.
+						Player[id][TotalCrimes]++;
+						Player[id][Crimes]++;
 
 						format(Array, sizeof(Array), "You have been charged with a crime: %s, by the %s. (( %s ))", Crime[listitem][CrimeName], Group[Player[playerid][PlayerGroup]][GroupName], GetName(playerid));
 						SendClientMessage(id, LIGHTRED, Array);
@@ -228,6 +233,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	    				SendGroupMessage(Player[playerid][PlayerGroup], Array, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255);
 
 	    				SetPlayerWantedLevel(id, GetPlayerWantedLevel(id) + 1);
+
+	    				AddCrime(id, playerid, listitem, Player[playerid][PlayerGroup], gettime());
 
 	    				Log(16, Array, Player[playerid][PlayerGroup]);
 	    			}
@@ -239,18 +246,20 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	return 1;
 }
 
-GetPlayerFreeCrimeSlot(playerid)
+AddCrime(playerid, issuer, crime, group, time)
 {
-	new slot = -1;
-	for(new i; i < 6; i++) 
-	{
-		if(Player[playerid][Crimes][i] == 0) 
-	    {
-	    	slot = i;
-	    	break;
-	    }
-	}
-	return slot;
+	Array[0] = 0;
+	format(Array, sizeof(Array), "INSERT INTO `issuedcrimes` (`player`, `issuer`, `crime`, `group`, `time`, `active`) VALUES (%d, %d, %d, %d, %d, 1)", Player[playerid][DatabaseID], Player[issuer][DatabaseID], crime, group, time);
+	mysql_tquery(SQL, Array, "", "");
+	return 1;
+}
+
+DisableCrimes(playerid)
+{
+	Array[0] = 0;
+	format(Array, sizeof(Array), "UPDATE `issuedcrimes` SET `active` = '0' WHERE `player` = '%d'", Player[playerid][DatabaseID]);
+	mysql_tquery(SQL, Array, "", "");
+	return 1;
 }
 
 ArrestPlayer(playerid, arrester, time, fine, type)
