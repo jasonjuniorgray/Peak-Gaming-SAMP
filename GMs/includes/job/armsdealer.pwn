@@ -59,7 +59,7 @@ CMD:sellgun(playerid, params[])
 		if(Player[playerid][JailTime] == 0)
 		{
 			if(GetPVarInt(playerid, "SellGunTime") > gettime()) return SendClientMessage(playerid, GREY, "You must wait 10 seconds before selling another gun.");
-			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot sell a gun right now!");
+			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot sell a gun right now!");
 
 			if(GetPVarType(playerid, "Offering")) return SendClientMessage(playerid, GREY, "You already have a pending offer. Type /cancel offer to reset it.");
 
@@ -127,7 +127,7 @@ CMD:sellgun(playerid, params[])
 
 			if(IsPlayerConnected(id))
 			{
-				if(IsPlayerInAnyVehicle(id) || GetPVarInt(id, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot sell a gun to that person right now!");
+				if(IsPlayerInAnyVehicle(id) || GetPVarInt(id, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot sell a gun to that person right now!");
 
 				if(IsPlayerNearPlayer(playerid, id, 8.0))
 				{

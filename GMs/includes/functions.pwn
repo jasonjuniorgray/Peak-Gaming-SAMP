@@ -298,7 +298,7 @@ IsPlayerNearPlayer(playerid, id, Float:range)
 SendNearbyMessage(playerid, string[], color, Float:range)
 {
 	new Float:Pos[3];
-	for(new i; i < MAX_PLAYERS; i++)
+	foreach(new i: Player)
 	{
 		GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
 		if(IsPlayerInRangeOfPoint(i, range, Pos[0], Pos[1], Pos[2]))
@@ -673,6 +673,20 @@ GetValue(parse[], value[], destination[], length)
 	new Equal = strfind(parse, "=", false), Length = strlen(parse);
 	while(Length-- && parse[Length] <= ' ') parse[Length] = 0;
 	if(strcmp(parse, value, false, Equal) == 0) { strmid(destination, parse, Equal + 1, Length + 1, length); return 1; }
+	return 0;
+}
+
+GetPlayer3DZone(playerid, zone[], len) //Credits to Cueball, Betamaster, Mabako, and Simon (for finetuning).
+{
+	new Float:x, Float:y, Float:z;
+	GetPlayerPos(playerid, x, y, z);
+ 	for(new i = 0; i != sizeof(gSAZones); i++ )
+ 	{
+		if(x >= gSAZones[i][SAZONE_AREA][0] && x <= gSAZones[i][SAZONE_AREA][3] && y >= gSAZones[i][SAZONE_AREA][1] && y <= gSAZones[i][SAZONE_AREA][4] && z >= gSAZones[i][SAZONE_AREA][2] && z <= gSAZones[i][SAZONE_AREA][5])
+		{
+		    return format(zone, len, gSAZones[i][SAZONE_NAME], 0);
+		}
+	}
 	return 0;
 }
 

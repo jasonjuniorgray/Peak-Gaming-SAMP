@@ -10,7 +10,7 @@
 
 
 
-//--------------------------------[MAIN SERVER SCRIPT]--------------------------------
+//--------------------------------[MAIN SERVER SCRIPT]--------------------------------//
 
 					Peak Gaming Roleplay
 
@@ -59,7 +59,7 @@
                                                
 		/*  ---------------- SCRIPT REVISION ----------------- */
 
-#define                     	VERSION                         "PG:RP 0.01.074"
+#define                     	VERSION                         "PG:RP 0.01.082"
 
 #include <a_samp>
 #include <a_mysql>
@@ -71,59 +71,60 @@
 #include <YSI\y_timers>
 #include <YSI\y_utils>
 
-#include ./includes/defines.pwn
-#include ./includes/enumerators.pwn
-#include ./includes/variables.pwn
-#include ./includes/callbacks.pwn
-#include ./includes/functions.pwn
-#include ./includes/dialog.pwn
-#include ./includes/mysql.pwn
-#include ./includes/timers.pwn
+#include "./includes/defines.pwn"
+#include "./includes/enumerators.pwn"
+#include "./includes/variables.pwn"
+#include "./includes/callbacks.pwn"
+#include "./includes/functions.pwn"
+#include "./includes/dialog.pwn"
+#include "./includes/mysql.pwn"
+#include "./includes/timers.pwn"
 
-#include ./includes/core/admin.pwn
-#include ./includes/core/animations.pwn
-#include ./includes/core/business.pwn
-#include ./includes/core/chat.pwn
-#include ./includes/core/group.pwn
-#include ./includes/core/job.pwn
-#include ./includes/core/login.pwn
-#include ./includes/core/phone.pwn
-#include ./includes/core/player.pwn
-#include ./includes/core/report.pwn
-#include ./includes/core/textdraw.pwn
-#include ./includes/core/vehicle.pwn
-#include ./includes/core/weapon.pwn
+#include "./includes/core/admin.pwn"
+#include "./includes/core/animations.pwn"
+#include "./includes/core/anticheat.pwn"
+#include "./includes/core/business.pwn"
+#include "./includes/core/chat.pwn"
+#include "./includes/core/group.pwn"
+#include "./includes/core/job.pwn"
+#include "./includes/core/login.pwn"
+#include "./includes/core/phone.pwn"
+#include "./includes/core/player.pwn"
+#include "./includes/core/report.pwn"
+#include "./includes/core/textdraw.pwn"
+#include "./includes/core/vehicle.pwn"
+#include "./includes/core/weapon.pwn"
 
-#include ./includes/dynamic/arrestpoint.pwn
-#include ./includes/dynamic/business.pwn
-#include ./includes/dynamic/crime.pwn
-#include ./includes/dynamic/door.pwn
-#include ./includes/dynamic/enterandexit.pwn
-#include ./includes/dynamic/gate.pwn
-#include ./includes/dynamic/group.pwn
-#include ./includes/dynamic/house.pwn
-#include ./includes/dynamic/job.pwn
-#include ./includes/dynamic/locker.pwn
-#include ./includes/dynamic/point.pwn
-#include ./includes/dynamic/vehicle.pwn
+#include "./includes/dynamic/arrestpoint.pwn"
+#include "./includes/dynamic/business.pwn"
+#include "./includes/dynamic/crime.pwn"
+#include "./includes/dynamic/door.pwn"
+#include "./includes/dynamic/enterandexit.pwn"
+#include "./includes/dynamic/gate.pwn"
+#include "./includes/dynamic/group.pwn"
+#include "./includes/dynamic/house.pwn"
+#include "./includes/dynamic/job.pwn"
+#include "./includes/dynamic/locker.pwn"
+#include "./includes/dynamic/point.pwn"
+#include "./includes/dynamic/vehicle.pwn"
 
-#include ./includes/business/clothing.pwn
-#include ./includes/business/dealership.pwn
-#include ./includes/business/food.pwn
-#include ./includes/business/fuelstation.pwn
-#include ./includes/business/gym.pwn
-#include ./includes/business/lottery.pwn
-#include ./includes/business/store.pwn
+#include "./includes/business/clothing.pwn"
+#include "./includes/business/dealership.pwn"
+#include "./includes/business/food.pwn"
+#include "./includes/business/fuelstation.pwn"
+#include "./includes/business/gym.pwn"
+#include "./includes/business/lottery.pwn"
+#include "./includes/business/store.pwn"
 
-#include ./includes/group/lawenforcement.pwn
+#include "./includes/group/lawenforcement.pwn"
 
-#include ./includes/job/armsdealer.pwn
-#include ./includes/job/bodyguard.pwn
-#include ./includes/job/detective.pwn
-#include ./includes/job/drugsmuggler.pwn
-#include ./includes/job/mechanic.pwn
-#include ./includes/job/pizzaboy.pwn
-#include ./includes/job/trucker.pwn
+#include "./includes/job/armsdealer.pwn"
+#include "./includes/job/bodyguard.pwn"
+#include "./includes/job/detective.pwn"
+#include "./includes/job/drugsmuggler.pwn"
+#include "./includes/job/mechanic.pwn"
+#include "./includes/job/pizzaboy.pwn"
+#include "./includes/job/trucker.pwn"
 
 main(){}
 

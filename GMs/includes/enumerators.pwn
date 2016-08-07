@@ -34,6 +34,30 @@ enum PlayerData
     Lottery,
     LotteryNumber,
     InsideBusiness,
+    Fightstyle,
+    JailTime,
+    ArrestedBy,
+    PhoneTimer,
+    TotalCrimes,
+    TotalArrests,
+    Crimes,
+    Speedo,
+    OnDuty,
+    Taser,
+    Backup,
+    Injured,
+    PlayerJob,
+    JobSkill[MAX_JOBS],
+    MechanicTimer,
+    Materials,
+    Drugs[2],
+    ConnectedSeconds,
+    PlayingHours
+};
+
+enum PlayerVehicleData
+{
+    CarDatabaseID[MAX_PLAYER_VEHICLES],
     CarID[MAX_PLAYER_VEHICLES],
     CarModel[MAX_PLAYER_VEHICLES],
     Float:CarX[MAX_PLAYER_VEHICLES],
@@ -64,25 +88,8 @@ enum PlayerData
     CarPlate2[8],
     CarPlate3[8],
     CarPlate4[8],
-    CarPlate5[8],
-    Fightstyle,
-    JailTime,
-    ArrestedBy,
-    PhoneTimer,
-    TotalCrimes,
-    TotalArrests,
-    Crimes,
-    Speedo,
-    OnDuty,
-    Injured,
-    PlayerJob,
-    JobSkill[MAX_JOBS],
-    MechanicTimer,
-    Materials,
-    Drugs[2],
-    ConnectedSeconds,
-    PlayingHours
-};
+    CarPlate5[8]
+}
 
 enum GroupData
 {
@@ -275,4 +282,16 @@ enum LockerData
 enum CrimeData
 {
     CrimeName[256]
+};
+
+enum SAZONE_MAIN //Betamaster
+{ 
+    SAZONE_NAME[28],
+    Float:SAZONE_AREA[6]
+};
+
+enum MAIN_ZONES //Betamaster
+{ 
+    SAZONE_NAME[28],
+    Float:SAZONE_AREA[6]
 };

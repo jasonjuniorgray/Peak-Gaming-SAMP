@@ -32,12 +32,12 @@ public OnPlayerDisconnect(playerid, reason)
 
 	for(new i; i < MAX_PLAYER_VEHICLES; i++) 
 	{
-		if(Player[playerid][CarModel][i] != 0) DestroyVehicle(Player[playerid][CarID][i]);
+		if(PlayerVehicle[playerid][CarModel][i] != 0) DestroyVehicle(PlayerVehicle[playerid][CarID][i]);
 	}
 
 	/*if(GetPVarInt(playerid, "OnPhone"))
 	{
-		for(new i; i < MAX_PLAYERS; i++)
+		foreach(new i: Player)
 		{
 			if(GetPVarInt(i, "OnPhone") == playerid || GetPVarInt(i, "Calling") == playerid) 
 			{
@@ -50,7 +50,9 @@ public OnPlayerDisconnect(playerid, reason)
 			}
 		}
 	}*/
+		
 	SavePlayerData(playerid, 1);
+	SavePlayerVehicleData(playerid);
 	
 	Player[playerid][Authenticated] = 0;
 	return 1;
@@ -198,7 +200,7 @@ public OnEnterExitModShop(playerid, enterexit, interiorid)
     		if(IsPlayersVehicle(playerid, GetPlayerVehicleID(playerid)))
 			{
 				GetPlayerCarMods(playerid);
-				SavePlayerData(playerid, 1);
+				SavePlayerVehicleData(playerid, GetPlayerVehicleSlot(playerid, GetPlayerVehicleID(playerid)));
 			}
     	}
     }
@@ -210,7 +212,7 @@ public OnVehiclePaintjob(playerid, vehicleid, paintjobid)
 	if(IsPlayersVehicle(playerid, GetPlayerVehicleID(playerid)))
 	{
 		new id = IsPlayerInPersonalCar(playerid);
-		Player[playerid][CarPaintJob][id] = paintjobid + 1;
+		PlayerVehicle[playerid][CarPaintJob][id] = paintjobid + 1;
 	}
 	return 1;
 }
@@ -220,8 +222,8 @@ public OnVehicleRespray(playerid, vehicleid, color1, color2)
 	if(IsPlayersVehicle(playerid, GetPlayerVehicleID(playerid)))
 	{
 		new id = IsPlayerInPersonalCar(playerid);
-		Player[playerid][CarColour][id] = color1;
-		Player[playerid][CarColour2][id] = color2;
+		PlayerVehicle[playerid][CarColour][id] = color1;
+		PlayerVehicle[playerid][CarColour2][id] = color2;
 	}
 	return 1;
 }

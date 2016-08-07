@@ -213,43 +213,44 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                     if(Player[playerid][Money] < Dealership[GetRealDealerVehicleID(GetPlayerVehicleID(playerid))][DealershipPrice]) return SendClientMessage(playerid, WHITE, "You do not have enough money for this.");
 
-                    Player[playerid][CarModel][slot] = model;
-                    Player[playerid][CarX][slot] = Business[biz][CarSpawnPos][0];
-                    Player[playerid][CarY][slot] = Business[biz][CarSpawnPos][1];
-                    Player[playerid][CarZ][slot] = Business[biz][CarSpawnPos][2];
-                    Player[playerid][CarA][slot] = Business[biz][CarSpawnPos][3];
+                    PlayerVehicle[playerid][CarModel][slot] = model;
+                    PlayerVehicle[playerid][CarX][slot] = Business[biz][CarSpawnPos][0];
+                    PlayerVehicle[playerid][CarY][slot] = Business[biz][CarSpawnPos][1];
+                    PlayerVehicle[playerid][CarZ][slot] = Business[biz][CarSpawnPos][2];
+                    PlayerVehicle[playerid][CarA][slot] = Business[biz][CarSpawnPos][3];
 
-                    Player[playerid][CarColour][slot] = 0;
-                    Player[playerid][CarColour2][slot] = 0;
+                    PlayerVehicle[playerid][CarColour][slot] = 0;
+                    PlayerVehicle[playerid][CarColour2][slot] = 0;
 
                     new license[8];
                     format(license, 8, "%s", RandomLicensePlateGenerator());
 
                     switch(slot)
                     {
-                        case 0: format(Player[playerid][CarPlate1], 8, "%s", license);
-                        case 1: format(Player[playerid][CarPlate2], 8, "%s", license);
-                        case 2: format(Player[playerid][CarPlate3], 8, "%s", license);
-                        case 3: format(Player[playerid][CarPlate4], 8, "%s", license);
-                        case 4: format(Player[playerid][CarPlate5], 8, "%s", license);
+                        case 0: format(PlayerVehicle[playerid][CarPlate1], 8, "%s", license);
+                        case 1: format(PlayerVehicle[playerid][CarPlate2], 8, "%s", license);
+                        case 2: format(PlayerVehicle[playerid][CarPlate3], 8, "%s", license);
+                        case 3: format(PlayerVehicle[playerid][CarPlate4], 8, "%s", license);
+                        case 4: format(PlayerVehicle[playerid][CarPlate5], 8, "%s", license);
                         default: return 1;
                     }
 
-                    Player[playerid][CarID][slot] = CreateVehicle(Player[playerid][CarModel][slot], Player[playerid][CarX][slot], Player[playerid][CarY][slot], Player[playerid][CarZ][slot], Player[playerid][CarA][slot], Player[playerid][CarColour][slot], Player[playerid][CarColour2][slot], -1, 0);
-                    SetVehicleNumberPlate(Player[playerid][CarID][slot], license);
+                    PlayerVehicle[playerid][CarID][slot] = CreateVehicle(PlayerVehicle[playerid][CarModel][slot], PlayerVehicle[playerid][CarX][slot], PlayerVehicle[playerid][CarY][slot], PlayerVehicle[playerid][CarZ][slot], PlayerVehicle[playerid][CarA][slot], PlayerVehicle[playerid][CarColour][slot], PlayerVehicle[playerid][CarColour2][slot], -1, 0);
+                    SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][slot], license);
                     SetPlayerInterior(playerid, 0);
                     SetPlayerVirtualWorld(playerid, 0);
-                    SetVehicleVirtualWorld(Player[playerid][CarID][slot], 0);
-                    LinkVehicleToInterior(Player[playerid][CarID][slot], 0);
+                    SetVehicleVirtualWorld(PlayerVehicle[playerid][CarID][slot], 0);
+                    LinkVehicleToInterior(PlayerVehicle[playerid][CarID][slot], 0);
 
-                    PutPlayerInVehicle(playerid, Player[playerid][CarID][slot], 0);
+                    PutPlayerInVehicle(playerid, PlayerVehicle[playerid][CarID][slot], 0);
 
                     GiveMoneyEx(playerid, -GetPVarInt(playerid, "DealershipPrice"));
                     DeletePVar(playerid, "DealershipPrice");
 
-                    Fuel[Player[playerid][CarID][slot]] = 100;
+                    Fuel[PlayerVehicle[playerid][CarID][slot]] = 100;
 
-                    SavePlayerData(playerid, 1);
+                    format(Array, sizeof(Array), "INSERT INTO `playervehicles` (`player`) VALUES ('%d')", Player[playerid][DatabaseID]);
+                    mysql_tquery(SQL, Array, "OnPlayerPurchaseVehicle", "ii", playerid, slot);                    
                 }
                 else 
                 {

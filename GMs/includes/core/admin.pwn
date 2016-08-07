@@ -1947,10 +1947,10 @@ CMD:revive(playerid, params[])
 		if(Player[id][Injured] == 2)
 		{
 			Array[0] = 0;
-			ClearAnimations(playerid, 1);
+			ClearAnimations(id, 1);
 			Player[id][Injured] = 0;
 			SetPlayerHealth(id, 100);
-			TextDrawHideForPlayer(playerid, LimboTextDraw);
+			TextDrawHideForPlayer(id, LimboTextDraw);
 
 			GivePlayerSavedWeapons(id);
 
@@ -1971,7 +1971,7 @@ CMD:revive(playerid, params[])
 			GivePlayerSavedWeapons(id);
 			TogglePlayerControllableEx(id, TRUE);
 			SetCameraBehindPlayer(id);
-			TextDrawHideForPlayer(playerid, LimboTextDraw);
+			TextDrawHideForPlayer(id, LimboTextDraw);
 
 			format(Array, sizeof(Array), "You have released %s from the hospital.", GetName(id));
             SendClientMessage(playerid, WHITE, Array);
@@ -2965,5 +2965,19 @@ CMD:payday(playerid, params[])
 	{
 		Player[playerid][ConnectedSeconds] = 3599;
 	}
+	return 1;
+}
+
+CMD:audiourl(playerid, params[])
+{
+	new url[128];
+	if(sscanf(params, "s[128]", url))
+	{
+	    if(Player[playerid][AdminLevel] >= 6)
+	    {
+			SendClientMessage(playerid, WHITE, "SYNTAX: /audiourl [url]");
+		}
+	}
+	else if(Player[playerid][AdminLevel] >= 6) PlayAudioStreamForPlayer(playerid, url);
 	return 1;
 }

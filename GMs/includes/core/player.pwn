@@ -76,7 +76,7 @@ CMD:accept(playerid, params[])
 		if(strcmp(params, "gun", true) == 0)
 		{
 			Array[0] = 0;
-			if(GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(!GetPVarType(playerid, "SellGunID") || GetPVarInt(playerid, "SellGunID") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has offered you a gun!");
 
 			new id = GetPVarInt(playerid, "SellGunID");
@@ -108,7 +108,7 @@ CMD:accept(playerid, params[])
 		else if(strcmp(params, "repair", true) == 0)
 		{
 			Array[0] = 0;
-			if(GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(!GetPVarType(playerid, "RepairID") || GetPVarInt(playerid, "RepairID") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has offered you a repair!");
 
 			new id = GetPVarInt(playerid, "RepairID");
@@ -129,7 +129,7 @@ CMD:accept(playerid, params[])
 		else if(strcmp(params, "respray", true) == 0)
 		{
 			Array[0] = 0;
-			if(GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(!GetPVarType(playerid, "ColourID") || GetPVarInt(playerid, "ColourID") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has offered you a respray!");
 
 			new id = GetPVarInt(playerid, "ColourID");
@@ -152,7 +152,7 @@ CMD:accept(playerid, params[])
 		else if(strcmp(params, "refill", true) == 0)
 		{
 			Array[0] = 0;
-			if(GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(!GetPVarType(playerid, "RefillID") || GetPVarInt(playerid, "RefillID") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has offered you a refill!");
 
 			new id = GetPVarInt(playerid, "RefillID"), fuel;
@@ -184,7 +184,7 @@ CMD:accept(playerid, params[])
 		else if(strcmp(params, "guard", true) == 0)
 		{
 			Array[0] = 0;
-			if(GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(!GetPVarType(playerid, "GuardID") || GetPVarInt(playerid, "GuardID") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has offered you a guard!");
 
 			new id = GetPVarInt(playerid, "GuardID");
@@ -317,6 +317,8 @@ CMD:killcheckpoint(playerid, params[])
 			DeletePVar(playerid, "PizzaPoint");
 		}
 
+		if(GetPVarType(playerid, "Finding") >= 1) DeletePVar(playerid, "Finding");
+
 		SendClientMessage(playerid, WHITE, "You have cleared your checkpoint.");
 	}
 	return 1;
@@ -403,7 +405,7 @@ ShowStatistics(playerid, id) // Make sure to use 'id' when getting information, 
 
 	for(new i; i < MAX_PLAYER_VEHICLES; i++)
 	{
-		if(Player[id][CarModel][i] > 0) format(vehiclestring[i], 50, "%s", VehicleNames[Player[id][CarModel][i] - 400]);
+		if(PlayerVehicle[id][CarModel][i] > 0) format(vehiclestring[i], 50, "%s", VehicleNames[PlayerVehicle[id][CarModel][i] - 400]);
 		else format(vehiclestring[i], 50, "Nothing");
 	}
 

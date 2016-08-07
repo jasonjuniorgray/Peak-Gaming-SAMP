@@ -87,40 +87,40 @@ CMD:park(playerid, params[])
 
 				if(IsPlayersVehicle(playerid, vehicleid))
 				{
-					Player[playerid][CarX][slot] = Pos[0];
-					Player[playerid][CarY][slot] = Pos[1];
-					Player[playerid][CarZ][slot] = Pos[2];
-					Player[playerid][CarA][slot] = Pos[3];
+					PlayerVehicle[playerid][CarX][slot] = Pos[0];
+					PlayerVehicle[playerid][CarY][slot] = Pos[1];
+					PlayerVehicle[playerid][CarZ][slot] = Pos[2];
+					PlayerVehicle[playerid][CarA][slot] = Pos[3];
 
-					Player[playerid][CarVW][slot] = GetPlayerVirtualWorld(playerid);
-					Player[playerid][CarInt][slot] = GetPlayerInterior(playerid);
+					PlayerVehicle[playerid][CarVW][slot] = GetPlayerVirtualWorld(playerid);
+					PlayerVehicle[playerid][CarInt][slot] = GetPlayerInterior(playerid);
 
-					Player[playerid][CarFuel][slot] = Fuel[Player[playerid][CarID][slot]];
+					PlayerVehicle[playerid][CarFuel][slot] = Fuel[PlayerVehicle[playerid][CarID][slot]];
 
-					DestroyVehicle(Player[playerid][CarID][slot]);
-					Player[playerid][CarID][slot] = CreateVehicle(Player[playerid][CarModel][slot], Player[playerid][CarX][slot], Player[playerid][CarY][slot], Player[playerid][CarZ][slot], Player[playerid][CarA][slot], Player[playerid][CarColour][slot], Player[playerid][CarColour2][slot], -1, 0);
+					DestroyVehicle(PlayerVehicle[playerid][CarID][slot]);
+					PlayerVehicle[playerid][CarID][slot] = CreateVehicle(PlayerVehicle[playerid][CarModel][slot], PlayerVehicle[playerid][CarX][slot], PlayerVehicle[playerid][CarY][slot], PlayerVehicle[playerid][CarZ][slot], PlayerVehicle[playerid][CarA][slot], PlayerVehicle[playerid][CarColour][slot], PlayerVehicle[playerid][CarColour2][slot], -1, 0);
 					switch(slot)
            		    {
-                		case 0: SetVehicleNumberPlate(Player[playerid][CarID][slot], Player[playerid][CarPlate1]);
-                		case 1: SetVehicleNumberPlate(Player[playerid][CarID][slot], Player[playerid][CarPlate2]);
-                		case 2: SetVehicleNumberPlate(Player[playerid][CarID][slot], Player[playerid][CarPlate3]);
-                		case 3: SetVehicleNumberPlate(Player[playerid][CarID][slot], Player[playerid][CarPlate4]);
-                		case 4: SetVehicleNumberPlate(Player[playerid][CarID][slot], Player[playerid][CarPlate5]);
+                		case 0: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarPlate1]);
+                		case 1: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarPlate2]);
+                		case 2: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarPlate3]);
+                		case 3: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarPlate4]);
+                		case 4: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarPlate5]);
                 		default: return 1;
             		}
-            		SetVehicleToRespawn(Player[playerid][CarID][slot]);
-					PutPlayerInVehicle(playerid, Player[playerid][CarID][slot], 0);
-					SetVehicleVirtualWorld(Player[playerid][CarID][slot], Player[playerid][CarVW][slot]);
-					LinkVehicleToInterior(Player[playerid][CarID][slot], Player[playerid][CarInt][slot]);
+            		SetVehicleToRespawn(PlayerVehicle[playerid][CarID][slot]);
+					PutPlayerInVehicle(playerid, PlayerVehicle[playerid][CarID][slot], 0);
+					SetVehicleVirtualWorld(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarVW][slot]);
+					LinkVehicleToInterior(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarInt][slot]);
 					SendClientMessage(playerid, WHITE, "You have parked your vehicle.");
 
-					Fuel[Player[playerid][CarID][slot]] = Player[playerid][CarFuel][slot];
+					Fuel[PlayerVehicle[playerid][CarID][slot]] = PlayerVehicle[playerid][CarFuel][slot];
 
 					AddPlayerVehicleMods(playerid);
 
-					if(Player[playerid][CarPaintJob][slot] > 0) ChangeVehiclePaintjob(Player[playerid][CarID][slot], Player[playerid][CarPaintJob][slot] - 1);
+					if(PlayerVehicle[playerid][CarPaintJob][slot] > 0) ChangeVehiclePaintjob(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarPaintJob][slot] - 1);
 
-					SavePlayerData(playerid, 1);
+					SavePlayerVehicleData(playerid, slot);
 				}
 				else
 				{
@@ -300,7 +300,6 @@ CMD:car(playerid, params[])
 			if(strcmp(usage, "window", true) == 0)
 			{
 				window = GetPlayerVehicleSeat(playerid) + 1;
-				printf("%d, %d", window, vehicleid);
 				if(window < 1 || window > 4) return 1; // Just a check
 
 				new driver, passenger, backleft, backright;
@@ -407,7 +406,7 @@ CMD:togspeedo(playerid, params[])
 	return 1;
 }
 
-GetClosestVehicle(playerid, Float:range) 
+GetClosestVehicle(playerid, Float:range, excludeinvehicle = 0) 
 {
 	new id = INVALID_VEHICLE_ID, Float:Pos[3], Float:temprange, Float:newrange = range;
 
@@ -421,7 +420,8 @@ GetClosestVehicle(playerid, Float:range)
 			if(temprange < newrange)
 			{
 				newrange = temprange;
-				id = i;
+				if(GetPlayerVehicleID(playerid) == i && excludeinvehicle == 1) continue;
+				else id = i;
 			}
 		}
 	}
@@ -444,7 +444,7 @@ GetPlayerNextVehicleSlot(playerid)
     new id = -1;
     for(new i; i < MAX_PLAYER_VEHICLES; i++)
     {
-        if(Player[playerid][CarModel][i] == 0) return i;
+        if(PlayerVehicle[playerid][CarModel][i] == 0) return i;
     }
     return id;
 }
@@ -452,32 +452,32 @@ GetPlayerNextVehicleSlot(playerid)
 IsPlayerInPersonalCar(playerid)
 {
     new slot = -1;
-    if(Player[playerid][CarID][0] == GetPlayerVehicleID(playerid) && Player[playerid][CarModel][0] != 0) slot = 0;
-    else if(Player[playerid][CarID][1] == GetPlayerVehicleID(playerid) && Player[playerid][CarModel][1] != 0) slot = 1;
-    else if(Player[playerid][CarID][2] == GetPlayerVehicleID(playerid) && Player[playerid][CarModel][2] != 0) slot = 2;
-    else if(Player[playerid][CarID][3] == GetPlayerVehicleID(playerid) && Player[playerid][CarModel][3] != 0) slot = 3;
-    else if(Player[playerid][CarID][4] == GetPlayerVehicleID(playerid) && Player[playerid][CarModel][4] != 0) slot = 4;
+    if(PlayerVehicle[playerid][CarID][0] == GetPlayerVehicleID(playerid) && PlayerVehicle[playerid][CarModel][0] != 0) slot = 0;
+    else if(PlayerVehicle[playerid][CarID][1] == GetPlayerVehicleID(playerid) && PlayerVehicle[playerid][CarModel][1] != 0) slot = 1;
+    else if(PlayerVehicle[playerid][CarID][2] == GetPlayerVehicleID(playerid) && PlayerVehicle[playerid][CarModel][2] != 0) slot = 2;
+    else if(PlayerVehicle[playerid][CarID][3] == GetPlayerVehicleID(playerid) && PlayerVehicle[playerid][CarModel][3] != 0) slot = 3;
+    else if(PlayerVehicle[playerid][CarID][4] == GetPlayerVehicleID(playerid) && PlayerVehicle[playerid][CarModel][4] != 0) slot = 4;
     return slot;
 }
 
 GetPlayerVehicleSlot(playerid, vehicleid)
 {
     new slot = -1;
-    if(Player[playerid][CarID][0] == vehicleid && Player[playerid][CarModel][0] != 0) slot = 0;
-    else if(Player[playerid][CarID][1] == vehicleid && Player[playerid][CarModel][1] != 0) slot = 1;
-    else if(Player[playerid][CarID][2] == vehicleid && Player[playerid][CarModel][2] != 0) slot = 2;
-    else if(Player[playerid][CarID][3] == vehicleid && Player[playerid][CarModel][3] != 0) slot = 3;
-    else if(Player[playerid][CarID][4] == vehicleid && Player[playerid][CarModel][4] != 0) slot = 4;
+    if(PlayerVehicle[playerid][CarID][0] == vehicleid && PlayerVehicle[playerid][CarModel][0] != 0) slot = 0;
+    else if(PlayerVehicle[playerid][CarID][1] == vehicleid && PlayerVehicle[playerid][CarModel][1] != 0) slot = 1;
+    else if(PlayerVehicle[playerid][CarID][2] == vehicleid && PlayerVehicle[playerid][CarModel][2] != 0) slot = 2;
+    else if(PlayerVehicle[playerid][CarID][3] == vehicleid && PlayerVehicle[playerid][CarModel][3] != 0) slot = 3;
+    else if(PlayerVehicle[playerid][CarID][4] == vehicleid && PlayerVehicle[playerid][CarModel][4] != 0) slot = 4;
     return slot;
 }
 
 IsPlayersVehicle(playerid, vehicleid)
 {
-    if(Player[playerid][CarID][0] == vehicleid && Player[playerid][CarModel][0] != 0) return 1;
-    else if(Player[playerid][CarID][1] == vehicleid && Player[playerid][CarModel][1] != 0) return 1;
-    else if(Player[playerid][CarID][2] == vehicleid && Player[playerid][CarModel][2] != 0) return 1;
-    else if(Player[playerid][CarID][3] == vehicleid && Player[playerid][CarModel][3] != 0) return 1;
-    else if(Player[playerid][CarID][4] == vehicleid && Player[playerid][CarModel][4] != 0) return 1;
+    if(PlayerVehicle[playerid][CarID][0] == vehicleid && PlayerVehicle[playerid][CarModel][0] != 0) return 1;
+    else if(PlayerVehicle[playerid][CarID][1] == vehicleid && PlayerVehicle[playerid][CarModel][1] != 0) return 1;
+    else if(PlayerVehicle[playerid][CarID][2] == vehicleid && PlayerVehicle[playerid][CarModel][2] != 0) return 1;
+    else if(PlayerVehicle[playerid][CarID][3] == vehicleid && PlayerVehicle[playerid][CarModel][3] != 0) return 1;
+    else if(PlayerVehicle[playerid][CarID][4] == vehicleid && PlayerVehicle[playerid][CarModel][4] != 0) return 1;
     return 0;
 }
 
@@ -485,20 +485,20 @@ GetPlayerCarMods(playerid)
 {
     for(new i; i < MAX_PLAYER_VEHICLES; i++) 
     {
-        Player[playerid][CarMod0][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 0);
-        Player[playerid][CarMod1][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 1);
-        Player[playerid][CarMod2][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 2);
-        Player[playerid][CarMod3][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 3);
-        Player[playerid][CarMod4][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 4);
-        Player[playerid][CarMod5][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 5);
-        Player[playerid][CarMod6][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 6);
-        Player[playerid][CarMod7][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 7);
-        Player[playerid][CarMod8][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 8);
-        Player[playerid][CarMod9][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 9);
-        Player[playerid][CarMod10][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 10);
-        Player[playerid][CarMod11][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 11);
-        Player[playerid][CarMod12][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 12);
-        Player[playerid][CarMod13][i] = GetVehicleComponentInSlot(Player[playerid][CarID][i], 13);
+        PlayerVehicle[playerid][CarMod0][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 0);
+        PlayerVehicle[playerid][CarMod1][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 1);
+        PlayerVehicle[playerid][CarMod2][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 2);
+        PlayerVehicle[playerid][CarMod3][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 3);
+        PlayerVehicle[playerid][CarMod4][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 4);
+        PlayerVehicle[playerid][CarMod5][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 5);
+        PlayerVehicle[playerid][CarMod6][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 6);
+        PlayerVehicle[playerid][CarMod7][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 7);
+        PlayerVehicle[playerid][CarMod8][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 8);
+        PlayerVehicle[playerid][CarMod9][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 9);
+        PlayerVehicle[playerid][CarMod10][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 10);
+        PlayerVehicle[playerid][CarMod11][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 11);
+        PlayerVehicle[playerid][CarMod12][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 12);
+        PlayerVehicle[playerid][CarMod13][i] = GetVehicleComponentInSlot(PlayerVehicle[playerid][CarID][i], 13);
     }
     return 1;
 }
@@ -507,20 +507,20 @@ AddPlayerVehicleMods(playerid)
 {
 	for(new i; i < MAX_PLAYER_VEHICLES; i++)
 	{
-		if(Player[playerid][CarMod0][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod0][i]);
-    	if(Player[playerid][CarMod1][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod1][i]);
-    	if(Player[playerid][CarMod2][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod2][i]);
-    	if(Player[playerid][CarMod3][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod3][i]);
-    	if(Player[playerid][CarMod4][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod4][i]);
-    	if(Player[playerid][CarMod5][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod5][i]);
-    	if(Player[playerid][CarMod6][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod6][i]);
-    	if(Player[playerid][CarMod7][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod7][i]);
-    	if(Player[playerid][CarMod8][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod8][i]);
-    	if(Player[playerid][CarMod9][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod9][i]);
-    	if(Player[playerid][CarMod10][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod10][i]);
-    	if(Player[playerid][CarMod11][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod11][i]);
-    	if(Player[playerid][CarMod12][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod12][i]);
-    	if(Player[playerid][CarMod13][i] > 0) AddVehicleComponent(Player[playerid][CarID][i], Player[playerid][CarMod13][i]);
+		if(PlayerVehicle[playerid][CarMod0][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod0][i]);
+    	if(PlayerVehicle[playerid][CarMod1][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod1][i]);
+    	if(PlayerVehicle[playerid][CarMod2][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod2][i]);
+    	if(PlayerVehicle[playerid][CarMod3][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod3][i]);
+    	if(PlayerVehicle[playerid][CarMod4][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod4][i]);
+    	if(PlayerVehicle[playerid][CarMod5][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod5][i]);
+    	if(PlayerVehicle[playerid][CarMod6][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod6][i]);
+    	if(PlayerVehicle[playerid][CarMod7][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod7][i]);
+    	if(PlayerVehicle[playerid][CarMod8][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod8][i]);
+    	if(PlayerVehicle[playerid][CarMod9][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod9][i]);
+    	if(PlayerVehicle[playerid][CarMod10][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod10][i]);
+    	if(PlayerVehicle[playerid][CarMod11][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod11][i]);
+    	if(PlayerVehicle[playerid][CarMod12][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod12][i]);
+    	if(PlayerVehicle[playerid][CarMod13][i] > 0) AddVehicleComponent(PlayerVehicle[playerid][CarID][i], PlayerVehicle[playerid][CarMod13][i]);
 	}
 	return 1;
 }
@@ -656,34 +656,36 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				new slot = GetPVarInt(playerid, "DeletingSlot");
 				DeletePVar(playerid, "DeletingSlot");
 
-				Player[playerid][CarModel][slot] = 0;
+				PlayerVehicle[playerid][CarModel][slot] = 0;
 
-				Player[playerid][CarX][slot] = 0.0000;
-				Player[playerid][CarY][slot] = 0.0000;
-				Player[playerid][CarZ][slot] = 0.0000;
-				Player[playerid][CarA][slot] = 0.0000;
+				PlayerVehicle[playerid][CarX][slot] = 0.0000;
+				PlayerVehicle[playerid][CarY][slot] = 0.0000;
+				PlayerVehicle[playerid][CarZ][slot] = 0.0000;
+				PlayerVehicle[playerid][CarA][slot] = 0.0000;
 
 				switch(slot)
 				{
-					case 0: format(Player[playerid][CarPlate1][slot], 16, "XYZSR998");
-					case 1: format(Player[playerid][CarPlate2][slot], 16, "XYZSR998");
-					case 2: format(Player[playerid][CarPlate3][slot], 16, "XYZSR998");
-					case 3: format(Player[playerid][CarPlate4][slot], 16, "XYZSR998");
-					case 4: format(Player[playerid][CarPlate5][slot], 16, "XYZSR998");
+					case 0: format(PlayerVehicle[playerid][CarPlate1][slot], 16, "XYZSR998");
+					case 1: format(PlayerVehicle[playerid][CarPlate2][slot], 16, "XYZSR998");
+					case 2: format(PlayerVehicle[playerid][CarPlate3][slot], 16, "XYZSR998");
+					case 3: format(PlayerVehicle[playerid][CarPlate4][slot], 16, "XYZSR998");
+					case 4: format(PlayerVehicle[playerid][CarPlate5][slot], 16, "XYZSR998");
 					default: return 1;
 				}
 
-				Fuel[Player[playerid][CarID][slot]] = 0;
+				Fuel[PlayerVehicle[playerid][CarID][slot]] = 0;
 
-				Player[playerid][CarFuel][slot] = 0;
+				PlayerVehicle[playerid][CarFuel][slot] = 0;
 
-				DestroyVehicle(Player[playerid][CarID][slot]);
-				PutPlayerInVehicle(playerid, Player[playerid][CarID][slot], 0);
+				DestroyVehicle(PlayerVehicle[playerid][CarID][slot]);
+				PutPlayerInVehicle(playerid, PlayerVehicle[playerid][CarID][slot], 0);
 				SendClientMessage(playerid, WHITE, "You have deleted your vehicle.");
 
 				GetPlayerCarMods(playerid);
 
-				SavePlayerData(playerid, 1);
+				format(Array, sizeof(Array), "DELETE FROM `playervehicles` WHERE `id` = '%d'", PlayerVehicle[playerid][CarDatabaseID][slot]);
+				mysql_tquery(SQL, Array, "", "");
+				
 				SetPVarInt(playerid, "CarModification", gettime()+60);
 			}
 			else
@@ -695,3 +697,87 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	}
 	return 1;
 }
+
+/*CheckVehicleSeats(vehicle, seat)
+{
+	switch(GetVehicleModel(vehicle)) 
+	{
+		case 425, 430, 432, 441, 446, 448, 452, 453, 454, 464, 465, 472, 473, 476, 481, 484, 485, 486, 493, 501, 509, 510, 519, 520, 530, 531, 532, 539, 553, 564, 568, 571, 572, 574, 583, 592, 594, 595: return 0;
+		default: if(IsVehicleOccupied(vehicle, seat)) return 0;
+	}
+	return 1;
+}
+
+IsABoat(vehicle) 
+{
+	switch(GetVehicleModel(vehicle)) 
+	{
+		case 472, 473, 493, 484, 430, 454, 453, 452, 446, 595: return 1;
+	}
+	return 0;
+}*/
+
+IsABike(vehicle) 
+{
+	switch(GetVehicleModel(vehicle)) 
+	{
+		case 509, 481, 510, 462, 448, 581, 522, 461, 521, 523, 463, 586, 468, 471: return 1;
+	}
+	return 0;
+}
+
+IsATrain(vehicle) 
+{
+	switch(vehicle) 
+	{
+		case 538, 537, 590, 569, 570: return 1;
+	}
+	return 0;
+}
+
+IsAPlane(vehicle, type = 0)
+{
+	if(type == 0)
+	{
+		switch(GetVehicleModel(vehicle)) 
+		{
+			case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 548, 425, 417, 487, 488, 497, 563, 447, 469: return 1;
+		}
+	}
+	else
+	{
+		switch(vehicle) 
+		{
+			case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 548, 425, 417, 487, 488, 497, 563, 447, 469: return 1;
+		}
+	}
+	return 0;
+}
+
+/*IsWeaponizedVehicle(vehicle)
+{
+	switch(vehicle) 
+	{
+		case 425, 432, 447, 476, 520: return 1;
+	}
+	return 0;
+}*/
+
+IsAHelicopter(vehicle)
+{
+	if(GetVehicleModel(vehicle) == 548 || GetVehicleModel(vehicle) == 425 || GetVehicleModel(vehicle) == 417 || GetVehicleModel(vehicle) == 487 || GetVehicleModel(vehicle) == 488 || GetVehicleModel(vehicle) == 497 || GetVehicleModel(vehicle) == 563 || GetVehicleModel(vehicle) == 447 || GetVehicleModel(vehicle) == 469 || GetVehicleModel(vehicle) == 593) return 1;
+	return 0;
+}
+
+
+/*IsAnBus(vehicle)
+{
+	if(GetVehicleModel(vehicle) == 431 || GetVehicleModel(vehicle) == 437) return 1;
+	return 0;
+}
+
+IsAnTaxi(vehicle)
+{
+	if(GetVehicleModel(vehicle) == 420 || GetVehicleModel(vehicle) == 438) return 1;
+	return 0;
+}*/

@@ -136,61 +136,8 @@ public OnPlayerLogin(playerid)
 		Player[playerid][LotteryNumber] = cache_get_field_content_int(row, "LotteryNumber");
 		Player[playerid][InsideBusiness] = cache_get_field_content_int(row, "InBusiness");
 
-		cache_get_field_content(row,  "Cars", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarModel]);
-		cache_get_field_content(row,  "CarX", result, SQL, 128);
-		sscanf(result, "p<|>e<fffff>", Player[playerid][CarX]);
-		cache_get_field_content(row,  "CarY", result, SQL, 128);
-		sscanf(result, "p<|>e<fffff>", Player[playerid][CarY]);
-		cache_get_field_content(row,  "CarZ", result, SQL, 128);
-		sscanf(result, "p<|>e<fffff>", Player[playerid][CarZ]);
-		cache_get_field_content(row,  "CarA", result, SQL, 128);
-		sscanf(result, "p<|>e<fffff>", Player[playerid][CarA]);
-		cache_get_field_content(row,  "CarInt", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarInt]);
-		cache_get_field_content(row,  "CarVW", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarVW]);
-		cache_get_field_content(row,  "Colour", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarColour]);
-		cache_get_field_content(row,  "Colour2", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarColour2]);
-		cache_get_field_content(row,  "CarFuel", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarFuel]);
-		cache_get_field_content(row, "CarPlate1", Player[playerid][CarPlate1], SQL, MAX_PLAYER_NAME);
-		cache_get_field_content(row, "CarPlate2", Player[playerid][CarPlate2], SQL, MAX_PLAYER_NAME);
-		cache_get_field_content(row, "CarPlate3", Player[playerid][CarPlate3], SQL, MAX_PLAYER_NAME);
-		cache_get_field_content(row, "CarPlate4", Player[playerid][CarPlate4], SQL, MAX_PLAYER_NAME);
-		cache_get_field_content(row, "CarPlate5", Player[playerid][CarPlate5], SQL, MAX_PLAYER_NAME);
-		cache_get_field_content(row,  "CarMod0", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod0]);
-		cache_get_field_content(row,  "CarMod1", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod1]);
-		cache_get_field_content(row,  "CarMod2", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod2]);
-		cache_get_field_content(row,  "CarMod3", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod3]);
-		cache_get_field_content(row,  "CarMod4", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod4]);
-		cache_get_field_content(row,  "CarMod5", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod5]);
-		cache_get_field_content(row,  "CarMod6", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod6]);
-		cache_get_field_content(row,  "CarMod7", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod7]);
-		cache_get_field_content(row,  "CarMod8", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod8]);
-		cache_get_field_content(row,  "CarMod9", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod9]);
-		cache_get_field_content(row,  "CarMod10", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod10]);
-		cache_get_field_content(row,  "CarMod11", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod11]);
-		cache_get_field_content(row,  "CarMod12", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod12]);
-		cache_get_field_content(row,  "CarMod13", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarMod13]);
-		cache_get_field_content(row,  "PaintJob", result, SQL, 128);
-		sscanf(result, "p<|>e<ddddd>", Player[playerid][CarPaintJob]);
+		mysql_format(SQL, Array, sizeof(Array), "SELECT * FROM `playervehicles` WHERE `player` = '%d'", Player[playerid][DatabaseID]);
+        mysql_tquery(SQL, Array, "LoadPlayerVehicles", "i", playerid);
 
 		Player[playerid][Fightstyle] = cache_get_field_content_int(row, "Fightstyle");
 		Player[playerid][JailTime] = cache_get_field_content_int(row, "JailTime");
@@ -241,11 +188,82 @@ public OnPlayerLogin(playerid)
 	return 1;
 }
 
+public LoadPlayerVehicles(playerid)
+{
+	Array[0] = 0;
+	new rows, fields, vehicle;
+	cache_get_data(rows, fields);
+	for(new row;row < rows;row++)
+	{
+		PlayerVehicle[playerid][CarDatabaseID][vehicle] = cache_get_field_content_int(row, "id");
+		PlayerVehicle[playerid][CarModel][vehicle] = cache_get_field_content_int(row, "Model");
+
+		PlayerVehicle[playerid][CarX][vehicle] = cache_get_field_content_float(row, "X");
+		PlayerVehicle[playerid][CarY][vehicle] = cache_get_field_content_float(row, "Y");
+		PlayerVehicle[playerid][CarZ][vehicle] = cache_get_field_content_float(row, "Z");
+		PlayerVehicle[playerid][CarA][vehicle] = cache_get_field_content_float(row, "A");
+
+		PlayerVehicle[playerid][CarInt][vehicle] = cache_get_field_content_int(row, "Int");
+		PlayerVehicle[playerid][CarVW][vehicle] = cache_get_field_content_int(row, "VW");
+		PlayerVehicle[playerid][CarColour][vehicle] = cache_get_field_content_int(row, "Colour");
+		PlayerVehicle[playerid][CarColour2][vehicle] = cache_get_field_content_int(row, "Colour2");
+		PlayerVehicle[playerid][CarFuel][vehicle] = cache_get_field_content_int(row, "Fuel");
+
+		switch(vehicle)
+		{
+			case 0: cache_get_field_content(row, "Plate", PlayerVehicle[playerid][CarPlate1], SQL, MAX_PLAYER_NAME);
+			case 1:	cache_get_field_content(row, "Plate", PlayerVehicle[playerid][CarPlate2], SQL, MAX_PLAYER_NAME);
+			case 2:	cache_get_field_content(row, "Plate", PlayerVehicle[playerid][CarPlate3], SQL, MAX_PLAYER_NAME);
+			case 3: cache_get_field_content(row, "Plate", PlayerVehicle[playerid][CarPlate4], SQL, MAX_PLAYER_NAME);
+			case 4: cache_get_field_content(row, "Plate", PlayerVehicle[playerid][CarPlate5], SQL, MAX_PLAYER_NAME);
+			default: printf("No field content for player vehicle %d.", vehicle);
+		}
+
+		PlayerVehicle[playerid][CarMod0][vehicle] = cache_get_field_content_int(row, "Mod0");
+		PlayerVehicle[playerid][CarMod1][vehicle] = cache_get_field_content_int(row, "Mod1");
+		PlayerVehicle[playerid][CarMod2][vehicle] = cache_get_field_content_int(row, "Mod2");
+		PlayerVehicle[playerid][CarMod3][vehicle] = cache_get_field_content_int(row, "Mod3");
+		PlayerVehicle[playerid][CarMod4][vehicle] = cache_get_field_content_int(row, "Mod4");
+		PlayerVehicle[playerid][CarMod5][vehicle] = cache_get_field_content_int(row, "Mod5");
+		PlayerVehicle[playerid][CarMod6][vehicle] = cache_get_field_content_int(row, "Mod6");
+		PlayerVehicle[playerid][CarMod7][vehicle] = cache_get_field_content_int(row, "Mod7");
+		PlayerVehicle[playerid][CarMod8][vehicle] = cache_get_field_content_int(row, "Mod8");
+		PlayerVehicle[playerid][CarMod9][vehicle] = cache_get_field_content_int(row, "Mod9");
+		PlayerVehicle[playerid][CarMod10][vehicle] = cache_get_field_content_int(row, "Mod10");
+		PlayerVehicle[playerid][CarMod11][vehicle] = cache_get_field_content_int(row, "Mod11");
+		PlayerVehicle[playerid][CarMod12][vehicle] = cache_get_field_content_int(row, "Mod12");
+		PlayerVehicle[playerid][CarMod13][vehicle] = cache_get_field_content_int(row, "Mod13");
+
+		if(PlayerVehicle[playerid][CarModel][vehicle] != 0)
+        {
+            PlayerVehicle[playerid][CarID][vehicle] = CreateVehicle(PlayerVehicle[playerid][CarModel][vehicle], PlayerVehicle[playerid][CarX][vehicle], PlayerVehicle[playerid][CarY][vehicle], PlayerVehicle[playerid][CarZ][vehicle], PlayerVehicle[playerid][CarA][vehicle], PlayerVehicle[playerid][CarColour][vehicle], PlayerVehicle[playerid][CarColour2][vehicle], -1, 0);
+            switch(vehicle)
+            {
+                case 0: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][vehicle], PlayerVehicle[playerid][CarPlate1]);
+                case 1: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][vehicle], PlayerVehicle[playerid][CarPlate2]);
+                case 2: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][vehicle], PlayerVehicle[playerid][CarPlate3]);
+                case 3: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][vehicle], PlayerVehicle[playerid][CarPlate4]);
+                case 4: SetVehicleNumberPlate(PlayerVehicle[playerid][CarID][vehicle], PlayerVehicle[playerid][CarPlate5]);
+                default: return 1;
+            }
+
+            if(PlayerVehicle[playerid][CarPaintJob][vehicle] > 0) ChangeVehiclePaintjob(PlayerVehicle[playerid][CarID][vehicle], PlayerVehicle[playerid][CarPaintJob][vehicle] - 1);
+
+            Fuel[PlayerVehicle[playerid][CarID][vehicle]] = PlayerVehicle[playerid][CarFuel][vehicle];
+        }
+        AddPlayerVehicleMods(playerid);
+
+		vehicle++;
+	}
+	return 1;
+}
+
 public OnPlayerRegisterAccount(playerid)
 {
 	Player[playerid][DatabaseID] = cache_insert_id();
     printf("[SQL] New account registered. Database ID: [%d]", cache_insert_id());
 
+    // Only add 'resets' for those that are 'allowed' to start at 0. i.e, group ranks are 0-9.
     Player[playerid][PlayerGroup] = -1;
     Player[playerid][GroupRank] = -1;
     Player[playerid][GroupDiv] = -1;
@@ -258,6 +276,8 @@ public OnPlayerRegisterAccount(playerid)
     AdvanceTutorial(playerid, 1);
     return 1;
 }
+
+public OnPlayerPurchaseVehicle(playerid, vehicle) { PlayerVehicle[playerid][CarDatabaseID][vehicle] = cache_insert_id(); SavePlayerVehicleData(playerid, vehicle); }
 
 public OnQueryError(errorid, error[], callback[], query[], connectionHandle)
 {
@@ -279,7 +299,7 @@ SavePlayerData(playerid, type)
 	    {
 	    	if(Player[playerid][Authenticated] >= 1)
 	    	{
-	        	new Query[2048], string[128], Float:Pos[4], Float: pHealth, Float: pArmour, pIP[16];
+	        	new Query[2048], string[128], Float:Pos[4], Float: pHealth, Float: pArmour, pIP[20];
 
 	        	if(Player[playerid][AdminLevel] >= 1 && Player[playerid][AdminLevel] <= 4 && Player[playerid][AdminDuty] >= 1) // This make sure that anything a Senior Admin or below does to their account while on duty, does not save.
 	    		{
@@ -337,212 +357,6 @@ SavePlayerData(playerid, type)
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "LotteryNumber", Player[playerid][LotteryNumber]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "InBusiness", Player[playerid][InsideBusiness]);
 
-    			string[0] = 0;
-    			for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarModel][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "Cars", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%f", string, Player[playerid][CarX][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarX", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%f", string, Player[playerid][CarY][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarY", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%f", string, Player[playerid][CarZ][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarZ", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%f", string, Player[playerid][CarA][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarA", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarVW][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarVW", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarInt][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarInt", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarColour][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "Colour", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarColour2][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "Colour2", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Fuel[Player[playerid][CarID][i]]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarFuel", string);
-
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarPlate1", Player[playerid][CarPlate1]);
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarPlate2", Player[playerid][CarPlate2]);
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarPlate3", Player[playerid][CarPlate3]);
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarPlate4", Player[playerid][CarPlate4]);
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarPlate5", Player[playerid][CarPlate5]);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod0][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod0", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod1][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod1", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod2][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod2", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod3][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod3", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod4][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod4", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod5][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod5", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod6][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod6", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod7][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod7", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod8][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod8", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod9][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod9", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod10][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod10", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod11][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod11", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod12][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod12", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarMod13][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "CarMod13", string);
-
-				string[0] = 0;
-				for(new i; i < MAX_PLAYER_VEHICLES; i++)
-				{
-					format(string, sizeof(string), "%s%d", string, Player[playerid][CarPaintJob][i]);
-					strcat(string, "|");
-				}
-				SavePlayerString(Query, Player[playerid][DatabaseID], "PaintJob", string);
-
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "Fightstyle", Player[playerid][Fightstyle]);
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "JailTime", Player[playerid][JailTime]);
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "ArrestedBy", Player[playerid][ArrestedBy]);
@@ -572,6 +386,91 @@ SavePlayerData(playerid, type)
     			SQLPlayerSaveFinish(Query, Player[playerid][DatabaseID]);
     		}
 	    }
+	}
+	return 1;
+}
+
+SavePlayerVehicleData(playerid, vehicle = -1)
+{
+	new Query[2056];
+
+	for(new i; i < MAX_PLAYER_VEHICLES; i++)
+	{
+		if(i == vehicle || i == -1)
+		{
+			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `Fuel` = '%d', \
+				`Mod0` = '%d', `Mod1` = '%d', `Mod2` = '%d', `Mod3` = '%d', `Mod4` = '%d', `Mod5` = '%d', `Mod6` = '%d', `Mod7` = '%d', `Mod8` = '%d', `Mod9` = '%d', `Mod10` = '%d', `Mod11` = '%d', `Mod12` = '%d' , `Mod13` = '%d' \
+				WHERE `id` = '%d'",
+				PlayerVehicle[playerid][CarModel][i], PlayerVehicle[playerid][CarX][i], PlayerVehicle[playerid][CarY][i], PlayerVehicle[playerid][CarZ][i], PlayerVehicle[playerid][CarA][i], PlayerVehicle[playerid][CarInt][i],
+				PlayerVehicle[playerid][CarVW][i], PlayerVehicle[playerid][CarColour][i], PlayerVehicle[playerid][CarColour2][i], PlayerVehicle[playerid][CarFuel][i], PlayerVehicle[playerid][CarMod0][i], PlayerVehicle[playerid][CarMod1][i],
+				PlayerVehicle[playerid][CarMod2][i], PlayerVehicle[playerid][CarMod3][i], PlayerVehicle[playerid][CarMod4][i], PlayerVehicle[playerid][CarMod5][i], PlayerVehicle[playerid][CarMod6][i], PlayerVehicle[playerid][CarMod7][i],
+				PlayerVehicle[playerid][CarMod8][i], PlayerVehicle[playerid][CarMod9][i], PlayerVehicle[playerid][CarMod10][i], PlayerVehicle[playerid][CarMod11][i], PlayerVehicle[playerid][CarMod12][i], PlayerVehicle[playerid][CarMod13][i],
+				PlayerVehicle[playerid][CarDatabaseID][i]);
+			mysql_tquery(SQL, Query, "", "");
+		}
+	}
+
+	switch(vehicle)
+	{
+		case 0:
+		{
+			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate1], PlayerVehicle[playerid][CarDatabaseID][0]);
+			mysql_tquery(SQL, Query, "", "");
+		}
+		case 1:
+		{
+			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate2], PlayerVehicle[playerid][CarDatabaseID][1]);
+			mysql_tquery(SQL, Query, "", "");
+		}
+		case 2:
+		{
+			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate3], PlayerVehicle[playerid][CarDatabaseID][2]);
+			mysql_tquery(SQL, Query, "", "");
+		}
+		case 3:
+		{
+			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate4], PlayerVehicle[playerid][CarDatabaseID][3]);
+			mysql_tquery(SQL, Query, "", "");
+		}
+		case 4:
+		{
+			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate5], PlayerVehicle[playerid][CarDatabaseID][4]);
+			mysql_tquery(SQL, Query, "", "");
+		}
+		default:
+		{
+			for(new i; i < MAX_PLAYER_VEHICLES; i++)
+			{
+				switch(i)
+				{
+					case 0:
+					{
+						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate1], PlayerVehicle[playerid][CarDatabaseID][0]);
+						mysql_tquery(SQL, Query, "", "");
+					}
+					case 1:
+					{
+						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate2], PlayerVehicle[playerid][CarDatabaseID][1]);
+						mysql_tquery(SQL, Query, "", "");
+					}
+					case 2:
+					{
+						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate3], PlayerVehicle[playerid][CarDatabaseID][2]);
+						mysql_tquery(SQL, Query, "", "");
+					}
+					case 3:
+					{
+						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate4], PlayerVehicle[playerid][CarDatabaseID][3]);
+						mysql_tquery(SQL, Query, "", "");
+					}
+					case 4:
+					{
+						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate5], PlayerVehicle[playerid][CarDatabaseID][4]);
+						mysql_tquery(SQL, Query, "", "");
+					}
+				}
+			}
+		}
 	}
 	return 1;
 }
@@ -638,7 +537,7 @@ SavePlayerFloat(query[], sqlid, Value[], Float:Number)
 
 SaveAllData()
 {
-	for(new i; i < MAX_PLAYERS; i++) SavePlayerData(i, 1);
+	foreach(new i: Player) { SavePlayerData(i, 1); SavePlayerVehicleData(i); }
 	SaveServer();
 	SaveGroups();
 	SaveHouses();
@@ -656,7 +555,7 @@ SaveAllData()
 
 ServerRestart()
 {
-	for(new i; i < MAX_PLAYERS; i++)
+	foreach(new i: Player)
 	{
 		if(Player[i][AdminDuty] >= 1)
 		{

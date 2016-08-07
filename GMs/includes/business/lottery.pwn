@@ -92,7 +92,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 GetLotteryWinners(number)
 {
 	new winners;
-	for(new i; i < MAX_PLAYERS; i++)
+	foreach(new i: Player)
 	{
 		if(Player[i][LotteryNumber] == number)
 		{
@@ -125,7 +125,7 @@ public OnLotteryCheck(number, winners)
 		format(Array, sizeof(Array), "UPDATE `accounts` SET `Money` = `Money` + %d, `LotteryNumber` = -1 WHERE `LotteryNumber` = %d", realwin, number); // Set to -1 so the player can be congratulated upon their next login.
 		mysql_tquery(SQL, Array, "", "");
 	}
-	for(new i; i < MAX_PLAYERS; i++)
+	foreach(new i: Player)
 	{
 		if(GetPVarInt(i, "WonLottery"))
 		{

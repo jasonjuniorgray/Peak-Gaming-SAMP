@@ -3,43 +3,87 @@
 hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
 	new Float:health, Float:armour, Float:addeddamage[2], Float:modifieddamage;
-	GetPlayerHealth(playerid, health); // 100
-	GetPlayerArmour(playerid, armour); // 5
+	GetPlayerHealth(playerid, health);
+	GetPlayerArmour(playerid, armour);
 
-	switch(weaponid)
+	if(Player[issuerid][Taser] > 0 && weaponid == 23)
 	{
-		case 14, 43: addeddamage[0] = 0.0;
-		case 22, 23: addeddamage[0] = 20.0;
-		case 30: addeddamage[0] = 20.0;
-		case 31: addeddamage[0] = 15.0;
-		default: addeddamage[0] = amount;
-	}
-	switch(bodypart)
-	{
-		case 3, 4: addeddamage[1] = 5.0;
-		case 5 .. 8: addeddamage[1] = 2.0;
-		case 9: addeddamage[1] = 15.0;
-		default: addeddamage[1] = 0.0;
-	}
-	modifieddamage = addeddamage[0] + addeddamage[1]; // 4 - left: 1
+		Array[0] = 0;
+		if(GetPVarInt(issuerid, "TaserReload") == 0)
+		{
+			if(IsPlayerNearPlayer(issuerid, playerid, 10.0))
+			{
+				SetPlayerHealth(playerid, health);
+				SetPlayerArmour(playerid, armour);
 
-	if(health > 0 && armour == 0) // Hasn't died, but has no armour.
-	{
-		SetPlayerHealth(playerid, health + amount);
-		SetPlayerHealth(playerid, health - modifieddamage);
-	}
-	if(health > 0 && armour > 0 && armour - modifieddamage > 0) // Still has armour after the damage is going to be given.
-	{
-		SetPlayerArmour(playerid, armour + amount);
-		SetPlayerArmour(playerid, armour - modifieddamage);
-	}
-	if(health > 0 && armour > 0 && armour - modifieddamage < 0) // Damage will be spread throughout health and armour.
-	{
-		new Float:tempfloat;
-		tempfloat = modifieddamage - armour;
+				TogglePlayerControllableEx(playerid, FALSE);
+				ClearAnimations(playerid);
 
-		SetPlayerArmour(playerid, 0);
-		SetPlayerHealth(playerid, health - tempfloat);
+				ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.0, 1, 0, 0, 0, 0, 1);
+
+				SetPVarInt(playerid, "Tasered", 1);
+				SetPVarInt(issuerid, "TaserReload", 15);
+
+				SetTimerEx("TaserTimer", 15000, FALSE, "i", playerid);
+
+				format(Array, sizeof(Array), "* %s fires their taser at %s, stunning them.", GetName(issuerid), GetName(playerid));
+		    	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	    	}
+	    	else
+	    	{
+	    		SetPlayerHealth(playerid, health);
+				SetPlayerArmour(playerid, armour);
+
+				SetPVarInt(issuerid, "TaserReload", 15);
+	    		format(Array, sizeof(Array), "* %s fires their taser at %s, missing them.", GetName(issuerid), GetName(playerid));
+		    	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	    	}
+		}
+		else
+		{
+			SetPlayerHealth(playerid, health);
+			SetPlayerArmour(playerid, armour);
+			format(Array, sizeof(Array), "Your taser is still reloading! (%d seconds.)", GetPVarInt(issuerid, "TaserReload"));
+			SendClientMessage(issuerid, WHITE, Array);
+		}
+	}
+	else
+	{
+		switch(weaponid)
+		{
+			case 14, 43: addeddamage[0] = 0.0;
+			case 22, 23: addeddamage[0] = 20.0;
+			case 30: addeddamage[0] = 20.0;
+			case 31: addeddamage[0] = 15.0;
+			default: addeddamage[0] = amount;
+		}
+		switch(bodypart)
+		{
+			case 3, 4: addeddamage[1] = 5.0;
+			case 5 .. 8: addeddamage[1] = 2.0;
+			case 9: addeddamage[1] = 15.0;
+			default: addeddamage[1] = 0.0;
+		}
+		modifieddamage = addeddamage[0] + addeddamage[1];
+
+		if(health > 0 && armour == 0) // Hasn't died, but has no armour.
+		{
+			SetPlayerHealth(playerid, health + amount);
+			SetPlayerHealth(playerid, health - modifieddamage);
+		}
+		if(health > 0 && armour > 0 && armour - modifieddamage > 0) // Still has armour after the damage is going to be given.
+		{
+			SetPlayerArmour(playerid, armour + amount);
+			SetPlayerArmour(playerid, armour - modifieddamage);
+		}
+		if(health > 0 && armour > 0 && armour - modifieddamage < 0) // Damage will be spread throughout health and armour.
+		{
+			new Float:tempfloat;
+			tempfloat = modifieddamage - armour;
+
+			SetPlayerArmour(playerid, 0);
+			SetPlayerHealth(playerid, health - tempfloat);
+		}
 	}
 	return 1;
 }
@@ -80,6 +124,18 @@ hook OnPlayerSpawn(playerid)
 		TextDrawShowForPlayer(playerid, LimboTextDraw);
 
 		SetTimerEx("DeathTimer", 3500, FALSE, "i", playerid);
+	}
+	return 1;
+}
+
+hook OnPlayerStateChange(playerid, newstate, oldstate)
+{
+	switch(newstate)
+	{
+		case PLAYER_STATE_DRIVER:
+		{
+			SetPlayerArmedWeapon(playerid, 0);
+		}
 	}
 	return 1;
 }
@@ -219,11 +275,11 @@ GetWeaponSlot(weaponid)
 	new slot;
 	switch(weaponid)
 	{
-		case 0,1: slot = 0;
+		case 0, 1: slot = 0;
 		case 2 .. 9: slot = 1;
 		case 10 .. 15: slot = 10;
 		case 16 .. 18, 39: slot = 8;
-		case 22 .. 24: slot =2;
+		case 22 .. 24: slot = 2;
 		case 25 .. 27: slot = 3;
 		case 28, 29, 32: slot = 4;
 		case 30, 31: slot = 5;

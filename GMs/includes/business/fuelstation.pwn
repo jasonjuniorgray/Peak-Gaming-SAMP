@@ -11,8 +11,8 @@ CMD:refuel(playerid, params[])
                 new engine,lights,alarm,doors,bonnet,boot,objective;
                 GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
                 if(engine == VEHICLE_PARAMS_ON) return SendClientMessage(playerid, WHITE, "You have to turn your engine off before you can refill!");
-                new PriceofFuel = Fuel[vehicleid] - 100; // This will make it negative, so we actually want to give it to the player.
-			    PricePlayerPays = PriceofFuel * Business[i][FuelPrice];
+                new PriceofFuel = Fuel[vehicleid] - 100; 
+			    PricePlayerPays = PriceofFuel * Business[i][FuelPrice]; // This will make it negative, so we actually want to give it to the player.
                 if(Player[playerid][Money] >= PricePlayerPays)
                 {
                     Fuel[vehicleid] = 100;

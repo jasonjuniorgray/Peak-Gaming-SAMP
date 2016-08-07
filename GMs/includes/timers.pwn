@@ -1,6 +1,6 @@
 task OneSecond[1000]()
 {
-	for(new i; i < MAX_PLAYERS; i++)
+	foreach(new i: Player)
 	{
 		// AFK / LoginRegister Check
 		if(Player[i][Authenticated] >= 1)
@@ -74,8 +74,13 @@ task OneSecond[1000]()
 			SendClientMessage(i, WHITE, "----------------------------------------------");
 		}
 
+		if(Player[i][Taser] > 0) SetPlayerArmedWeapon(i, 23);
+		if(GetPVarType(i, "TaserReload")) { if(GetPVarInt(i, "TaserReload") > 0) SetPVarInt(i, "TaserReload", GetPVarInt(i, "TaserReload") - 1); else DeletePVar(i, "TaserReload"); }
+
 		if(IsPlayerInAnyVehicle(i) && PLAYER_STATE_DRIVER)
 		{
+			SetPlayerArmedWeapon(i, 0);
+
 			new Float:health, engine, lights, alarm, doors, bonnet, boot, objective, vehicleid = GetPlayerVehicleID(i);
 			GetVehicleHealth(vehicleid, health);
 			GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
@@ -120,7 +125,7 @@ task OneSecond[1000]()
 	    {
 			new string[50], color1[4], color2[4];
 				
-			switch(GetPlayerSpeed(i, 1))
+			switch(GetPlayerSpeed(i, 0))
 			{
 				case 0 .. 40: color1 = "~w~";
 				case 41 .. 60: color1 = "~y~";
@@ -159,7 +164,8 @@ task OneMinute[60000]()
 	gettime(GlobalHour, GlobalMinute, GlobalSecond);
 
 	Array[0] = 0;
-	OneMinuteInt++;
+	OneMinuteInt[0]++;
+	OneMinuteInt[1]++;
 
     if(GlobalMinute == 60)
     {
@@ -168,13 +174,13 @@ task OneMinute[60000]()
     	SendClientMessageToAll(GREY, Array);
     }
 
-	for(new i; i < MAX_PLAYERS; i++)
+	foreach(new i: Player)
 	{
-    	switch(OneMinuteInt)
+    	switch(OneMinuteInt[0])
     	{
     		case 5:
     		{
-    			OneMinuteInt = 0;
+    			OneMinuteInt[0] = 0;
     		
     			SavePlayerData(i, 1);
     			print("[TIMER] Saved Player Data Automatically.");
@@ -183,22 +189,30 @@ task OneMinute[60000]()
 
 		SetPVarInt(i, "LastTyped", GetPVarInt(i, "LastTyped") + 1);
 	}
-	for(new i = 0; i < MAX_VEHICLES; i++)
-    {
-        new engine, lights, alarm, doors, bonnet, boot, objective;
-        GetVehicleParamsEx(i, engine, lights, alarm, doors, bonnet, boot, objective);
+	switch(OneMinuteInt[1])
+	{
+		case 2:
+		{
+			for(new i = 0; i < MAX_VEHICLES; i++)
+		    {
+		    	OneMinuteInt[1] = 0;
+		    	
+		        new engine, lights, alarm, doors, bonnet, boot, objective;
+		        GetVehicleParamsEx(i, engine, lights, alarm, doors, bonnet, boot, objective);
 
-        if(engine == VEHICLE_PARAMS_ON)
-        {
-            if(Fuel[i] == -1) return 1;
+		        if(engine == VEHICLE_PARAMS_ON)
+		        {
+		            if(Fuel[i] == -1) return 1;
 
-			Fuel[i] = Fuel[i] - 1;
-			if(Fuel[i] == 0)
-			{
-				Fuel[i] = 0;
-                SetVehicleParamsEx(i, VEHICLE_PARAMS_OFF, lights, alarm, doors, bonnet, boot, objective);
-			}
-        }
+					Fuel[i] = Fuel[i] - 1;
+					if(Fuel[i] == 0)
+					{
+						Fuel[i] = 0;
+		                SetVehicleParamsEx(i, VEHICLE_PARAMS_OFF, lights, alarm, doors, bonnet, boot, objective);
+					}
+		        }
+		    }
+		}
     }
 	if(GlobalHour == 0 && GlobalMinute == 0)
 	{
@@ -249,4 +263,20 @@ public PrepareStreamTimer(playerid)
 	if(Player[playerid][Injured] > 0) ApplyAnimation(playerid, "PED", "KO_shot_stom", 4.0, 0, 1, 1, 1, 0, 1);
 
 	DeletePVar(playerid, "StreamPrep");
+}
+
+forward TaserTimer(playerid);
+public TaserTimer(playerid) 
+{
+	if(GetPVarType(playerid, "Tasered") && GetPVarInt(playerid, "Tasered") > 0)
+	{
+		Array[0] = 0;
+		DeletePVar(playerid, "Tasered");
+		ClearAnimations(playerid);
+		ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 1, 1, 1);
+
+		format(Array, sizeof(Array), "* %s recovers from the taser, standing up.", GetName(playerid));
+		SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	}
+	return 1;
 }

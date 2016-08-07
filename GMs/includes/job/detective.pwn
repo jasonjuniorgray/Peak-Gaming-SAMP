@@ -1,17 +1,17 @@
-CMD:track(playerid, params[])
+CMD:trace(playerid, params[])
 {
 	if(Job[Player[playerid][PlayerJob]][JobType] == 4)
 	{
 		new id;
 		if(sscanf(params, "u", id)) 
 		{
-			return SendClientMessage(playerid, WHITE, "SYNTAX: /track [playerid]");
+			return SendClientMessage(playerid, WHITE, "SYNTAX: /trace [playerid]");
 		}
 		else 
 		{
 			if(!IsPlayerConnectedEx(id)) return SendClientMessage(playerid, WHITE, "That player is not connected!");
 			//if(Player[playerid][PhoneToggled] == 1) return SendClientMessage(playerid, WHITE, "That player's phone is off!");
-			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 
 			if(GetPVarInt(playerid, "FindTime") > gettime()) 
 			{
@@ -31,7 +31,7 @@ CMD:track(playerid, params[])
 
 			if(id == playerid) return SendClientMessage(playerid, WHITE, "You cannot track yourself!");
 
-			if(GetPlayerInterior(playerid) == 0 && GetPlayerVirtualWorld(playerid) == 0)
+			if(GetPlayerInterior(id) == 0 && GetPlayerVirtualWorld(id) == 0)
 			{
 				if(GetPVarInt(playerid, "Checkpoint") >= 1) return SendClientMessage(playerid, WHITE, "You already have an active checkpoint. Reach it, or type /killcheckpoint to clear it.");
 				

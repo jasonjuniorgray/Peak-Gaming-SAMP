@@ -87,7 +87,7 @@ CMD:department(playerid, params[])
         {
             Array[0] = 0;
             format(Array, sizeof(Array), "%s %s %s (%s): %s", Group[Player[playerid][PlayerGroup]][GroupName], GroupRankNames[Player[playerid][PlayerGroup]][Player[playerid][GroupRank]], GetName(playerid), GroupDivisionNames[Player[playerid][PlayerGroup]][Player[playerid][GroupDiv]], message);
-            for(new i; i < MAX_PLAYERS; i++)
+            foreach(new i: Player)
             {
                 if(Group[Player[i][PlayerGroup]][GroupType] == 0 || Group[Player[i][PlayerGroup]][GroupType] == 1 || Group[Player[i][PlayerGroup]][GroupType] == 2 || Group[Player[i][PlayerGroup]][GroupType] == 3) SendClientMessage(i, LIGHTORANGE, Array);
             }
@@ -121,7 +121,7 @@ CMD:badge(playerid, params[])
 
 CMD:locker(playerid, params[])
 {
-    if(Player[playerid][PlayerGroup] >= 0)
+    if(Player[playerid][PlayerGroup] > -1)
     {
         for(new i; i < MAX_LOCKERS; i++)
         {
@@ -134,6 +134,110 @@ CMD:locker(playerid, params[])
                     case 4: ShowPlayerDialog(playerid, DIALOG_LOCKER_HITMAN, DIALOG_STYLE_LIST, "Locker", "First Aid\nKevlar\nClothes\nWeapons", "Select", "Cancel");
                 }
             }
+        }
+    }
+    return 1;
+}
+
+CMD:backup(playerid, params[])
+{
+    if(Player[playerid][PlayerGroup] > -1)
+    {
+        if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 2 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
+        {
+            new code, all;
+            if(sscanf(params, "DD", code, all)) 
+            {
+                SendClientMessage(playerid, WHITE, "SYNTAX: /backup [option] [all]");
+                return SendClientMessage(playerid, GREY, "1: Non-emergency, 2: Emergency");
+            }
+            else
+            {
+                new location[50];
+                GetPlayer3DZone(playerid, location, 50);
+
+                Array[0] = 0;
+                switch(Player[playerid][Backup])
+                {
+                    case 0:
+                    {
+                        switch(all)
+                        {
+                            case 1:
+                            {
+                                switch(code)
+                                {
+                                    case 1: format(Array, sizeof(Array), "%s is requesting non-emergency backup at their location: %s", GetName(playerid), location);
+                                    default: format(Array, sizeof(Array), "%s is requesting emergency backup at their location: %s", GetName(playerid));
+                                }
+                                foreach(new i: Player)
+                                {
+                                    if(Group[Player[i][PlayerGroup]][GroupType] == 0 || Group[Player[i][PlayerGroup]][GroupType] == 1 || Group[Player[i][PlayerGroup]][GroupType] == 2 || Group[Player[i][PlayerGroup]][GroupType] == 3) SendClientMessage(i, LIGHTORANGE, Array);
+                                }
+                                Player[playerid][Backup] = 2;
+                            }
+                            default:
+                            {
+                                switch(code)
+                                {
+                                    case 1: format(Array, sizeof(Array), "%s is requesting non-emergency backup at their location: %s", GetName(playerid), location);
+                                    default: format(Array, sizeof(Array), "%s is requesting emergency backup at their location: %s", GetName(playerid));
+                                }
+                                SendGroupMessage(Player[playerid][PlayerGroup], Array, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255);
+                                Player[playerid][Backup] = 1;
+                            }
+                        }
+                    }
+                    case 1:
+                    {
+                        format(Array, sizeof(Array), "%s no longer requests backup.", GetName(playerid), location);
+                        SendGroupMessage(Player[playerid][PlayerGroup], Array, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255);
+                        Player[playerid][Backup] = 0;
+                    }
+                    case 2:
+                    {
+                        format(Array, sizeof(Array), "%s no longer requests backup.", GetName(playerid), location);
+                        foreach(new i: Player)
+                        {
+                            if(Group[Player[i][PlayerGroup]][GroupType] == 0 || Group[Player[i][PlayerGroup]][GroupType] == 1 || Group[Player[i][PlayerGroup]][GroupType] == 2 || Group[Player[i][PlayerGroup]][GroupType] == 3) SendClientMessage(i, LIGHTORANGE, Array);
+                        }
+                        Player[playerid][Backup] = 0;
+                    }
+                }   
+            }
+        }
+        else return SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+    }
+    else SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+    return 1;
+}
+
+CMD:backupcalls(playerid, params[])
+{
+    if(Player[playerid][PlayerGroup] > -1)
+    {
+        if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 2 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
+        {
+            SendClientMessage(playerid, GREY, "---------------------------------------------------------------------------------------------------------------------------");
+
+            Array[0] = 0;
+            new backup;
+            foreach(new i: Player)
+            {
+                switch(Player[i][Backup])
+                {
+                    case 1: 
+                    {
+                        if(Player[playerid][PlayerGroup] == Player[i][PlayerGroup]) format(Array, 256, "%s");
+                    }
+                    case 2: format(Array, 256, "%s");
+                }
+                backup++;
+                SendClientMessage(playerid, WHITE, Array);
+            }
+            if(backup == 0) SendClientMessage(playerid, DARKGREY, "Nobody has requested backup.");
+
+            SendClientMessage(playerid, GREY, "---------------------------------------------------------------------------------------------------------------------------");
         }
     }
     return 1;
@@ -468,7 +572,7 @@ SendGroupMessage(group, message[], colour)
 {
 	if(group > -1)
 	{
-		for(new i; i < MAX_PLAYERS; i++)
+		foreach(new i: Player)
 		{
 			if(Player[i][PlayerGroup] == group) SendClientMessage(i, colour, message);
 		}

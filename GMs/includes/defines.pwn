@@ -58,6 +58,11 @@
 
 /*								DIALOG DEFINES 								  */
 
+/* You should generally skip a few ID's per system incase something needs to
+be added to previous system. 												  */
+
+#define 						DIALOG_DEFAULT								   0
+
 #define 						DIALOG_REGISTER								   1
 #define 						DIALOG_LOGIN								   2
 
@@ -128,6 +133,10 @@
 #define 						DIALOG_LOCKER_HITMAN			              59
 #define 						DIALOG_LOCKER_CLOTHES						  60
 #define  						DIALOG_LOCKER_WEAPONS						  61
+
+#define  						DIALOG_MDC									  80
+#define  						DIALOG_MDC_CIVINFO   						  81
+#define  						DIALOG_MDC_CIVINFO2 						  82
 
 
 

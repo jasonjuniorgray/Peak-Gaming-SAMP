@@ -24,7 +24,7 @@ CMD:call(playerid, params[])
 	else
 	{
 		Array[0] = 0;
-		for(new i; i < MAX_PLAYERS; i++)
+		foreach(new i: Player)
 		{
 			if(Player[i][PhoneNumber] == number)
 			{
@@ -61,7 +61,7 @@ CMD:sms(playerid, params[])
 	else
 	{
 		Array[0] = 0;
-		for(new i; i < MAX_PLAYERS; i++)
+		foreach(new i: Player)
 		{
 			if(Player[i][PhoneNumber] == number)
 			{
@@ -95,7 +95,7 @@ CMD:pickup(playerid, params[])
 		SetPlayerChatBubble(playerid, Array, PURPLE, 15.0, 5000);
 		KillTimer(Player[playerid][PhoneTimer]);
 
-		for(new i; i < MAX_PLAYERS; i++)
+		foreach(new i: Player)
 		{
 			if(GetPVarInt(i, "Calling") == playerid) 
 			{
@@ -118,7 +118,7 @@ CMD:hangup(playerid, params[])
 		format(Array, sizeof(Array), "%s puts away their cellphone.", GetName(playerid));
 		SetPlayerChatBubble(playerid, Array, PURPLE, 15.0, 5000);
 
-		for(new i; i < MAX_PLAYERS; i++)
+		foreach(new i: Player)
 		{
 			if(GetPVarInt(i, "OnPhone") == playerid) 
 			{
@@ -161,7 +161,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 			if(IsNumeric(inputtext))
 			{
-				for(new i; i < MAX_PLAYERS; i++)
+				foreach(new i: Player)
 				{
 					if(Player[i][PhoneNumber] == strval(inputtext))
 					{

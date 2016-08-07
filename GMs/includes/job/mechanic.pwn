@@ -3,7 +3,7 @@ CMD:fix(playerid, params[])
 	if(Job[Player[playerid][PlayerJob]][JobType] == 2)
 	{
 		if(GetPVarInt(playerid, "MechanicTime") > gettime()) return SendClientMessage(playerid, GREY, "You must wait 60 seconds before using your commands again.");
-		if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+		if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 		if(Player[playerid][MechanicTimer] != 0) return SendClientMessage(playerid, GREY, "You are already using your mechanic skills!");
 
 		new vehicleid = GetClosestVehicle(playerid, 10.0);
@@ -48,7 +48,7 @@ CMD:repair(playerid, params[])
 		{
 			if(!IsPlayerNearPlayer(playerid, id, 8.0)) return SendClientMessage(playerid, GREY, "You are not near that player.");
 			if(GetPVarInt(playerid, "MechanicTime") > gettime()) return SendClientMessage(playerid, GREY, "You must wait 60 seconds before using your commands again.");
-			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(price < 0) return SendClientMessage(playerid, GREY, "The price must be a positive integer!");
 			if(Player[playerid][MechanicTimer] != 0) return SendClientMessage(playerid, GREY, "You are already using your mechanic skills!");
 			if(GetPVarType(playerid, "Offering")) return SendClientMessage(playerid, GREY, "You already have a pending offer. Type /cancel offer to reset it.");
@@ -107,7 +107,7 @@ CMD:respray(playerid, params[])
 		{
 			if(!IsPlayerNearPlayer(playerid, id, 8.0)) return SendClientMessage(playerid, GREY, "You are not near that player.");
 			if(GetPVarInt(playerid, "MechanicTime") > gettime()) return SendClientMessage(playerid, GREY, "You must wait 60 seconds before using your commands again.");
-			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(price < 0) return SendClientMessage(playerid, GREY, "The price must be a positive integer!");
 			if(GetPlayerWeapon(playerid) != 41) return SendClientMessage(playerid, GREY, "You must be holding a spraycan!");
 			if(Player[playerid][MechanicTimer] != 0) return SendClientMessage(playerid, GREY, "You are already using your mechanic skills!");
@@ -163,7 +163,7 @@ CMD:refill(playerid, params[])
 		{
 			if(!IsPlayerNearPlayer(playerid, id, 8.0)) return SendClientMessage(playerid, GREY, "You are not near that player.");
 			if(GetPVarInt(playerid, "MechanicTime") > gettime()) return SendClientMessage(playerid, GREY, "You must wait 60 seconds before using your commands again.");
-			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(price < 0) return SendClientMessage(playerid, GREY, "The price must be a positive integer!");
 			if(Player[playerid][MechanicTimer] != 0) return SendClientMessage(playerid, GREY, "You are already using your mechanic skills!");
 			if(GetPVarType(playerid, "Offering")) return SendClientMessage(playerid, GREY, "You already have a pending offer. Type /cancel offer to reset it.");
@@ -374,8 +374,8 @@ public ColourTimer(playerid, id, vehicleid, colour1, colour2)
 			ChangeVehicleColor(vehicleid, colour1, colour2);
 
 			new slot = GetPlayerVehicleSlot(id, vehicleid);
-			Player[id][CarColour][slot] = colour1;
-			Player[id][CarColour2][slot] = colour2;
+			PlayerVehicle[id][CarColour][slot] = colour1;
+			PlayerVehicle[id][CarColour2][slot] = colour2;
 
 			KillTimer(Player[playerid][MechanicTimer]);
 
@@ -390,6 +390,8 @@ public ColourTimer(playerid, id, vehicleid, colour1, colour2)
             SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
 
             DeletePVar(playerid, "ColourPrice");
+
+            SavePlayerVehicleData(id, slot);
 
             IncreaseJobSkill(playerid, 1, 2);
 		}

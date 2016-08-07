@@ -11,7 +11,7 @@ CMD:guard(playerid, params[])
 		{
 			if(!IsPlayerNearPlayer(playerid, id, 8.0)) return SendClientMessage(playerid, GREY, "You are not near that player.");
 			if(GetPVarInt(playerid, "GuardTime") > gettime()) return SendClientMessage(playerid, GREY, "You must wait 30 seconds before using your job commands again.");
-			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
+			if(IsPlayerInAnyVehicle(playerid) || GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
 			if(price < 0) return SendClientMessage(playerid, GREY, "The price must be a positive integer!");
 			if(GetPVarType(playerid, "Offering")) return SendClientMessage(playerid, GREY, "You already have a pending offer. Type /cancel offer to reset it.");
 

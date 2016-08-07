@@ -1448,7 +1448,7 @@ PreloadAnimLib(playerid, animlib[])
 
 IsAblePedAnimation(playerid)
 {
-    if(GetPVarType(playerid, "Cuffed") || GetPVarType(playerid, "Injured") || GetPVarType(playerid, "Frozen"))
+    if(GetPVarType(playerid, "Cuffed") || GetPVarType(playerid, "Tasered") || GetPVarType(playerid, "Injured") || GetPVarType(playerid, "Frozen"))
     {
    		SendClientMessage(playerid, WHITE, "You can't do that at this time!");
    		return 0;
@@ -1463,7 +1463,7 @@ IsAblePedAnimation(playerid)
 
 IsAbleVehicleAnimation(playerid)
 {
-    if(GetPVarType(playerid, "Cuffed") || GetPVarType(playerid, "Injured") || GetPVarType(playerid, "Frozen")) 
+    if(GetPVarType(playerid, "Cuffed") || GetPVarType(playerid, "Tasered") || GetPVarType(playerid, "Injured") || GetPVarType(playerid, "Frozen")) 
     {
    		SendClientMessage(playerid, WHITE, "You can't do that at this time!");
    		return 0;

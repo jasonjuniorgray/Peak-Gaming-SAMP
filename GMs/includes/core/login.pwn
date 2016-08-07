@@ -13,34 +13,10 @@ OnPlayerLoginForward(playerid)
     SetPlayerSkillLevel(playerid, WEAPONSKILL_MICRO_UZI, 1);
     SetPlayerSkillLevel(playerid, WEAPONSKILL_SAWNOFF_SHOTGUN, 1);
 
-    if(Player[playerid][Interior] > 0) PrepareStream(playerid);
-    else TogglePlayerControllableEx(playerid, TRUE);
-
-    for(new i; i < MAX_PLAYER_VEHICLES; i++)
-    {
-        if(Player[playerid][CarModel][i] != 0)
-        {
-            Player[playerid][CarID][i] = CreateVehicle(Player[playerid][CarModel][i], Player[playerid][CarX][i], Player[playerid][CarY][i], Player[playerid][CarZ][i], Player[playerid][CarA][i], Player[playerid][CarColour][i], Player[playerid][CarColour2][i], -1, 0);
-            switch(i)
-            {
-                case 0: SetVehicleNumberPlate(Player[playerid][CarID][i], Player[playerid][CarPlate1]);
-                case 1: SetVehicleNumberPlate(Player[playerid][CarID][i], Player[playerid][CarPlate2]);
-                case 2: SetVehicleNumberPlate(Player[playerid][CarID][i], Player[playerid][CarPlate3]);
-                case 3: SetVehicleNumberPlate(Player[playerid][CarID][i], Player[playerid][CarPlate4]);
-                case 4: SetVehicleNumberPlate(Player[playerid][CarID][i], Player[playerid][CarPlate5]);
-                default: return 1;
-            }
-
-            if(Player[playerid][CarPaintJob][i] > 0) ChangeVehiclePaintjob(Player[playerid][CarID][i], Player[playerid][CarPaintJob][i] - 1);
-
-            Fuel[Player[playerid][CarID][i]] = Player[playerid][CarFuel][i];
-        }
-    }
-
-    AddPlayerVehicleMods(playerid);
-
     if(Player[playerid][OnDuty] == 0 && Player[playerid][PlayerGroup] >= 0) SetPlayerColor(playerid, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255);
     if(Player[playerid][OnDuty] == 0 && Player[playerid][PlayerGroup] < 0 || Player[playerid][OnDuty]) SetPlayerColor(playerid, WHITE);
+
+    TogglePlayerControllableEx(playerid, TRUE);
 
     if(Player[playerid][Injured] > 0)
     {
