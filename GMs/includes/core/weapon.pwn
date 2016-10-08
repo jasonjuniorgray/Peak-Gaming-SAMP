@@ -9,7 +9,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	if(Player[issuerid][Taser] > 0 && weaponid == 23)
 	{
 		Array[0] = 0;
-		if(GetPVarInt(issuerid, "TaserReload") == 0)
+		if(GetPVarType(issuerid, "TaserReload") == 0)
 		{
 			if(IsPlayerNearPlayer(issuerid, playerid, 10.0))
 			{
@@ -19,11 +19,12 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 				TogglePlayerControllableEx(playerid, FALSE);
 				ClearAnimations(playerid);
 
-				ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.0, 1, 0, 0, 0, 0, 1);
+				ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 1, 1, 1);
 
 				SetPVarInt(playerid, "Tasered", 1);
 				SetPVarInt(issuerid, "TaserReload", 15);
 
+				SetPlayerDrunkLevel(playerid, 99999999);
 				SetTimerEx("TaserTimer", 15000, FALSE, "i", playerid);
 
 				format(Array, sizeof(Array), "* %s fires their taser at %s, stunning them.", GetName(issuerid), GetName(playerid));

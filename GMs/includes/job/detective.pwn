@@ -29,7 +29,7 @@ CMD:trace(playerid, params[])
 				default: { waittime = 25; trackertime = 20000; }
 			}
 
-			if(id == playerid) return SendClientMessage(playerid, WHITE, "You cannot track yourself!");
+			if(id == playerid) return SendClientMessage(playerid, WHITE, "You cannot trace yourself!");
 
 			if(GetPlayerInterior(id) == 0 && GetPlayerVirtualWorld(id) == 0)
 			{
@@ -48,7 +48,7 @@ CMD:trace(playerid, params[])
 				SetPVarInt(playerid, "FindTime", gettime() + waittime);
 				IncreaseJobSkill(playerid, 3, 1);
 			}
-			else return SendClientMessage(playerid, WHITE, "The signal is to weak to track.");
+			else return SendClientMessage(playerid, WHITE, "The signal is to weak to trace.");
 		}
 	}
 	else SendClientMessage(playerid, WHITE, "You are not a detective!");

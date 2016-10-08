@@ -318,6 +318,7 @@ CMD:killcheckpoint(playerid, params[])
 		}
 
 		if(GetPVarType(playerid, "Finding") >= 1) DeletePVar(playerid, "Finding");
+		if(GetPVarType(playerid, "AcceptedPatient") >= 1) DeletePVar(playerid, "AcceptedPatient");
 
 		SendClientMessage(playerid, WHITE, "You have cleared your checkpoint.");
 	}

@@ -96,6 +96,110 @@ CMD:uncuff(playerid, params[])
 	return 1;
 }
 
+CMD:drag(playerid, params[]) // This command can also be used by medics.
+{
+	new id;
+	if(sscanf(params, "u", id) && !GetPVarType(playerid, "Dragging"))
+	{
+	    if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
+	    {
+			SendClientMessage(playerid, WHITE, "SYNTAX: /drag [playerid]");
+		}
+		else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
+	}
+	else
+	{
+	    if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
+	    {
+	    	if(IsPlayerConnectedEx(id))
+	    	{
+	    		if(playerid == id) return SendClientMessage(playerid, WHITE, "You cannot drag yourself!");
+
+	    		if(IsPlayerNearPlayer(playerid, id, 5.0))
+	    		{
+	    			if(!GetPVarInt(id, "Cuffed") && Group[Player[playerid][PlayerGroup]][GroupType] != 3) return SendClientMessage(playerid, WHITE, "This player is not cuffed!");
+	    			if(Player[playerid][Injured] != 2 && Group[Player[playerid][PlayerGroup]][GroupType] == 3) return SendClientMessage(playerid, WHITE, "This player is not injured!");
+	    			else
+	    			{
+	    				Array[0] = 0;
+	    				if(GetPVarType(playerid, "Dragging"))
+	    				{
+	    					SetPVarInt(playerid, "Dragging", SetTimerEx("DragTimer", 1000, TRUE, "ii", playerid, id));
+
+	    					if(Group[Player[playerid][PlayerGroup]][GroupType] != 3) format(Array, sizeof(Array), "* %s grabs ahold of %s and begins to move them.", GetName(playerid), GetName(id));
+	    					else format(Array, sizeof(Array), "* %s places %s on a stretcher and begins to move them.", GetName(playerid), GetName(id));
+	    					SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+	    					format(Array, sizeof(Array), "You have started dragging %s. Type /drag again to stop.", GetName(playerid), GetName(id));
+	    				}
+	    				else
+	    				{
+	    					KillTimer(GetPVarInt(playerid, "Dragging"));
+
+	    					format(Array, sizeof(Array), "* %s has stopped moving %s.", GetName(playerid), GetName(id));
+	    					SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+	    				}
+	    			}
+	    		}
+	    		else return SendClientMessage(playerid, WHITE, "You are not near that player!");
+	    	}
+	    	else return SendClientMessage(playerid, WHITE, "That player is not connected!");
+	    }
+	    else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
+	}
+	return 1;
+}
+
+CMD:detain(playerid, params[]) // This command can also be used by medics.
+{
+	new id, seat;
+	if(sscanf(params, "ud", id, seat))
+	{
+	    if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
+	    {
+			SendClientMessage(playerid, WHITE, "SYNTAX: /detain [playerid] [seat (1-3)]");
+		}
+		else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
+	}
+	else
+	{
+	    if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
+	    {
+	    	if(IsPlayerConnectedEx(id))
+	    	{
+	    		if(playerid == id) return SendClientMessage(playerid, WHITE, "You cannot detain yourself!");
+
+	    		if(IsPlayerNearPlayer(playerid, id, 5.0))
+	    		{
+	    			new vehicle = GetClosestVehicle(playerid, 5.0), engine, lights, alarm, doors, bonnet, boot, objective;
+	    			if(vehicle == INVALID_VEHICLE_ID) return SendClientMessage(playerid, WHITE, "You are not near a vehicle!");
+
+	    			GetVehicleParamsEx(vehicle, engine, lights, alarm, doors, bonnet, boot, objective);
+					if(doors == VEHICLE_PARAMS_UNSET || doors == VEHICLE_PARAMS_OFF)
+					{
+		    			if(!GetPVarInt(id, "Cuffed") && Group[Player[playerid][PlayerGroup]][GroupType] != 3) return SendClientMessage(playerid, WHITE, "This player is not cuffed!");
+	    				if(Player[playerid][Injured] != 2 && Group[Player[playerid][PlayerGroup]][GroupType] == 3) return SendClientMessage(playerid, WHITE, "This player is not injured!");
+		    			else
+		    			{
+		    				if(seat < 1 || seat > 3 || CheckVehicleSeats(vehicle, seat)) return SendClientMessage(playerid, WHITE, "You entered an invalid seat number.");
+		    				if(IsPlayerInAnyVehicle(id)) return SendClientMessage(playerid, WHITE, "This player is already in a vehicle.");
+		    				Array[0] = 0;
+		    				PutPlayerInVehicle(playerid, vehicle, seat);
+
+		    				format(Array, sizeof(Array), "* %s has placed %s inside the vehicle.", GetName(playerid), GetName(id));
+		    				SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+		    			}
+		    		}
+		    		else return SendClientMessage(playerid, WHITE, "This vehicle is locked!");
+	    		}
+	    		else return SendClientMessage(playerid, WHITE, "You are not near that player!");
+	    	}
+	    	else return SendClientMessage(playerid, WHITE, "That player is not connected!");
+	    }
+	    else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
+	}
+	return 1;
+}
+
 CMD:arrest(playerid, params[])
 {
 	if(Player[playerid][PlayerGroup] > -1)
@@ -222,14 +326,14 @@ CMD:find(playerid, params[])
 			}
 			else 
 			{
-				switch(GetPVarInt(playerid, "Finding"))
+				switch(GetPVarType(playerid, "Finding"))
 				{
 					case 0:
 					{
 						if(!IsPlayerConnectedEx(id)) return SendClientMessage(playerid, WHITE, "That player is not connected!");
 						//if(Player[playerid][PhoneToggled] == 1) return SendClientMessage(playerid, WHITE, "That player's phone is off!");
 						if(GetPVarInt(playerid, "Cuffed") >= 1 || GetPVarType(playerid, "Tasered")) return SendClientMessage(playerid, GREY, "You cannot do this right now!");
-						//if(id == playerid) return SendClientMessage(playerid, WHITE, "You cannot track yourself!");
+						if(id == playerid) return SendClientMessage(playerid, WHITE, "You cannot trace yourself!");
 
 						if(GetPlayerInterior(id) == 0 && GetPlayerVirtualWorld(id) == 0)
 						{
@@ -238,21 +342,23 @@ CMD:find(playerid, params[])
 							new Float:Pos[3];
 							GetPlayerPos(id, Pos[0], Pos[1], Pos[2]);
 
-							SetPlayerCheckpointEx(playerid, Pos[0], Pos[1], Pos[2], 3.0);
+							SetPlayerCheckpointEx(playerid, Pos[0], Pos[1], Pos[2], 4.0);
 
 							new location[50];
 							GetPlayer3DZone(id, location, 50);
 
-							format(Array, sizeof(Array), "You have successfully began to trace %s, they've been last seen in %s.", GetName(id), location);
-							SendClientMessage(playerid, WHITE, Array);
+							SendClientMessage(playerid, WHITE, "You've began a trace.");
+							format(Array, sizeof(Array), "%s has last been seen in: %s.", GetName(id), location);
+							SendClientMessage(playerid, GREY, Array);
 
-							SetPVarInt(playerid, "Finding", SetTimerEx("PoliceFind", 1000, TRUE, "ii", playerid, id)); 
+							SetPVarInt(playerid, "Finding", SetTimerEx("FindUpdate", 1000, TRUE, "ii", playerid, id)); 
 						}
-						else return SendClientMessage(playerid, WHITE, "The signal is to weak to track.");
+						else return SendClientMessage(playerid, WHITE, "The signal is to weak to trace.");
 					}
 					default:
 					{
-						SendClientMessage(playerid, WHITE, "You have canceled the track.");
+						SendClientMessage(playerid, WHITE, "You have canceled the trace.");
+						KillTimer(GetPVarInt(playerid, "Finding"));
 						DeletePVar(playerid, "Finding");
 						DisablePlayerCheckpointEx(playerid);
 					}
@@ -262,16 +368,6 @@ CMD:find(playerid, params[])
 		else return SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
 	}
 	else SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
-	return 1;
-}
-
-forward PoliceFind(playerid, id);
-public PoliceFind(playerid, id) 
-{
-	new Float:Pos[3];
-	GetPlayerPos(id, Pos[0], Pos[1], Pos[2]);
-
-	SetPlayerCheckpointEx(playerid, Pos[0], Pos[1], Pos[2], 3.0);
 	return 1;
 }
 
@@ -289,7 +385,7 @@ CMD:taser(playerid, params[])
 				case 0: // Holstered.
 				{
 					ResetPlayerWeapons(playerid);
-					GivePlayerWeapon(playerid, 23, 9999);
+					GivePlayerWeapon(playerid, 23, 99999);
 
 					format(Array, sizeof(Array), "* %s unholsters their taser.", GetName(playerid));
 	    			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);

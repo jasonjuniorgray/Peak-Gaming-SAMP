@@ -18,9 +18,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             GetPlayerIp(playerid, RegisterIP, sizeof(RegisterIP));
 
             WP_Hash(Player[playerid][Password], 129, inputtext);
+            format(Player[playerid][Username], MAX_PLAYER_NAME, "%s", GetNameWithUnderscore(playerid));
+
             mysql_format(SQL, Query, sizeof(Query), "INSERT INTO `accounts` (`Username`, `Password`, `RegisterIP`, `LastIP`) VALUES ('%e', '%e', '%e', '%e')", GetNameWithUnderscore(playerid), Player[playerid][Password], RegisterIP, RegisterIP);
             mysql_tquery(SQL, Query, "OnPlayerRegisterAccount", "i", playerid);
-
         }
 	    case DIALOG_LOGIN:
 	    {

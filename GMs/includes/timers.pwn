@@ -272,11 +272,39 @@ public TaserTimer(playerid)
 	{
 		Array[0] = 0;
 		DeletePVar(playerid, "Tasered");
+		TogglePlayerControllableEx(playerid, TRUE);
 		ClearAnimations(playerid);
-		ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 1, 1, 1);
+		ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 0, 1, 1);
 
-		format(Array, sizeof(Array), "* %s recovers from the taser, standing up.", GetName(playerid));
+		format(Array, sizeof(Array), "* %s recovers from the taser, standing up on their feet.", GetName(playerid));
 		SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
 	}
+	return 1;
+}
+
+forward FindUpdate(playerid, id);
+public FindUpdate(playerid, id) 
+{
+	if(GetPVarType(playerid, "AcceptedPatient") > 0 && Player[playerid][Injured] != 2)
+	{
+		SendClientMessage(playerid, WHITE, "The patient has died and was sent to the hospital.");
+		KillTimer(GetPVarInt(playerid, "AcceptedPatient"));
+		DeletePVar(playerid, "AcceptedPatient");
+		DisablePlayerCheckpointEx(playerid);
+	}
+	new Float:Pos[3];
+	GetPlayerPos(id, Pos[0], Pos[1], Pos[2]);
+
+	SetPlayerCheckpoint(playerid, Pos[0], Pos[1], Pos[2], 4.0);
+	return 1;
+}
+
+forward DragTimer(playerid, id);
+public DragTimer(playerid, id) 
+{
+	new Float:Pos[3];
+	GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
+
+	SetPlayerPos(id, Pos[0], Pos[1] + 0.8, Pos[2]);
 	return 1;
 }

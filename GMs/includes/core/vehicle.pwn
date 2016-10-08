@@ -109,6 +109,7 @@ CMD:park(playerid, params[])
                 		default: return 1;
             		}
             		SetVehicleToRespawn(PlayerVehicle[playerid][CarID][slot]);
+            		RemovePlayerFromVehicle(playerid);
 					PutPlayerInVehicle(playerid, PlayerVehicle[playerid][CarID][slot], 0);
 					SetVehicleVirtualWorld(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarVW][slot]);
 					LinkVehicleToInterior(PlayerVehicle[playerid][CarID][slot], PlayerVehicle[playerid][CarInt][slot]);
@@ -142,6 +143,7 @@ CMD:park(playerid, params[])
 						Vehicle[id][VehID] = CreateVehicle(Vehicle[id][Model], Vehicle[id][VehiclePos][0], Vehicle[id][VehiclePos][1], Vehicle[id][VehiclePos][2], Vehicle[id][VehiclePos][3], Vehicle[id][VehicleColour][0], Vehicle[id][VehicleColour][1], -1, Vehicle[id][Siren]);
 						SetVehicleNumberPlate(vehicleid, Vehicle[id][Plate]);
 						SetVehicleToRespawn(Vehicle[id][VehID]);
+						RemovePlayerFromVehicle(playerid);
 						PutPlayerInVehicle(playerid, Vehicle[id][VehID], 0);
 						SetVehicleVirtualWorld(Vehicle[id][VehID], Vehicle[id][VehicleVW]);
 						LinkVehicleToInterior(Vehicle[id][VehID], Vehicle[id][VehicleInt]);
@@ -678,7 +680,6 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				PlayerVehicle[playerid][CarFuel][slot] = 0;
 
 				DestroyVehicle(PlayerVehicle[playerid][CarID][slot]);
-				PutPlayerInVehicle(playerid, PlayerVehicle[playerid][CarID][slot], 0);
 				SendClientMessage(playerid, WHITE, "You have deleted your vehicle.");
 
 				GetPlayerCarMods(playerid);
@@ -698,7 +699,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	return 1;
 }
 
-/*CheckVehicleSeats(vehicle, seat)
+CheckVehicleSeats(vehicle, seat)
 {
 	switch(GetVehicleModel(vehicle)) 
 	{
@@ -708,7 +709,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	return 1;
 }
 
-IsABoat(vehicle) 
+/*IsABoat(vehicle) 
 {
 	switch(GetVehicleModel(vehicle)) 
 	{

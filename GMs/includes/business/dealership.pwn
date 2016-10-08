@@ -242,6 +242,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     SetVehicleVirtualWorld(PlayerVehicle[playerid][CarID][slot], 0);
                     LinkVehicleToInterior(PlayerVehicle[playerid][CarID][slot], 0);
 
+                    RemovePlayerFromVehicle(playerid);
                     PutPlayerInVehicle(playerid, PlayerVehicle[playerid][CarID][slot], 0);
 
                     GiveMoneyEx(playerid, -GetPVarInt(playerid, "DealershipPrice"));

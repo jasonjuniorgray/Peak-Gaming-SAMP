@@ -74,7 +74,7 @@ AdvanceTutorial(playerid, stage)
 	switch(stage)
 	{
 	    case 1:
-	    {	    	
+	    {
 	        SetSpawnInfo(playerid, 0, 59, Spawn[0], Spawn[1], Spawn[2], Spawn[3], 0, 0, 0, 0, 0, 0);
 	        TogglePlayerSpectating(playerid, FALSE);
 	        TogglePlayerControllableEx(playerid, TRUE);

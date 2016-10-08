@@ -2446,6 +2446,7 @@ CMD:entercar(playerid, params[])
     else if(Player[playerid][AdminLevel] >= 1)
     {
     	if(id == INVALID_VEHICLE_ID) return SendClientMessage(playerid, WHITE, "That is not a valid vehicle ID.");
+    	if(IsPlayerInAnyVehicle(playerid)) RemovePlayerFromVehicle(playerid);
     	PutPlayerInVehicle(playerid, id, seat);
     }
     else SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
@@ -2716,8 +2717,9 @@ CMD:jetpack(playerid, params[])
     	if(Player[playerid][AdminLevel] >= 5)
     	{
         	new id;
-        	if(sscanf(params, "u(D)", id, playerid)) 
+        	if(sscanf(params, "u(-1)", id)) 
         	{
+        		if(id == -1) id = playerid;
         		SetPlayerSpecialAction(id, SPECIAL_ACTION_USEJETPACK); 
 
             	format(Array, sizeof(Array), "You have given %s a jetpack!", GetName(id));
