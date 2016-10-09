@@ -240,9 +240,9 @@ public InitiatePoints()
 SavePoint(id)
 {
 	
-	format(Array, sizeof(Array), "UPDATE `points` SET \
-		`pointname` = '%s', `type` = '%d', `posx` = '%f', `posy` = '%f', `posz` = '%f', `pos2x` = '%f', `pos2y` = '%f', `pos2z` = '%f', `vw` = '%d', `vw2` = '%d', `capturable` = '%d', \
-		`captureplayername` = '%s', `playernamecapping` = '%s', `cappergroup` = '%d', `cappergroupowned` = '%d', `inactive` = '%d', `materials` = '%d', `timestamp1` = '%d', `timestamp2` = '%d' WHERE `id` = %d",
+	mysql_format(SQL, Array, sizeof(Array), "UPDATE `points` SET \
+		`pointname` = '%e', `type` = '%d', `posx` = '%f', `posy` = '%f', `posz` = '%f', `pos2x` = '%f', `pos2y` = '%f', `pos2z` = '%f', `vw` = '%d', `vw2` = '%d', `capturable` = '%d', \
+		`captureplayername` = '%e', `playernamecapping` = '%e', `cappergroup` = '%d', `cappergroupowned` = '%d', `inactive` = '%d', `materials` = '%d', `timestamp1` = '%d', `timestamp2` = '%d' WHERE `id` = %d",
 		Point[id][poName], Point[id][poType],	Point[id][poPos][0], Point[id][poPos][1], Point[id][poPos][2], Point[id][poPos2][0], Point[id][poPos2][1], Point[id][poPos2][2], Point[id][pointVW], Point[id][pointVW2],
 		Point[id][poCapturable], Point[id][CapturePlayerName], Point[id][PlayerNameCapping], Point[id][poCapperGroup], Point[id][poCapperGroupOwned], Point[id][poInactive], Point[id][poMaterials], Point[id][poTimestamp1], 
 		Point[id][poTimestamp2], id+1

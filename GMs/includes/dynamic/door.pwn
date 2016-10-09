@@ -291,8 +291,8 @@ SaveDoor(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `doors` SET \
-        `Name` = '%s', `Owner` = '%s', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `IntX` = '%f', `IntY` = '%f', `IntZ` = '%f', `IntA` = %f, \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `doors` SET \
+        `Name` = '%e', `Owner` = '%e', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `IntX` = '%f', `IntY` = '%f', `IntZ` = '%f', `IntA` = %f, \
      	`VW` = '%d', `IntVW` = '%d', `Interior` = '%d', `IntInterior` = '%d', `Group` = '%d', `Restricted` = '%d', `Vehicleable` = '%d', `Locked` = '%d', `Pickup` = '%d', \
      	`CustomExterior` = '%d', `CustomInterior` = '%d' WHERE `id` = '%d'",
      	Door[id][DoorName], Door[id][DoorOwner], Door[id][DoorPos][0], Door[id][DoorPos][1], Door[id][DoorPos][2], Door[id][DoorPos][3], Door[id][DoorPos][4], Door[id][DoorPos][5],

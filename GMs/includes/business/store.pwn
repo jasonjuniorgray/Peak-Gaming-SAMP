@@ -101,7 +101,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 PhoneNumberCheck(playerid, number)
 {
 	Array[0] = 0;
-	format(Array, sizeof(Array), "SELECT * FROM `accounts` WHERE `Phone` = '%d'", number);
+	mysql_format(SQL, Array, sizeof(Array), "SELECT * FROM `accounts` WHERE `Phone` = '%d'", number);
 	mysql_tquery(SQL, Array, "OnPhoneNumberCheck", "ii", playerid, number);
 }
 

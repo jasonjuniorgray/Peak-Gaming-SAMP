@@ -148,8 +148,8 @@ SaveJob(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `jobs` SET \
-        `Name` ='%s', `Type` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f' WHERE `id` = '%d'",
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `jobs` SET \
+        `Name` ='%e', `Type` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f' WHERE `id` = '%d'",
         Job[id][JobName], Job[id][JobType], Job[id][JobPos][0], Job[id][JobPos][1], Job[id][JobPos][2], id + 1
     );
     mysql_tquery(SQL, Array, "", "");

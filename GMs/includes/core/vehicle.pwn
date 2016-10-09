@@ -684,7 +684,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 				GetPlayerCarMods(playerid);
 
-				format(Array, sizeof(Array), "DELETE FROM `playervehicles` WHERE `id` = '%d'", PlayerVehicle[playerid][CarDatabaseID][slot]);
+				mysql_format(SQL, Array, sizeof(Array), "DELETE FROM `playervehicles` WHERE `id` = '%d'", PlayerVehicle[playerid][CarDatabaseID][slot]);
 				mysql_tquery(SQL, Array, "", "");
 				
 				SetPVarInt(playerid, "CarModification", gettime()+60);

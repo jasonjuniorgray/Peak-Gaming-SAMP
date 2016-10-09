@@ -127,7 +127,7 @@ SaveArrestPoint(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `arrestpoints` SET \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `arrestpoints` SET \
         `X` = '%f', `Y` = '%f', `Z` = '%f', `VW` = '%d', `Int` = '%d', `Group` = '%d' WHERE `id` = '%d'",
         Arrest[id][ArrestPos][0], Arrest[id][ArrestPos][1], Arrest[id][ArrestPos][2], Arrest[id][ArrestVW], Arrest[id][ArrestInt], Arrest[id][ArrestGroup], id + 1
     );

@@ -16,11 +16,24 @@ public OnPlayerConnect(playerid)
 {
 	SetPlayerColor(playerid, GREY);
     MySQLConnectPlayer(playerid);
+
+    // Only add 'resets' for those that are 'allowed' to start at 0. i.e, group ranks are 0-9.
+    Player[playerid][PlayerGroup] = -1;
+    Player[playerid][GroupRank] = -1;
+    Player[playerid][GroupDiv] = -1;
+    Player[playerid][InsideBusiness] = -1;
+    Player[playerid][Speedo] = 1;
+    Player[playerid][PlayerJob] = -1;
 	return 1;
 }
 
 public OnPlayerDisconnect(playerid, reason)
 {
+	// Below resets their enumerator data only.
+	new clear[PlayerData], clear2[PlayerVehicleData];
+	Player[playerid] = clear;
+	PlayerVehicle[playerid] = clear2;
+
 	Array[0] = 0;
 	switch(reason)
 	{

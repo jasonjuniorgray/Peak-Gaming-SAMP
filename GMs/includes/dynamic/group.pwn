@@ -345,19 +345,19 @@ SaveGroup(id)
 {
     new Query[2000];
 
-    format(Query, sizeof Query, "UPDATE `groups` SET \
-        `GroupType` = %i, `GroupName` = '%s', `MOTD` = '%s'",
+    mysql_format(SQL, Query, sizeof Query, "UPDATE `groups` SET \
+        `GroupType` = %i, `GroupName` = '%e', `MOTD` = '%e'",
         Group[id][GroupType], Group[id][GroupName], Group[id][GroupMOTD]
     );
 
-    for(new i; i < MAX_GROUP_RANKS; i++) format(Query, sizeof Query, "%s, `Rank%i` = '%s'", Query, i, GroupRankNames[id][i]);
-    for(new i; i < MAX_GROUP_RANKS; i++) format(Query, sizeof Query, "%s, `RankPay%i` = '%d'", Query, i, Group[id][GroupPaycheque][i]);
-    for(new i; i < MAX_GROUP_DIVS; i++) format(Query, sizeof Query, "%s, `Div%i` = '%s'", Query, i, GroupDivisionNames[id][i]);
+    for(new i; i < MAX_GROUP_RANKS; i++) mysql_format(SQL, Query, sizeof Query, "%s, `Rank%i` = '%e'", Query, i, GroupRankNames[id][i]);
+    for(new i; i < MAX_GROUP_RANKS; i++) mysql_format(SQL, Query, sizeof Query, "%s, `RankPay%i` = '%d'", Query, i, Group[id][GroupPaycheque][i]);
+    for(new i; i < MAX_GROUP_DIVS; i++) mysql_format(SQL, Query, sizeof Query, "%s, `Div%i` = '%e'", Query, i, GroupDivisionNames[id][i]);
 
-    format(Query, sizeof Query, "%s, `Colour` = %i, `SafeX` = '%f', `SafeY` = '%f', `SafeZ` = '%f', Money = '%d'", Query, 
+    mysql_format(SQL, Query, sizeof Query, "%s, `Colour` = %i, `SafeX` = '%f', `SafeY` = '%f', `SafeZ` = '%f', Money = '%d'", Query, 
         Group[id][GroupColour], Group[id][GroupSafePos][0], Group[id][GroupSafePos][1], Group[id][GroupSafePos][2], Group[id][GroupMoney]);
 
-    format(Query, sizeof Query, "%s WHERE `id` = %d", Query, id + 1);
+    mysql_format(SQL, Query, sizeof Query, "%s WHERE `id` = %d", Query, id + 1);
     mysql_tquery(SQL, Query, "", "");
     return 1;
 }

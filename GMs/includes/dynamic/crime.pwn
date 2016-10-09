@@ -70,8 +70,8 @@ SaveCrime(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `crimes` SET \
-        `Name` = '%s' WHERE `id` = '%d'",
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `crimes` SET \
+        `Name` = '%e' WHERE `id` = '%d'",
         Crime[id][CrimeName], id + 1
     );
     mysql_tquery(SQL, Array, "", "");

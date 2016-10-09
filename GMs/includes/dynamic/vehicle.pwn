@@ -336,9 +336,9 @@ SaveVehicle(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `vehicles` SET \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `vehicles` SET \
         `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `VW` = '%d', `Int` = '%d', `Colour1` = '%d', `Colour2` = '%d', `Fuel` = '%d', `Group` = '%d', `Job` = '%d', `Siren` = '%d', `MaxHealth` = '%f', \
-        `RespawnTime` = '%d', `Plate` = '%s' WHERE `id` = '%d'",
+        `RespawnTime` = '%d', `Plate` = '%e' WHERE `id` = '%d'",
         Vehicle[id][Model], Vehicle[id][VehiclePos][0], Vehicle[id][VehiclePos][1], Vehicle[id][VehiclePos][2], Vehicle[id][VehiclePos][3], Vehicle[id][VehicleVW], Vehicle[id][VehicleInt], 
         Vehicle[id][VehicleColour][0], Vehicle[id][VehicleColour][1], Fuel[Vehicle[id][VehID]], Vehicle[id][VehicleGroup], Vehicle[id][VehicleJob], Vehicle[id][Siren], Vehicle[id][MaxHealth], 
         Vehicle[id][RespawnTime], Vehicle[id][Plate], Vehicle[id][VehicleDatabaseID]

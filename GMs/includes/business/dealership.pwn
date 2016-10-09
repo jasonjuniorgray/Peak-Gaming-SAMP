@@ -250,7 +250,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                     Fuel[PlayerVehicle[playerid][CarID][slot]] = 100;
 
-                    format(Array, sizeof(Array), "INSERT INTO `playervehicles` (`player`) VALUES ('%d')", Player[playerid][DatabaseID]);
+                    mysql_format(SQL, Array, sizeof(Array), "INSERT INTO `playervehicles` (`player`) VALUES ('%d')", Player[playerid][DatabaseID]);
                     mysql_tquery(SQL, Array, "OnPlayerPurchaseVehicle", "ii", playerid, slot);                    
                 }
                 else 
@@ -324,7 +324,7 @@ SaveDealershipVehicle(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `dealershipvehicles` SET \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `dealershipvehicles` SET \
         `Model` = '%d', `Biz` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `VW` = '%d', `Int` = '%d', `Price` = '%d' WHERE `id` = '%d'",
         Dealership[id][DealerModel], Dealership[id][DealerBiz], Dealership[id][DealerVehPos][0], Dealership[id][DealerVehPos][1], Dealership[id][DealerVehPos][2], Dealership[id][DealerVehPos][3], Dealership[id][DealerVehVW], Dealership[id][DealerVehInt], Dealership[id][DealershipPrice], Dealership[id][DealerDatabaseID]
     );

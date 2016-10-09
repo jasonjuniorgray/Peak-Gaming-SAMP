@@ -653,7 +653,7 @@ Log(type, string[], group = -1)
 			if(group == -1) return 1;
 			new Query[500];
 
-			format(Query, sizeof(Query), "INSERT INTO `grouplog`(`timestamp`, `group`, `log`) VALUES (NOW(), %d, '%s')", group, string);
+			mysql_format(SQL, Query, sizeof(Query), "INSERT INTO `grouplog`(`timestamp`, `group`, `log`) VALUES (NOW(), %d, '%s')", group, string);
 			mysql_tquery(SQL, Query, "", "");
 		}
 		case 17: // Server Edit Log

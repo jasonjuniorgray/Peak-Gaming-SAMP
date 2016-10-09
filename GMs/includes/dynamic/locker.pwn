@@ -125,7 +125,7 @@ SaveLocker(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `lockers` SET \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `lockers` SET \
         `X` = '%f', `Y` = '%f', `Z` = '%f', `VW` = '%d', `Int` = '%d', `Group` = '%d' WHERE `id` = '%d'",
         Locker[id][LockerPos][0], Locker[id][LockerPos][1], Locker[id][LockerPos][2], Locker[id][LockerVW], Locker[id][LockerInt], Locker[id][LockerGroup], id + 1
     );

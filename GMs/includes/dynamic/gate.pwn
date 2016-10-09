@@ -439,9 +439,9 @@ SaveGate(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `gates` SET \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `gates` SET \
         `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `RX` = %f, `RY` = '%f', `RZ` = '%f', `MX` = '%f', `MY` = %f, `MZ` = %f, `MRX` = %f, `MRY` = %f, `MRZ` = %f, \
-     	`Speed` = '%f', `Range` = '%f', `VW` = '%d', `Interior` = '%d', `Owner` = '%s', `Password` = '%s', `Group` = '%d', `Rank` = '%d', `F` = '%d' WHERE `id` = '%d'",
+     	`Speed` = '%f', `Range` = '%f', `VW` = '%d', `Interior` = '%d', `Owner` = '%e', `Password` = '%e', `Group` = '%d', `Rank` = '%d', `F` = '%d' WHERE `id` = '%d'",
         Gate[id][GateModel], Gate[id][GatePos][0], Gate[id][GatePos][1], Gate[id][GatePos][2], Gate[id][GateRot][0], Gate[id][GateRot][1], Gate[id][GateRot][2], Gate[id][GateMove][0], Gate[id][GateMove][1], Gate[id][GateMove][2],
         Gate[id][GateMoveRot][0], Gate[id][GateMoveRot][1], Gate[id][GateMoveRot][2], Gate[id][GateSpeed], Gate[id][GateRange], Gate[id][GateVW], Gate[id][GateInt], Gate[id][GateOwner], Gate[id][GatePass], Gate[id][GateGroup], Gate[id][GateRank], Gate[id][UseF], id + 1
     );

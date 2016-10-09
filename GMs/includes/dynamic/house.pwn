@@ -268,8 +268,8 @@ SaveHouse(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `houses` SET \
-        `Owned` = '%d', `Owner` = '%s', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `IntX` = '%f', `IntY` = '%f', `IntZ` = '%f', `IntA` = %f, \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `houses` SET \
+        `Owned` = '%d', `Owner` = '%e', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `IntX` = '%f', `IntY` = '%f', `IntZ` = '%f', `IntA` = %f, \
      	`VW` = '%d', `IntVW` = '%d', `Interior` = '%d', `IntInterior` = '%d', `Price` = '%d', `Locked` = '%d', `CustomExterior` = '%d', `CustomInterior` = '%d' WHERE `id` = '%d'",
         House[id][Owned], House[id][Owner], House[id][HousePos][0], House[id][HousePos][1], House[id][HousePos][2], House[id][HousePos][3], House[id][HousePos][4], House[id][HousePos][5],
         House[id][HousePos][6], House[id][HousePos][7], House[id][HouseVW][0], House[id][HouseVW][1], House[id][HouseInt][0], House[id][HouseInt][1], House[id][Price], House[id][Locked], 

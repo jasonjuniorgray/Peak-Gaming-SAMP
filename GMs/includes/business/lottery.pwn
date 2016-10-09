@@ -107,7 +107,7 @@ GetLotteryWinners(number)
 LotteryCheck(number, winners)
 {
 	Array[0] = 0;
-	format(Array, sizeof(Array), "SELECT * FROM `accounts` WHERE `LotteryNumber` = '%d'", number);
+	mysql_format(SQL, Array, sizeof(Array), "SELECT * FROM `accounts` WHERE `LotteryNumber` = '%d'", number);
 	mysql_tquery(SQL, Array, "OnLotteryCheck", "ii", number, winners);
 }
 
@@ -122,7 +122,7 @@ public OnLotteryCheck(number, winners)
 
 	if(rows)
 	{
-		format(Array, sizeof(Array), "UPDATE `accounts` SET `Money` = `Money` + %d, `LotteryNumber` = -1 WHERE `LotteryNumber` = %d", realwin, number); // Set to -1 so the player can be congratulated upon their next login.
+		mysql_format(SQL, Array, sizeof(Array), "UPDATE `accounts` SET `Money` = `Money` + %d, `LotteryNumber` = -1 WHERE `LotteryNumber` = %d", realwin, number); // Set to -1 so the player can be congratulated upon their next login.
 		mysql_tquery(SQL, Array, "", "");
 	}
 	foreach(new i: Player)

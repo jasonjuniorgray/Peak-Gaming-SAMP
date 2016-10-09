@@ -421,8 +421,8 @@ SaveBusiness(id)
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `businesses` SET \
-        `Name` = '%s', `Owned` = '%d', `Owner` = '%s', `Type` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `IntX` = '%f', `IntY` = '%f', `IntZ` = '%f', `IntA` = %f, \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `businesses` SET \
+        `Name` = '%e', `Owned` = '%d', `Owner` = '%e', `Type` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = %f, `IntX` = '%f', `IntY` = '%f', `IntZ` = '%f', `IntA` = %f, \
      	`VW` = '%d', `IntVW` = '%d', `Interior` = '%d', `IntInterior` = '%d', `Price` = '%d', `Locked` = '%d', `Stock` = '%d', `CarX` = %f, `CarY` = %f, `CarZ` = %f, `CarA` = %f, \
      	`FuelX` = '%f', `FuelY` = '%f', `FuelZ` = '%f'",
         Business[id][BizName], Business[id][BizOwned], Business[id][BizOwner], Business[id][BizType], Business[id][BizPos][0], Business[id][BizPos][1], Business[id][BizPos][2], Business[id][BizPos][3], Business[id][BizPos][4], Business[id][BizPos][5],
@@ -434,7 +434,7 @@ SaveBusiness(id)
     for(new i; i < MAX_BUSINESS_ITEMS_FOOD; i++) format(Array, sizeof(Array), "%s, `PriceFood%d` = '%d'", Array, i, Business[id][FoodItemPrice][i]);
     for(new i; i < MAX_BUSINESS_ITEMS_GYM; i++) format(Array, sizeof(Array), "%s, `PriceGym%d` = '%d'", Array, i, Business[id][GymItemPrice][i]);
 
-    format(Array, sizeof(Array), "%s, `SkinPrice` = '%d', `FuelPrice` = '%d', `CustomExterior` = '%d', `CustomInterior` = '%d' WHERE `id` = '%d'", 
+    mysql_format(SQL, Array, sizeof(Array), "%s, `SkinPrice` = '%d', `FuelPrice` = '%d', `CustomExterior` = '%d', `CustomInterior` = '%d' WHERE `id` = '%d'", 
     	Array, Business[id][SkinPrice], Business[id][FuelPrice], Business[id][BizCustom][0], Business[id][BizCustom][1], id + 1);
 
     mysql_tquery(SQL, Array, "", "");

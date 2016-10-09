@@ -573,7 +573,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				case 1:
 				{
 					Array[0] = 0;
-					format(Array, 256, "SELECT * FROM `issuedcrimes` WHERE `player` = '%d'", Player[GetPVarInt(playerid, "CivilianInformation")][DatabaseID]);
+					mysql_format(SQL, Array, 256, "SELECT * FROM `issuedcrimes` WHERE `player` = '%d'", Player[GetPVarInt(playerid, "CivilianInformation")][DatabaseID]);
 					mysql_tquery(SQL, Array, "OnCrimeLookup", "ii", playerid, GetPVarInt(playerid, "CivilianInformation")); 
 				}
 				case 2:
@@ -654,7 +654,7 @@ public OnCrimeLookup(playerid, id)
 AddCrime(playerid, issuer, crime[], group)
 {
 	new Query[550];
-	format(Query, sizeof(Query), "INSERT INTO `issuedcrimes` (`player`, `issuer`, `crime`, `group`, `active`) VALUES ('%d', '%s', '%s', '%s', '1')", Player[playerid][DatabaseID], GetName(issuer), crime, Group[group][GroupName]);
+	mysql_format(SQL, Query, sizeof(Query), "INSERT INTO `issuedcrimes` (`player`, `issuer`, `crime`, `group`, `active`) VALUES ('%d', '%e', '%e', '%e', '1')", Player[playerid][DatabaseID], GetName(issuer), crime, Group[group][GroupName]);
 	mysql_tquery(SQL, Query, "", "");
 	return 1;
 }
@@ -662,7 +662,7 @@ AddCrime(playerid, issuer, crime[], group)
 DisableCrimes(playerid)
 {
 	Array[0] = 0;
-	format(Array, sizeof(Array), "UPDATE `issuedcrimes` SET `active` = '0' WHERE `player` = '%d'", Player[playerid][DatabaseID]);
+	mysql_format(SQL, Array, sizeof(Array), "UPDATE `issuedcrimes` SET `active` = '0' WHERE `player` = '%d'", Player[playerid][DatabaseID]);
 	mysql_tquery(SQL, Array, "", "");
 	return 1;
 }

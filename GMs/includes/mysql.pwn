@@ -262,15 +262,7 @@ public OnPlayerRegisterAccount(playerid)
 {
 	Player[playerid][DatabaseID] = cache_insert_id();
     printf("[SQL] New account registered. Database ID: [%d]", cache_insert_id());
-
-    // Only add 'resets' for those that are 'allowed' to start at 0. i.e, group ranks are 0-9.
-    Player[playerid][PlayerGroup] = -1;
-    Player[playerid][GroupRank] = -1;
-    Player[playerid][GroupDiv] = -1;
-    Player[playerid][InsideBusiness] = -1;
-    Player[playerid][Speedo] = 1;
-    Player[playerid][PlayerJob] = -1;
-
+    
     SetPlayerColor(playerid, WHITE); // Grey on login, white on spawn.
 
     AdvanceTutorial(playerid, 1);
@@ -317,7 +309,7 @@ SavePlayerData(playerid, type)
     			GetPlayerArmour(playerid, pArmour);	
     			GetPlayerIp(playerid, pIP, sizeof(pIP));
 
-    			format(Query, sizeof(Query), "UPDATE `accounts` SET ");
+    			mysql_format(SQL, Query, sizeof(Query), "UPDATE `accounts` SET ");
 
     			SavePlayerString(Query, Player[playerid][DatabaseID], "Username", Player[playerid][Username]);
     			SavePlayerString(Query, Player[playerid][DatabaseID], "LastIP", pIP);
@@ -398,7 +390,7 @@ SavePlayerVehicleData(playerid, vehicle = -1)
 	{
 		if(i == vehicle || i == -1)
 		{
-			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `Fuel` = '%d', \
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `Fuel` = '%d', \
 				`Mod0` = '%d', `Mod1` = '%d', `Mod2` = '%d', `Mod3` = '%d', `Mod4` = '%d', `Mod5` = '%d', `Mod6` = '%d', `Mod7` = '%d', `Mod8` = '%d', `Mod9` = '%d', `Mod10` = '%d', `Mod11` = '%d', `Mod12` = '%d' , `Mod13` = '%d' \
 				WHERE `id` = '%d'",
 				PlayerVehicle[playerid][CarModel][i], PlayerVehicle[playerid][CarX][i], PlayerVehicle[playerid][CarY][i], PlayerVehicle[playerid][CarZ][i], PlayerVehicle[playerid][CarA][i], PlayerVehicle[playerid][CarInt][i],
@@ -414,27 +406,27 @@ SavePlayerVehicleData(playerid, vehicle = -1)
 	{
 		case 0:
 		{
-			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate1], PlayerVehicle[playerid][CarDatabaseID][0]);
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate1], PlayerVehicle[playerid][CarDatabaseID][0]);
 			mysql_tquery(SQL, Query, "", "");
 		}
 		case 1:
 		{
-			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate2], PlayerVehicle[playerid][CarDatabaseID][1]);
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate2], PlayerVehicle[playerid][CarDatabaseID][1]);
 			mysql_tquery(SQL, Query, "", "");
 		}
 		case 2:
 		{
-			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate3], PlayerVehicle[playerid][CarDatabaseID][2]);
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate3], PlayerVehicle[playerid][CarDatabaseID][2]);
 			mysql_tquery(SQL, Query, "", "");
 		}
 		case 3:
 		{
-			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate4], PlayerVehicle[playerid][CarDatabaseID][3]);
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate4], PlayerVehicle[playerid][CarDatabaseID][3]);
 			mysql_tquery(SQL, Query, "", "");
 		}
 		case 4:
 		{
-			format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate5], PlayerVehicle[playerid][CarDatabaseID][4]);
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate5], PlayerVehicle[playerid][CarDatabaseID][4]);
 			mysql_tquery(SQL, Query, "", "");
 		}
 		default:
@@ -445,27 +437,27 @@ SavePlayerVehicleData(playerid, vehicle = -1)
 				{
 					case 0:
 					{
-						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate1], PlayerVehicle[playerid][CarDatabaseID][0]);
+						mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate1], PlayerVehicle[playerid][CarDatabaseID][0]);
 						mysql_tquery(SQL, Query, "", "");
 					}
 					case 1:
 					{
-						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate2], PlayerVehicle[playerid][CarDatabaseID][1]);
+						mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate2], PlayerVehicle[playerid][CarDatabaseID][1]);
 						mysql_tquery(SQL, Query, "", "");
 					}
 					case 2:
 					{
-						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate3], PlayerVehicle[playerid][CarDatabaseID][2]);
+						mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate3], PlayerVehicle[playerid][CarDatabaseID][2]);
 						mysql_tquery(SQL, Query, "", "");
 					}
 					case 3:
 					{
-						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate4], PlayerVehicle[playerid][CarDatabaseID][3]);
+						mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate4], PlayerVehicle[playerid][CarDatabaseID][3]);
 						mysql_tquery(SQL, Query, "", "");
 					}
 					case 4:
 					{
-						format(Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%s' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate5], PlayerVehicle[playerid][CarDatabaseID][4]);
+						mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Plate` = '%e' WHERE `id` = '%d'", PlayerVehicle[playerid][CarPlate5], PlayerVehicle[playerid][CarDatabaseID][4]);
 						mysql_tquery(SQL, Query, "", "");
 					}
 				}
@@ -484,7 +476,7 @@ SQLPlayerSaveFinish(query[], sqlplayerid)
 		format(whereclause, sizeof(whereclause), " WHERE DatabaseID=%d", sqlplayerid);
 		strcat(query, whereclause, 2048);
 		mysql_tquery(SQL, query, "", "");
-		format(query, 2048, "UPDATE `accounts` SET ");
+		mysql_format(SQL, query, 2048, "UPDATE `accounts` SET ");
 	}
 	return 1;
 }
@@ -493,7 +485,7 @@ SQLString(query[], sqlplayerid)
 {
 	new querylen = strlen(query);
 	if (!query[0]) {
-		format(query, 2048, "UPDATE `accounts` SET ");
+		mysql_format(SQL, query, 2048, "UPDATE `accounts` SET ");
 	}
 	else if (2048-querylen < 200)
 	{
@@ -501,7 +493,7 @@ SQLString(query[], sqlplayerid)
 		format(whereclause, sizeof(whereclause), " WHERE `id`=%d", sqlplayerid);
 		strcat(query, whereclause, 2048);
 		mysql_tquery(SQL, query, "", "");
-		format(query, 2048, "UPDATE `accounts` SET ");
+		mysql_format(SQL, query, 2048, "UPDATE `accounts` SET ");
 	}
 	else if (strfind(query, "=", true) != -1) strcat(query, ",", 2048);
 	return 1;
@@ -522,7 +514,7 @@ SavePlayerString(query[], sqlid, Value[], String[])
 	SQLString(query, sqlid);
 	new escapedstring[160], string[160];
 	mysql_real_escape_string(String, escapedstring);
-	format(string, sizeof(string), "`%s`='%s'", Value, escapedstring);
+	format(string, sizeof(string), "`%s`='%e'", Value, escapedstring);
 	strcat(query, string, 2048);
 	return 1;
 }
@@ -572,7 +564,7 @@ SaveServer()
 {
     Array[0] = 0;
 
-    format(Array, sizeof Array, "UPDATE `server` SET \
+    mysql_format(SQL, Array, sizeof Array, "UPDATE `server` SET \
         `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Money` = '%d', `BankMoney` = '%d'",
         Spawn[0], Spawn[1], Spawn[2], Spawn[3], SpawnMoney[0], SpawnMoney[1]
     );

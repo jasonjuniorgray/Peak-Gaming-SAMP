@@ -7,17 +7,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             if(!response) return Kick(playerid);
             if(GetPVarInt(playerid, "CannotRegister")) return 1;
             
-            if(strlen(inputtext) < 3)
+            if(strlen(inputtext) < 3 || strlen(inputtext) > 31)
             {
                 new string[128];
-                SendClientMessage(playerid, DARKRED, "Your password must at least contain more than 2 characters.");
+                SendClientMessage(playerid, DARKRED, "Your password must at least contain more than 2 characters and less than 32.");
                 format(string, sizeof(string), "{FFFFFF}Welcome to Peak Gaming Roleplay, %s.\n\n{FFFFFF}This name is {AA3333}unregistered{FFFFFF}. Please enter a password to register the account.", GetName(playerid));
                 return ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_PASSWORD, "Register", string, "Register", "");
             }
-            new Query[512], RegisterIP[16];
+            new Query[512], RegisterIP[16], EscapedPassword[32];
             GetPlayerIp(playerid, RegisterIP, sizeof(RegisterIP));
 
-            WP_Hash(Player[playerid][Password], 129, inputtext);
+            mysql_real_escape_string(inputtext, EscapedPassword);
+
+            WP_Hash(Player[playerid][Password], 129, EscapedPassword);
             format(Player[playerid][Username], MAX_PLAYER_NAME, "%s", GetNameWithUnderscore(playerid));
 
             mysql_format(SQL, Query, sizeof(Query), "INSERT INTO `accounts` (`Username`, `Password`, `RegisterIP`, `LastIP`) VALUES ('%e', '%e', '%e', '%e')", GetNameWithUnderscore(playerid), Player[playerid][Password], RegisterIP, RegisterIP);
