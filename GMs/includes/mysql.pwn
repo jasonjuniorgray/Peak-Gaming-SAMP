@@ -2,7 +2,7 @@ GamemodeMySQLInitiate()
 {
 	Array[0] = 0;
 
-	new File: MySQLFile = fopen("mysql.ini", io_read), Host[50], User[50], DB[50], Pass[50];
+	new File: MySQLFile = fopen("mysql.ini", io_readwrite), Host[50], User[50], DB[50], Pass[50];
 	while(fread(MySQLFile, Array, sizeof(Array))) 
 	{
 		if(GetValue(Array, "Host", Host, sizeof(Host))) continue;
@@ -284,7 +284,7 @@ public OnQueryError(errorid, error[], callback[], query[], connectionHandle)
 
 SavePlayerData(playerid, type)
 {
-	if(Player[playerid][Authenticated] <= 0) { return 0; }
+	if(Player[playerid][Authenticated] <= 0) return 0;
 	switch(type)
 	{
 	    case 1: // case: full
@@ -293,7 +293,15 @@ SavePlayerData(playerid, type)
 	    	{
 	        	new Query[2048], string[128], Float:Pos[4], Float: pHealth, Float: pArmour, pIP[20];
 
-	        	if(Player[playerid][AdminLevel] >= 1 && Player[playerid][AdminLevel] <= 4 && Player[playerid][AdminDuty] >= 1) // This make sure that anything a Senior Admin or below does to their account while on duty, does not save.
+    			GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
+    			GetPlayerFacingAngle(playerid, Pos[3]);
+    			GetPlayerHealth(playerid, pHealth);
+    			GetPlayerArmour(playerid, pArmour);	
+    			GetPlayerIp(playerid, pIP, sizeof(pIP));
+
+    			format(Query, sizeof(Query), "UPDATE `accounts` SET ");
+
+    			if(Player[playerid][AdminLevel] >= 1 && Player[playerid][AdminLevel] <= 4 && Player[playerid][AdminDuty] >= 1) // This make sure that anything a Senior Admin or below does to their account while on duty, does not save.
 	    		{
 	    			SavePlayerInteger(Query, Player[playerid][DatabaseID], "AdminSkin", Player[playerid][AdminSkin]);
 	    			SavePlayerString(Query, Player[playerid][DatabaseID], "AdminName", Player[playerid][AdminName]);
@@ -302,14 +310,6 @@ SavePlayerData(playerid, type)
 	    			SQLPlayerSaveFinish(Query, Player[playerid][DatabaseID]);
 	    			return 1;
 	    		}
-
-    			GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
-    			GetPlayerFacingAngle(playerid, Pos[3]);
-    			GetPlayerHealth(playerid, pHealth);
-    			GetPlayerArmour(playerid, pArmour);	
-    			GetPlayerIp(playerid, pIP, sizeof(pIP));
-
-    			mysql_format(SQL, Query, sizeof(Query), "UPDATE `accounts` SET ");
 
     			SavePlayerString(Query, Player[playerid][DatabaseID], "Username", Player[playerid][Username]);
     			SavePlayerString(Query, Player[playerid][DatabaseID], "LastIP", pIP);
@@ -385,16 +385,18 @@ SavePlayerData(playerid, type)
 SavePlayerVehicleData(playerid, vehicle = -1)
 {
 	new Query[2056];
-
+	print("zzfewsaf");
 	for(new i; i < MAX_PLAYER_VEHICLES; i++)
 	{
-		if(i == vehicle || i == -1)
+		if(i == vehicle || vehicle == -1)
 		{
+			printf("%d, %d, %d, %d", i, PlayerVehicle[playerid][CarID], PlayerVehicle[playerid][CarModel][i], Fuel[PlayerVehicle[playerid][CarID][i]]);
+			print("zzfewsaf");
 			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `Fuel` = '%d', \
 				`Mod0` = '%d', `Mod1` = '%d', `Mod2` = '%d', `Mod3` = '%d', `Mod4` = '%d', `Mod5` = '%d', `Mod6` = '%d', `Mod7` = '%d', `Mod8` = '%d', `Mod9` = '%d', `Mod10` = '%d', `Mod11` = '%d', `Mod12` = '%d' , `Mod13` = '%d' \
 				WHERE `id` = '%d'",
 				PlayerVehicle[playerid][CarModel][i], PlayerVehicle[playerid][CarX][i], PlayerVehicle[playerid][CarY][i], PlayerVehicle[playerid][CarZ][i], PlayerVehicle[playerid][CarA][i], PlayerVehicle[playerid][CarInt][i],
-				PlayerVehicle[playerid][CarVW][i], PlayerVehicle[playerid][CarColour][i], PlayerVehicle[playerid][CarColour2][i], PlayerVehicle[playerid][CarFuel][i], PlayerVehicle[playerid][CarMod0][i], PlayerVehicle[playerid][CarMod1][i],
+				PlayerVehicle[playerid][CarVW][i], PlayerVehicle[playerid][CarColour][i], PlayerVehicle[playerid][CarColour2][i], Fuel[PlayerVehicle[playerid][CarID][i]], PlayerVehicle[playerid][CarMod0][i], PlayerVehicle[playerid][CarMod1][i],
 				PlayerVehicle[playerid][CarMod2][i], PlayerVehicle[playerid][CarMod3][i], PlayerVehicle[playerid][CarMod4][i], PlayerVehicle[playerid][CarMod5][i], PlayerVehicle[playerid][CarMod6][i], PlayerVehicle[playerid][CarMod7][i],
 				PlayerVehicle[playerid][CarMod8][i], PlayerVehicle[playerid][CarMod9][i], PlayerVehicle[playerid][CarMod10][i], PlayerVehicle[playerid][CarMod11][i], PlayerVehicle[playerid][CarMod12][i], PlayerVehicle[playerid][CarMod13][i],
 				PlayerVehicle[playerid][CarDatabaseID][i]);
@@ -476,7 +478,7 @@ SQLPlayerSaveFinish(query[], sqlplayerid)
 		format(whereclause, sizeof(whereclause), " WHERE DatabaseID=%d", sqlplayerid);
 		strcat(query, whereclause, 2048);
 		mysql_tquery(SQL, query, "", "");
-		mysql_format(SQL, query, 2048, "UPDATE `accounts` SET ");
+		format(query, 2048, "UPDATE `accounts` SET ");
 	}
 	return 1;
 }
@@ -485,7 +487,7 @@ SQLString(query[], sqlplayerid)
 {
 	new querylen = strlen(query);
 	if (!query[0]) {
-		mysql_format(SQL, query, 2048, "UPDATE `accounts` SET ");
+		format(query, 2048, "UPDATE `accounts` SET ");
 	}
 	else if (2048-querylen < 200)
 	{
@@ -493,7 +495,7 @@ SQLString(query[], sqlplayerid)
 		format(whereclause, sizeof(whereclause), " WHERE `id`=%d", sqlplayerid);
 		strcat(query, whereclause, 2048);
 		mysql_tquery(SQL, query, "", "");
-		mysql_format(SQL, query, 2048, "UPDATE `accounts` SET ");
+		format(query, 2048, "UPDATE `accounts` SET ");
 	}
 	else if (strfind(query, "=", true) != -1) strcat(query, ",", 2048);
 	return 1;
@@ -514,7 +516,7 @@ SavePlayerString(query[], sqlid, Value[], String[])
 	SQLString(query, sqlid);
 	new escapedstring[160], string[160];
 	mysql_real_escape_string(String, escapedstring);
-	format(string, sizeof(string), "`%s`='%e'", Value, escapedstring);
+	format(string, sizeof(string), "`%s`='%s'", Value, escapedstring);
 	strcat(query, string, 2048);
 	return 1;
 }

@@ -167,7 +167,7 @@ task OneMinute[60000]()
 	OneMinuteInt[0]++;
 	OneMinuteInt[1]++;
 
-    if(GlobalMinute == 60)
+    if(GlobalMinute == 0)
     {
     	SetTime();
     	format(Array, sizeof(Array), "The time is now %d:00.", GlobalHour);
@@ -275,6 +275,7 @@ public TaserTimer(playerid)
 		TogglePlayerControllableEx(playerid, TRUE);
 		ClearAnimations(playerid);
 		ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 0, 1, 1);
+		SetPlayerDrunkLevel(playerid, 0);
 
 		format(Array, sizeof(Array), "* %s recovers from the taser, standing up on their feet.", GetName(playerid));
 		SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);

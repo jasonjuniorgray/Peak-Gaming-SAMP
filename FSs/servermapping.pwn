@@ -1,6 +1,6 @@
 #include <a_samp>
 #include <streamer>
-
+#include <foreach>
 
 
 #define FILTERSCRIPT
@@ -23,6 +23,7 @@ foreach(new i: Player)
 	SetTimerEx("MappingReload", GetPlayerPing(i) * 4, 0, "i", i);
 	RemoveBuildings(i);
 }
+return 1;
 }
 
 #endif
@@ -30,11 +31,11 @@ foreach(new i: Player)
 public OnPlayerConnect(playerid)
 {
 	RemoveBuildings(playerid);
+	return 1;
 }
 
 LoadBusinessMapping()
 {
-
 CreateDynamicObject(18049, 826.91449, -1514.24768, 20000.00000,   0.00000, 0.00000, 0.00000);
 CreateDynamicObject(19443, 826.55377, -1516.68555, 20001.37500,   0.00000, 90.00000, 90.00000);
 CreateDynamicObject(19443, 826.55377, -1513.18555, 20001.37500,   0.00000, 90.00000, 90.00000);

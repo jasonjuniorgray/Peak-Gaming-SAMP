@@ -19,7 +19,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 				TogglePlayerControllableEx(playerid, FALSE);
 				ClearAnimations(playerid);
 
-				ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 1, 1, 1);
+				ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, 0, 1, 1, 1, 1, 1);
 
 				SetPVarInt(playerid, "Tasered", 1);
 				SetPVarInt(issuerid, "TaserReload", 15);
@@ -67,17 +67,18 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 		}
 		modifieddamage = addeddamage[0] + addeddamage[1];
 
-		if(health > 0 && armour == 0) // Hasn't died, but has no armour.
+		if(health == 0) SetPlayerHealth(playerid, 0);
+		else if(health > 0 && armour == 0) // Hasn't died, but has no armour.
 		{
 			SetPlayerHealth(playerid, health + amount);
 			SetPlayerHealth(playerid, health - modifieddamage);
 		}
-		if(health > 0 && armour > 0 && armour - modifieddamage > 0) // Still has armour after the damage is going to be given.
+		else if(health > 0 && armour > 0 && armour - modifieddamage > 0) // Still has armour after the damage is going to be given.
 		{
 			SetPlayerArmour(playerid, armour + amount);
 			SetPlayerArmour(playerid, armour - modifieddamage);
 		}
-		if(health > 0 && armour > 0 && armour - modifieddamage < 0) // Damage will be spread throughout health and armour.
+		else if(health > 0 && armour > 0 && armour - modifieddamage < 0) // Damage will be spread throughout health and armour.
 		{
 			new Float:tempfloat;
 			tempfloat = modifieddamage - armour;

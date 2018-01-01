@@ -18,6 +18,7 @@ public OnPlayerConnect(playerid)
     MySQLConnectPlayer(playerid);
 
     // Only add 'resets' for those that are 'allowed' to start at 0. i.e, group ranks are 0-9.
+    Player[playerid][Authenticated] = 0;
     Player[playerid][PlayerGroup] = -1;
     Player[playerid][GroupRank] = -1;
     Player[playerid][GroupDiv] = -1;
@@ -29,10 +30,6 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerDisconnect(playerid, reason)
 {
-	// Below resets their enumerator data only.
-	new clear[PlayerData], clear2[PlayerVehicleData];
-	Player[playerid] = clear;
-	PlayerVehicle[playerid] = clear2;
 
 	Array[0] = 0;
 	switch(reason)
@@ -42,6 +39,11 @@ public OnPlayerDisconnect(playerid, reason)
 		case 2: format(Array, sizeof(Array), "%s has left the server (kick/banned).", GetName(playerid));
 	}
 	SendNearbyMessage(playerid, Array, YELLOW, 15.0);
+
+	SavePlayerData(playerid, 1);
+	SavePlayerVehicleData(playerid);
+
+	print("fewsaf");
 
 	for(new i; i < MAX_PLAYER_VEHICLES; i++) 
 	{
@@ -63,11 +65,11 @@ public OnPlayerDisconnect(playerid, reason)
 			}
 		}
 	}*/
-		
-	SavePlayerData(playerid, 1);
-	SavePlayerVehicleData(playerid);
-	
-	Player[playerid][Authenticated] = 0;
+
+	// Below resets their enumerator data only.
+	new clear[PlayerData], clear2[PlayerVehicleData];
+	Player[playerid] = clear;
+	PlayerVehicle[playerid] = clear2;
 	return 1;
 }
 

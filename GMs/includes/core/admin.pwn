@@ -12,36 +12,36 @@ CMD:ah(playerid, params[])
 
 	if(Player[playerid][AdminLevel] >= 1)
 	{
-		SendClientMessage(playerid, WHITE, "Junior Administrator: /a(dmin), /go, /send, /goto, /get, /gotoco, /sendtoco, /sendto, /up, /dn, /lt, /rt, /fd, /bk");
-		SendClientMessage(playerid, WHITE, "Junior Administrator: /reports, /a(ccept)r(eport), /c(lose)r(eport), /adminduty, /jetpack, /near, /revive");
-		SendClientMessage(playerid, WHITE, "Junior Administrator: /freeze, /unfreeze, /spec(tate), /respawnvehicle, /respawnvehicles, /entercar");
+		SendClientMessage(playerid, WHITE, "Level 1 Administrator: /a(dmin), /go, /send, /goto, /get, /gotoco, /sendtoco, /sendto, /up, /dn, /lt, /rt, /fd, /bk");
+		SendClientMessage(playerid, WHITE, "Level 1 Administrator: /reports, /a(ccept)r(eport), /c(lose)r(eport), /adminduty, /jetpack, /near, /revive");
+		SendClientMessage(playerid, WHITE, "Level 1 Administrator: /freeze, /unfreeze, /spec(tate), /respawnvehicle, /respawnvehicles, /entercar");
 	}
 
 	if(Player[playerid][AdminLevel] >= 2)
 	{
-		SendClientMessage(playerid, GREY, "Administrator: /vehiclenames, /veh, /afix, /anos, /ahyd");
+		SendClientMessage(playerid, GREY, "Level 2 Administrator: /vehiclenames, /veh, /afix, /anos, /ahyd");
 	}
 
 	if(Player[playerid][AdminLevel] >= 3)
 	{
-		SendClientMessage(playerid, WHITE, "General Administrator: /set, /jobskill, /agiveweapon, /destroyvehicles");
+		SendClientMessage(playerid, WHITE, "Level 3 Administrator: /set, /jobskill, /agiveweapon, /destroyvehicles");
 	}
 
 	if(Player[playerid][AdminLevel] >= 4)
 	{
-	    SendClientMessage(playerid, GREY, "Senior Administrator: /makeleader");
+	    SendClientMessage(playerid, GREY, "Level 4 Administrator: /makeleader");
 	}
 
 	if(Player[playerid][AdminLevel] >= 5)
 	{
-	    SendClientMessage(playerid, WHITE, "Head Administrator: /makeadmin, /adminname, /lottery, /nexthouse, /edithouse, /createvehicle, /editvehicle, /evplate");
-	    SendClientMessage(playerid, WHITE, "Head Administrator: /nextbusiness, /editbusiness, /businessname, /createdealershipvehicle, /editdealershipvehicle, /crimelist");
-	    SendClientMessage(playerid, WHITE, "Head Administrator: /nextdoor, /editdoor, /doorname, /nextarrest, /editarrest, /nextlocker, /editlocker, /editpoint, /editserver");
+	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /makeadmin, /adminname, /lottery, /nexthouse, /edithouse, /createvehicle, /editvehicle, /evplate");
+	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /nextbusiness, /editbusiness, /businessname, /createdealershipvehicle, /editdealershipvehicle, /crimelist");
+	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /nextdoor, /editdoor, /doorname, /nextarrest, /editarrest, /nextlocker, /editlocker, /editpoint, /editserver");
 	}
 
 	if(Player[playerid][AdminLevel] >= 6)
 	{
-	    SendClientMessage(playerid, GREY, "Executive Administrator: /gmx");
+	    SendClientMessage(playerid, GREY, "Level 6 Administrator: /gmx");
 	}
 
 	SendClientMessage(playerid, GREY, "---------------------------------------------------------------------------------------------------------------------------");
@@ -2919,7 +2919,7 @@ CMD:editserver(playerid, params[])
             return SendClientMessage(playerid, GREY, "Usages: spawn, spawnmoney, bankmoney");
         }
 
-        Log(16, Array);
+        Log(17, Array);
     }
     else SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
     return 1;

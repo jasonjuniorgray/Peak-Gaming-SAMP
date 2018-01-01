@@ -14,12 +14,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 format(string, sizeof(string), "{FFFFFF}Welcome to Peak Gaming Roleplay, %s.\n\n{FFFFFF}This name is {AA3333}unregistered{FFFFFF}. Please enter a password to register the account.", GetName(playerid));
                 return ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_PASSWORD, "Register", string, "Register", "");
             }
-            new Query[512], RegisterIP[16], EscapedPassword[32];
+            new Query[512], RegisterIP[16];
             GetPlayerIp(playerid, RegisterIP, sizeof(RegisterIP));
 
-            mysql_real_escape_string(inputtext, EscapedPassword);
-
-            WP_Hash(Player[playerid][Password], 129, EscapedPassword);
+            WP_Hash(Player[playerid][Password], 129, inputtext);
             format(Player[playerid][Username], MAX_PLAYER_NAME, "%s", GetNameWithUnderscore(playerid));
 
             mysql_format(SQL, Query, sizeof(Query), "INSERT INTO `accounts` (`Username`, `Password`, `RegisterIP`, `LastIP`) VALUES ('%e', '%e', '%e', '%e')", GetNameWithUnderscore(playerid), Player[playerid][Password], RegisterIP, RegisterIP);

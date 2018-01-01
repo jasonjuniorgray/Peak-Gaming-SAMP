@@ -310,41 +310,13 @@ SendNearbyMessage(playerid, string[], color, Float:range)
 }
 
 SetTime()
-{
-	gettime(GlobalHour, GlobalMinute, GlobalSecond);
-	
+{	
 	SetWorldTime(GlobalHour);
 
 	Weather = random(19) + 1;
 	if(Weather == 1 || Weather == 8 || Weather == 9) Weather=1;
 	SetWeather(Weather);
 }
-
-/*ResetPlayerVars(playerid)
-{
-	for(new i=0; i < MAX_REPORTS; i++)
-	{
-	    if(Reports[i][Used] == 1 && Reports[i][Reporter] ==playerid) 
-	    {
-			DeletePVar(Reports[i][Reporter], "ReportActive");
-		}
-	}
-
-	DeletePVar(playerid, "CannotRegister");
-	DeletePVar(playerid, "LastTyped");
-	DeletePVar(playerid, "SpawnAFK");
-	DeletePVar(playerid, "Frozen");
-	DeletePVar(playerid, "InAnimation");
-	DeletePVar(playerid, "LoopingAnim");
-	DeletePVar(playerid, "Offering");
-	DeletePVar(playerid, "TruckRun");
-	DeletePVar(playerid, "TruckVeh");
-	DeletePVar(playerid, "TruckTrailer");
-	SetPVarInt(playerid, "OnPhone", -1);
-	SetPVarInt(playerid, "Calling", -1);
-
-	if(Player[playerid][PhoneTimer] > -1) KillTimer(Player[playerid][PhoneTimer]);
-}*/
 
 /*GetWeekday(display = 0, day = 0, month = 0, year = 0)
 {
@@ -515,10 +487,10 @@ GetDateFormat(time, form)  // Ain't gonna lie, ripped straight from the NG:RP sc
 
 // LOGGING //
 
-Log(type, string[], group = -1)
+Log(type, string[])
 {
 	new File:logfile, logstring[300];
-	format(logstring, sizeof(logstring), "[%s] %s\r\n", GetDateFormat(gettime(), 2), string);
+	format(logstring, sizeof(logstring), "[%s] %s\n", GetDateFormat(gettime(), 2), string);
 
 	switch(type)
 	{
@@ -648,13 +620,13 @@ Log(type, string[], group = -1)
 
 			Log(0, logstring);
 		}
-		case 16: // Group Log (SQL)
+		case 16: // Group Treasury Log
 		{
-			if(group == -1) return 1;
-			new Query[500];
+			logfile = fopen("Logs/GroupTreasury.log", io_append);
+			fwrite(logfile, logstring);
+			fclose(logfile);
 
-			mysql_format(SQL, Query, sizeof(Query), "INSERT INTO `grouplog`(`timestamp`, `group`, `log`) VALUES (NOW(), %d, '%s')", group, string);
-			mysql_tquery(SQL, Query, "", "");
+			Log(0, logstring);
 		}
 		case 17: // Server Edit Log
 		{

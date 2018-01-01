@@ -36,7 +36,7 @@
 
 		   // Credits to Kaicore for the SA:MP Modification //								 			
  *
- * Copyright (c) 2016, by Jason Gray
+ * Copyright (c) 2017, by Jason Gray
  *
  * All rights reserved.
  *
@@ -59,7 +59,7 @@
                                                
 		/*  ---------------- SCRIPT REVISION ----------------- */
 
-#define                     	VERSION                         "PG:RP 0.01.082"
+#define                     	VERSION                         "PG:RP 0.01.085"
 
 #include <a_samp>
 #include <a_mysql>

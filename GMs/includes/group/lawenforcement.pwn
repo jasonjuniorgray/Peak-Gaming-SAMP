@@ -23,8 +23,9 @@ CMD:cuff(playerid, params[])
 	    		{
 	    			if(GetPVarInt(id, "Cuffed")) return SendClientMessage(playerid, WHITE, "This player is already cuffed!");
 
-	    			if(GetPlayerSpecialAction(id) == SPECIAL_ACTION_HANDSUP || GetPVarType(playerid, "Tasered"))
+	    			if(GetPlayerSpecialAction(id) == SPECIAL_ACTION_HANDSUP || GetPVarType(id, "Tasered"))
 	    			{
+	    				if(GetPVarType(id, "Tasered")) SetPlayerDrunkLevel(playerid, 0);
 	    				Array[0] = 0;
 	    				SetPVarInt(id, "Cuffed", 1);
 	    				DeletePVar(id, "Tasered");
@@ -259,7 +260,7 @@ CMD:arrest(playerid, params[])
 	    								format(Array, sizeof(Array), "%s %s has arrested %s for %d minutes with a $%s fine.", GroupRankNames[Player[playerid][PlayerGroup]][Player[playerid][GroupRank]], GetName(playerid), GetName(id), time, FormatNumberToString(fine));
 	    								SendGroupMessage(Player[playerid][PlayerGroup], Array, DEFAULT);
 
-	    								Log(16, Array, Player[playerid][PlayerGroup]);
+	    								Log(10, Array);
 
 	    								Player[id][Crimes] = 0;
 	    								Player[id][TotalArrests]++;
@@ -525,7 +526,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 	    				AddCrime(id, playerid, Crime[listitem][CrimeName], Player[playerid][PlayerGroup]);
 
-	    				Log(16, Array, Player[playerid][PlayerGroup]);
+	    				Log(10, Array);
 	    			}
 	    			else return SendClientMessage(playerid, WHITE, "That player is not connected!");
 				}
@@ -606,6 +607,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					{
 						Array[0] = 0;
 						DisableCrimes(GetPVarInt(playerid, "CivilianInformation"));
+						Player[GetPVarInt(playerid, "CivilianInformation")][Crimes] = 0;
 
 						format(Array, sizeof(Array), "%s %s %s (%s) has cleared %s's charges.", Group[Player[playerid][PlayerGroup]][GroupName], GroupRankNames[Player[playerid][PlayerGroup]][Player[playerid][GroupRank]], GetName(playerid), GroupDivisionNames[Player[playerid][PlayerGroup]][Player[playerid][GroupDiv]], GetName(GetPVarInt(playerid, "CivilianInformation")));
 						foreach(new i: Player)

@@ -385,7 +385,7 @@ CMD:groupwithdraw(playerid, params[])
                         return SendClientMessage(playerid, GREY, "IDs: 1 - Money");
                     }
                 }
-                Log(16, Array, Player[playerid][PlayerGroup]);
+                Log(16, Array);
             }
             else return SendClientMessage(playerid, WHITE, "You are not near your group safe.");
         }
@@ -429,7 +429,7 @@ CMD:groupdeposit(playerid, params[])
                         return SendClientMessage(playerid, GREY, "IDs: 1 - Money");
                     }
                 }
-                Log(16, Array, Player[playerid][PlayerGroup]);
+                Log(16, Array);
             }
             else return SendClientMessage(playerid, WHITE, "You are not near your group safe.");
         }
@@ -569,7 +569,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
 
                     format(Array, sizeof(Array), "%s %s (%s) has withdrawn a %s from the group locker.", GroupRankNames[Player[playerid][PlayerGroup]][Player[playerid][GroupRank]], GetName(playerid), GroupDivisionNames[Player[playerid][PlayerGroup]][Player[playerid][GroupDiv]], weaponname); 
-                    Log(16, Array, Player[playerid][PlayerGroup]);
+                    Log(16, Array);
                 }
             }
         }
