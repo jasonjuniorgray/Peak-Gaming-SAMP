@@ -20,8 +20,8 @@ CMD:fix(playerid, params[])
 
 			    SetPVarInt(playerid, "MechanicTime", gettime() + 60);
 
-			    format(Array, sizeof(Array), "* %s has repaired the vehicle.", GetName(playerid));
-                SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			    format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has repaired the vehicle.", GetName(playerid));
+                SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
                 IncreaseJobSkill(playerid, 1, 1);
 		    }
@@ -66,8 +66,8 @@ CMD:repair(playerid, params[])
             			SetPVarInt(playerid, "RepairInt", 1);
             			Player[playerid][MechanicTimer] = SetTimerEx("RepairTimer", 1000, TRUE, "iii", playerid, id, vehicleid);
 
-            			format(Array, sizeof(Array), "* %s has started to repair the vehicle.", GetName(playerid));
-                		SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has started to repair the vehicle.", GetName(playerid));
+                		SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
                 		SendClientMessage(playerid, WHITE, "You are now repairing the vehicle. Do not go to far away from it, or inside any other vehicle!");
             			return 1;
@@ -124,8 +124,8 @@ CMD:respray(playerid, params[])
             		SetPVarInt(playerid, "ColourInt", 1);
             		Player[playerid][MechanicTimer] = SetTimerEx("ColourTimer", 1000, TRUE, "iiiii", playerid, id, vehicleid, colour[0], colour[1]);
 
-            		format(Array, sizeof(Array), "* %s has started to respray the vehicle.", GetName(playerid));
-                	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            		format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has started to respray the vehicle.", GetName(playerid));
+                	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
                 	SendClientMessage(playerid, WHITE, "You are now spraying the vehicle. Do not go to far away from it, inside any other vehicle, and do not put your spraycan away!");
             		return 1;
@@ -190,8 +190,8 @@ CMD:refill(playerid, params[])
 
 					SetPVarInt(playerid, "MechanicTime", gettime() + 60);
 
-            		format(Array, sizeof(Array), "* %s has refilled their vehicle.", GetName(playerid));
-                	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            		format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has refilled their vehicle.", GetName(playerid));
+                	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
             		return 1;
             	}
             	SetPVarInt(playerid, "Offering", 1);
@@ -289,8 +289,8 @@ public RepairTimer(playerid, id, vehicleid)
 
 			    SetPVarInt(playerid, "MechanicTime", gettime() + 60);
 
-			    format(Array, sizeof(Array), "* %s has repaired the vehicle.", GetName(playerid));
-                SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			    format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has repaired the vehicle.", GetName(playerid));
+                SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
                 DeletePVar(playerid, "RepairPrice");
 
@@ -386,8 +386,8 @@ public ColourTimer(playerid, id, vehicleid, colour1, colour2)
 
 			SetPVarInt(playerid, "MechanicTime", gettime() + 60);
 
-			format(Array, sizeof(Array), "* %s has resprayed the vehicle.", GetName(playerid));
-            SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has resprayed the vehicle.", GetName(playerid));
+            SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
             DeletePVar(playerid, "ColourPrice");
 

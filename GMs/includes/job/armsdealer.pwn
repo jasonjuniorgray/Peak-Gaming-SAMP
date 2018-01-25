@@ -443,8 +443,8 @@ CMD:sellgun(playerid, params[])
 
 					if(id == playerid) 
 					{ 
-						format(Array, sizeof(Array), "* %s crafts a %s from their materials, handing it to themselves.", GetName(playerid), weapon); 
-						SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s crafts a %s from their materials, handing it to themselves.", GetName(playerid), weapon); 
+						SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
 						IncreaseJobSkill(playerid, 0, 1);
 

@@ -125,6 +125,7 @@ public OnLotteryCheck(number, winners)
 		mysql_format(SQL, Array, sizeof(Array), "UPDATE `accounts` SET `Money` = `Money` + %d, `LotteryNumber` = -1 WHERE `LotteryNumber` = %d", realwin, number); // Set to -1 so the player can be congratulated upon their next login.
 		mysql_tquery(SQL, Array, "", "");
 	}
+
 	foreach(new i: Player)
 	{
 		if(GetPVarInt(i, "WonLottery"))
@@ -133,6 +134,8 @@ public OnLotteryCheck(number, winners)
 			format(Array, 128, "You have won the lottery and recieved $%s.", FormatNumberToString(realwin));
 			SendClientMessage(i, WHITE, Array);
 			Player[i][LotteryNumber] = 0;
+
+			SavePlayerData(i, 1);
 
 			DeletePVar(i, "WonLottery");
 		}

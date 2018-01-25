@@ -1,7 +1,7 @@
 OnPlayerLoginForward(playerid)
 {
-	SetPlayerHealth(playerid, Player[playerid][Health]);
-   	SetPlayerArmour(playerid, Player[playerid][Armour]);
+	SetPlayerHealthEx(playerid, Player[playerid][Health]);
+   	SetPlayerArmourEx(playerid, Player[playerid][Armour]);
     SetPlayerInterior(playerid, Player[playerid][Interior]);
     SetPlayerVirtualWorld(playerid, Player[playerid][VirtualWorld]);
     GivePlayerSavedWeapons(playerid);
@@ -18,16 +18,19 @@ OnPlayerLoginForward(playerid)
 
     TogglePlayerControllableEx(playerid, TRUE);
 
+    if(Player[playerid][Interior] > 0) PrepareStream(playerid);
+
     if(Player[playerid][Injured] > 0)
     {
+        new id = random(sizeof(Hospitals));
         SetPlayerPosEx(playerid, 1201.12, -1324, -80.0, 0.0, 0, 0);
         TogglePlayerControllableEx(playerid, FALSE);
 
-        SetPlayerCameraPos(playerid, 1207.39, -1294.71, 24.61);
-        SetPlayerCameraLookAt(playerid, 1181.72, -1322.65, 13.58);
+        SetPlayerCameraPos(playerid, Hospitals[id][3], Hospitals[id][4], Hospitals[id][5]);
+        SetPlayerCameraLookAt(playerid, Hospitals[id][6], Hospitals[id][7], Hospitals[id][8]);
 
         SetTimerEx("LimboTimer", 15000, FALSE, "i", playerid);
-        SetPlayerHealth(playerid, 15.0);
+        SetPlayerHealthEx(playerid, 15.0);
     }
     
     if(Player[playerid][Crimes] > 0) SetPlayerWantedLevel(playerid, Player[playerid][Crimes]);

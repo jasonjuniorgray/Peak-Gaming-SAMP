@@ -41,7 +41,7 @@ task OneSecond[1000]()
 		Player[i][ConnectedSeconds]++;
 		if(Player[i][ConnectedSeconds] >= 3600)
 		{
-			new PayMoney = 500;
+			new PayMoney = 500, Float:tax = float(Tax) / 100;
 			Player[i][ConnectedSeconds] = 0;
 			Player[i][PlayingHours]++;
 
@@ -49,7 +49,7 @@ task OneSecond[1000]()
 			SendClientMessage(i, GREY, "Your paycheque has arrived!");
 
 			// bank shit to increase money
-			format(Array, sizeof(Array), "Money: $%s, Tax: 0 percent.", FormatNumberToString(PayMoney));
+			format(Array, sizeof(Array), "Money: $%s, Tax: %d percent.", FormatNumberToString(PayMoney), Tax);
 			SendClientMessage(i, GREY, Array);
 			if(Player[i][PlayerGroup] >= 0)
 			{
@@ -60,16 +60,20 @@ task OneSecond[1000]()
 					{
 						format(Array, sizeof(Array), "You have recieved $%s for being a member of %s.", FormatNumberToString(GroupPayMoney), Group[Player[i][PlayerGroup]][GroupName]);
 						PayMoney += GroupPayMoney;
+						Group[Player[i][PlayerGroup]][GroupMoney] -= GroupPayMoney;
 					}
 					else format(Array, sizeof(Array), "Your group does not have enough to pay you.", FormatNumberToString(GroupPayMoney));
 					SendClientMessage(i, GREY, Array);
 				}
 			}
-			//money = money / tax;
+			new TempMoney = floatround(PayMoney * tax, floatround_round); // If Tax = 3 percent, and a players paycheque is 500, the outcome would be 15.
+			PayMoney = PayMoney - TempMoney; // This is where we'd subtract the 15 from the 500. We're going to keep this value to give to the Government.
 
 			format(Array, sizeof(Array), "Total: $%s, Bank Total: $0.", FormatNumberToString(PayMoney));
 			SendClientMessage(i, GREY, Array);
 			GiveMoneyEx(i, PayMoney);
+
+			for(new g = 0; g < MAX_GROUPS; g++) { if(Group[g][GroupType] == 2) Group[g][GroupMoney] += TempMoney; break; }
 
 			SendClientMessage(i, WHITE, "----------------------------------------------");
 		}
@@ -92,8 +96,8 @@ task OneSecond[1000]()
 				if(engine != VEHICLE_PARAMS_OFF)
 				{
 					Array[0] = 0;
-					format(Array, sizeof(Array), "* The vehicle engine stalls (( %s ))", GetName(i));
-					SendNearbyMessage(i, Array, SCRIPTPURPLE, 30.0);
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine stalls (( %s ))", GetName(i));
+					SendNearbyMessage(i, Array, PURPLE, 30.0);
 					SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_OFF, lights, alarm, doors, bonnet, boot, objective);
 				}
 			}
@@ -125,7 +129,7 @@ task OneSecond[1000]()
 	    {
 			new string[50], color1[4], color2[4];
 				
-			switch(GetPlayerSpeed(i, 0))
+			switch(GetPlayerSpeed(i))
 			{
 				case 0 .. 40: color1 = "~w~";
 				case 41 .. 60: color1 = "~y~";
@@ -152,9 +156,19 @@ task OneSecond[1000]()
 			}
 			PlayerTextDrawSetString(i, FuelTextDraw[i], string);
 
-			format(string, sizeof(string), "~b~MPH: %s%d", color1, GetPlayerSpeed(i, 1));
+			format(string, sizeof(string), "~b~MPH: %s%d", color1, GetPlayerSpeed(i));
 			PlayerTextDrawSetString(i, SpeedTextDraw[i], string);
 		}
+
+		// ANTI-CHEAT STARTS HERE //
+
+		new Float:health, Float:armour;
+		GetPlayerHealth(i, health);
+		GetPlayerArmour(i, armour);
+
+		if(Player[i][Money] != GetPlayerMoney(i)) { ResetPlayerMoney(i); GivePlayerMoney(i, Player[i][Money]); } // Anti-money cheat.
+		if(Player[i][Health] != health) SetPlayerHealth(i, Player[i][Health]); // Server-side health.
+		if(Player[i][Armour] != armour) SetPlayerArmour(i, Player[i][Armour]); // Server-side armour.
 	}
 	return 1;
 }
@@ -188,6 +202,8 @@ task OneMinute[60000]()
     	}
 
 		SetPVarInt(i, "LastTyped", GetPVarInt(i, "LastTyped") + 1);
+
+		SetPlayerTime(i, GlobalHour, GlobalMinute);
 	}
 	switch(OneMinuteInt[1])
 	{
@@ -277,8 +293,8 @@ public TaserTimer(playerid)
 		ApplyAnimation(playerid, "SUNBATHE", "Lay_Bac_out", 4.1, 0, 1, 1, 0, 1, 1);
 		SetPlayerDrunkLevel(playerid, 0);
 
-		format(Array, sizeof(Array), "* %s recovers from the taser, standing up on their feet.", GetName(playerid));
-		SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+		format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s recovers from the taser, standing up on their feet.", GetName(playerid));
+		SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	}
 	return 1;
 }
@@ -286,26 +302,53 @@ public TaserTimer(playerid)
 forward FindUpdate(playerid, id);
 public FindUpdate(playerid, id) 
 {
-	if(GetPVarType(playerid, "AcceptedPatient") > 0 && Player[playerid][Injured] != 2)
+	if(GetPVarInt(playerid, "AcceptedPatient") > 0 && Player[id][Injured] != 2 && GetPVarInt(playerid, "AcceptedPatientID") == id)
 	{
-		SendClientMessage(playerid, WHITE, "The patient has died and was sent to the hospital.");
+		SendClientMessage(playerid, WHITE, "The patient was sent to the hospital.");
 		KillTimer(GetPVarInt(playerid, "AcceptedPatient"));
 		DeletePVar(playerid, "AcceptedPatient");
+		DeletePVar(playerid, "AcceptedPatientID");
 		DisablePlayerCheckpointEx(playerid);
 	}
-	new Float:Pos[3];
-	GetPlayerPos(id, Pos[0], Pos[1], Pos[2]);
+	else
+	{
+		if(IsPlayerConnectedEx(id) && id != INVALID_PLAYER_ID)
+		{
+			new Float:Pos[3];
+			GetPlayerPos(id, Pos[0], Pos[1], Pos[2]);
 
-	SetPlayerCheckpoint(playerid, Pos[0], Pos[1], Pos[2], 4.0);
+			SetPlayerCheckpoint(playerid, Pos[0], Pos[1], Pos[2], 4.0);
+		}
+		else
+		{
+			KillTimer(GetPVarInt(playerid, "Finding"));
+			DeletePVar(playerid, "Finding");
+			DisablePlayerCheckpointEx(playerid);
+			return SendClientMessage(playerid, GREY, "Your trace was interrupted.");
+		}
+	}
 	return 1;
 }
 
 forward DragTimer(playerid, id);
 public DragTimer(playerid, id) 
 {
-	new Float:Pos[3];
-	GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
+	if(IsPlayerConnectedEx(id) && id != INVALID_PLAYER_ID)
+	{
+		new Float:Pos[3];
+		GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
 
-	SetPlayerPos(id, Pos[0], Pos[1] + 0.8, Pos[2]);
+		SetPlayerPos(id, Pos[0], Pos[1] + 0.8, Pos[2]);
+
+		Player[playerid][PosX] = Pos[0];
+		Player[playerid][PosY] = Pos[1] + 0.8;
+		Player[playerid][PosZ] = Pos[2];
+	}
+	else
+	{
+		KillTimer(GetPVarInt(playerid, "Dragging"));
+	    DeletePVar(playerid, "Dragging");
+	    SendClientMessage(playerid, WHITE, "The player is no longer connected.");
+	}
 	return 1;
 }

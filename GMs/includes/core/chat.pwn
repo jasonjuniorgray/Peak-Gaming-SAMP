@@ -131,7 +131,7 @@ CMD:b(playerid, params[])
 	return 1;
 }
 
-CMD:w(playerid, params[]) return cmd_shout(playerid, params);
+CMD:w(playerid, params[]) return cmd_whisper(playerid, params);
 CMD:whisper(playerid, params[])
 {
 	new id, message[256];
@@ -155,7 +155,7 @@ CMD:whisper(playerid, params[])
 			format(Array, sizeof(Array), "[/WHISPER] %s whispers to %s: %s", GetName(playerid), GetName(id), message);
 			Log(8, Array);
 		}
-		return SendClientMessage(playerid, WHITE, "You are not close enough to that player!");
+		else return SendClientMessage(playerid, WHITE, "You are not close enough to that player!");
 	}
 	else SendClientMessage(playerid, WHITE, "That player is not connected!");
 	return 1;
@@ -170,7 +170,7 @@ CMD:pm(playerid, params[])
 	}
 	if(IsPlayerConnectedEx(id))
 	{
-		if(Player[playerid][AdminLevel] == 0 && Player[id][AdminDuty] < 1 || GetPVarInt(playerid, "ReportActive") && Reports[GetPVarInt(playerid, "ReportActive")][CheckingReport] == id)
+		if(Player[playerid][AdminLevel] == 0 && Player[id][AdminDuty] == 0 || GetPVarInt(playerid, "ReportActive") && Reports[GetPVarInt(playerid, "ReportActive")][CheckingReport] == id)
 		{
 			Array[0] = 0;
 	

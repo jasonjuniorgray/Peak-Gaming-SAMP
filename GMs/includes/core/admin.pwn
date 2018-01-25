@@ -29,7 +29,7 @@ CMD:ah(playerid, params[])
 
 	if(Player[playerid][AdminLevel] >= 4)
 	{
-	    SendClientMessage(playerid, GREY, "Level 4 Administrator: /makeleader");
+	    SendClientMessage(playerid, GREY, "Level 4 Administrator: /makeleader, /clearchat");
 	}
 
 	if(Player[playerid][AdminLevel] >= 5)
@@ -1944,12 +1944,12 @@ CMD:revive(playerid, params[])
 	}
 	else if(Player[playerid][AdminLevel] >= 1)
 	{
-		if(Player[id][Injured] == 2)
+		if(Player[id][Injured] == 2 || Player[id][Injured] == 3)
 		{
 			Array[0] = 0;
 			ClearAnimations(id, 1);
 			Player[id][Injured] = 0;
-			SetPlayerHealth(id, 100);
+			SetPlayerHealthEx(id, 100);
 			TextDrawHideForPlayer(id, LimboTextDraw);
 
 			GivePlayerSavedWeapons(id);
@@ -1962,7 +1962,7 @@ CMD:revive(playerid, params[])
             format(Array, sizeof(Array), "[/REVIVE] %s has been revived by %s %s.", GetName(id), GetPlayerAdminLevel(playerid), GetName(playerid));
             Log(1, Array);
 		}
-		else if(Player[id][Injured] == 3)
+		else if(Player[id][Injured] == 4)
 		{
 			Array[0] = 0;
 			Player[id][Injured] = 0;
@@ -2602,22 +2602,11 @@ CMD:set(playerid, params[])
 	        getdate(year, month, day);
 	        if(strlen(Usage) >= 1 && IsPlayerConnectedEx(id) && Player[playerid][AdminLevel] >= Player[id][AdminLevel] && Player[playerid][AdminLevel] >= 3)
 	        {
-	        	if(strcmp(Usage, "health", true) == 0)
-	        	{
-	        		Player[id][Health] = Value;
-	        		SetPlayerHealth(id, float(Value));
-	        	}
+	        	if(strcmp(Usage, "health", true) == 0) SetPlayerHealthEx(id, float(Value));
 
-	        	else if(strcmp(Usage, "armour", true) == 0)
-	        	{
-	        		Player[id][Armour] = Value;
-	        		SetPlayerArmour(id, float(Value));
-	        	}
+	        	else if(strcmp(Usage, "armour", true) == 0) SetPlayerArmourEx(id, float(Value));
 
-	        	else if(strcmp(Usage, "accent", true) == 0)
-	        	{
-	        		Player[id][Accent] = Value;
-	        	}
+	        	else if(strcmp(Usage, "accent", true) == 0) Player[id][Accent] = Value;
 
 	   	    	else if(strcmp(Usage, "skin", true) == 0)
 	        	{
@@ -2641,10 +2630,7 @@ CMD:set(playerid, params[])
 	        		SetPlayerVirtualWorld(playerid, Value);
 	        	}
 
-	        	else if(strcmp(Usage, "money", true) == 0)
-	        	{
-	        		GiveMoneyEx(id, Value);
-	        	}
+	        	else if(strcmp(Usage, "money", true) == 0) GiveMoneyEx(id, Value);
 
 	        	else
 	        	{
@@ -2828,6 +2814,20 @@ CMD:makeleader(playerid, params[])
         else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
     }
     return 1;
+}
+
+CMD:clearchat(playerid, params[])
+{
+	if(Player[playerid][AdminLevel] >= 4)
+    {
+    	Array[0] = 0;
+    	ClearChat(playerid, 2);
+
+    	format(Array, sizeof(Array), "[/CLEARCHAT] %s %s has cleared the SA:MP chat.", GetPlayerAdminLevel(playerid), GetName(playerid));
+	    SendToAdmins(ORANGE, Array, 0, 4);
+    }
+    else SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
+	return 1;
 }
 
 // ADMIN LEVEL 5 COMMANDS //

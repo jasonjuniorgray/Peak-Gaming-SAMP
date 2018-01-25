@@ -17,6 +17,8 @@ public OnPlayerConnect(playerid)
 	SetPlayerColor(playerid, GREY);
     MySQLConnectPlayer(playerid);
 
+    SetPlayerTime(playerid, GlobalHour, GlobalMinute);
+
     // Only add 'resets' for those that are 'allowed' to start at 0. i.e, group ranks are 0-9.
     Player[playerid][Authenticated] = 0;
     Player[playerid][PlayerGroup] = -1;
@@ -42,8 +44,6 @@ public OnPlayerDisconnect(playerid, reason)
 
 	SavePlayerData(playerid, 1);
 	SavePlayerVehicleData(playerid);
-
-	print("fewsaf");
 
 	for(new i; i < MAX_PLAYER_VEHICLES; i++) 
 	{

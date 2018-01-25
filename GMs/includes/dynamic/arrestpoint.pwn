@@ -54,7 +54,7 @@ CMD:editarrest(playerid, params[])
         {
             Arrest[id][ArrestGroup] = amount - 1;
 
-            format(Array, sizeof(Array), "You have modified the group of arrest point %d to %d", id, Group[amount - 1][GroupName]);
+            format(Array, sizeof(Array), "You have modified the group of arrest point %d to %s", id, Group[amount - 1][GroupName]);
             SendClientMessage(playerid, WHITE, Array);
 
             format(Array, sizeof(Array), "[/EDITARRESTPOINT] %s has modified the group of arrest point %d to %d", GetName(playerid), id, Group[amount - 1][GroupName]);

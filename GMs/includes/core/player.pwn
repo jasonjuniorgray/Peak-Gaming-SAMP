@@ -44,8 +44,8 @@ CMD:drop(playerid, params[])
 			}
 			if(drop > 0)
 			{
-				format(Array, sizeof(Array), "* %s has dropped their weapons.", GetName(playerid)); 
-				SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has dropped their weapons.", GetName(playerid)); 
+				SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 			}
 		}
 		if(strcmp(params, "phone", true) == 0)
@@ -54,8 +54,8 @@ CMD:drop(playerid, params[])
 			if(Player[playerid][PhoneNumber] > 0)
 			{
 				Player[playerid][PhoneNumber] = 0;
-				format(Array, sizeof(Array), "* %s has dropped their phone.", GetName(playerid)); 
-				SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has dropped their phone.", GetName(playerid)); 
+				SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 			}
 			else return SendClientMessage(playerid, WHITE, "You do not have a phone!");
 		}
@@ -70,7 +70,7 @@ CMD:accept(playerid, params[])
         if(isnull(params)) 
         {
             SendClientMessage(playerid, WHITE, "SNYTAX: /accept [name]");
-            SendClientMessage(playerid, GREY, "Names: gun, repair, respray, refill");
+            SendClientMessage(playerid, GREY, "Names: gun, repair, respray, refill, ticket");
             return 1;
         }
 		if(strcmp(params, "gun", true) == 0)
@@ -95,8 +95,8 @@ CMD:accept(playerid, params[])
 			Player[id][Materials] -= GetPVarInt(playerid, "SellGunMats");
 			GivePlayerWeaponEx(playerid, GetPVarInt(playerid, "SellGun"));
 
-			format(Array, sizeof(Array), "* %s crafts a %s from their materials, handing it to %s.", GetName(id), weapon, GetName(playerid)); 
-			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s crafts a %s from their materials, handing it to %s.", GetName(id), weapon, GetName(playerid)); 
+			SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
 			PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0); // Just a little 'classic' feel to it. -Jason
 			PlayerPlaySound(id, 1052, 0.0, 0.0, 0.0);
@@ -118,8 +118,8 @@ CMD:accept(playerid, params[])
 			SetPVarInt(id, "RepairInt", 1);
             Player[id][MechanicTimer] = SetTimerEx("RepairTimer", 1000, TRUE, "iii", id, playerid, GetPVarInt(playerid, "RepairVehID"));
 
-            format(Array, sizeof(Array), "* %s has started to repair the vehicle.", GetName(playerid));
-            SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has started to repair the vehicle.", GetName(playerid));
+            SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
             SendClientMessage(playerid, WHITE, "You are now repairing the vehicle. Do not go to far away from it, or inside any other vehicle!");
 
@@ -139,8 +139,8 @@ CMD:accept(playerid, params[])
 			SetPVarInt(id, "ColourInt", 1);
             Player[id][MechanicTimer] = SetTimerEx("ColourTimer", 1000, TRUE, "iiiii", id, playerid, GetPVarInt(playerid, "ColourVehID"), GetPVarInt(playerid, "Colour1"), GetPVarInt(playerid, "Colour2"));
 
-            format(Array, sizeof(Array), "* %s has started to respray the vehicle.", GetName(id));
-            SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+            format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has started to respray the vehicle.", GetName(id));
+            SendNearbyMessage(id, Array, PURPLE, 30.0);
 
             SendClientMessage(id, WHITE, "You are now spraying the vehicle. Do not go to far away from it, inside any other vehicle, and do not put your spraycan away!");
 
@@ -169,8 +169,8 @@ CMD:accept(playerid, params[])
 
 			if(Fuel[GetPVarInt(playerid, "RefillVehID")] > 100) Fuel[GetPVarInt(playerid, "RefillVehID")] = 100;
 
-            format(Array, sizeof(Array), "* %s has refilled their vehicle.", GetName(id));
-            SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has refilled their vehicle.", GetName(id));
+            SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
             GiveMoneyEx(playerid, -GetPVarInt(playerid, "RefillPrice"));
             GiveMoneyEx(id, GetPVarInt(playerid, "RefillPrice"));
@@ -191,10 +191,10 @@ CMD:accept(playerid, params[])
 
 			if(!GetPVarType(id, "Offering") || GetPVarInt(id, "Offering") == INVALID_PLAYER_ID || GetPVarInt(id, "Offering") != playerid) return SendClientMessage(playerid, GREY, "The seller has canceled the offer!");
 
-			SetPlayerArmour(playerid, GetPVarFloat(playerid, "GuardAmount"));
+			SetPlayerArmourEx(playerid, GetPVarFloat(playerid, "GuardAmount"));
 
-            format(Array, sizeof(Array), "* %s has sold a kevlar vest to %s.", GetName(id), GetName(playerid));
-            SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has sold a kevlar vest to %s.", GetName(id), GetName(playerid));
+            SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
             GiveMoneyEx(playerid, -GetPVarInt(playerid, "GuardPrice"));
             GiveMoneyEx(id, GetPVarInt(playerid, "GuardPrice"));
@@ -206,6 +206,44 @@ CMD:accept(playerid, params[])
 			DeletePVar(playerid, "GuardID");
 			DeletePVar(playerid, "GuardAmount");
 			DeletePVar(playerid, "GuardPrice");
+		}
+		else if(strcmp(params, "ticket", true) == 0)
+		{
+			Array[0] = 0;
+			if(!GetPVarType(playerid, "BeingTicketedBy") || GetPVarInt(playerid, "BeingTicketedBy") == INVALID_PLAYER_ID) return SendClientMessage(playerid, GREY, "No one has cited you!");
+
+			new id = GetPVarInt(playerid, "BeingTicketedBy");
+
+			if(Player[playerid][Money] < GetPVarInt(playerid, "BeingTicktedPrice")) 
+			{
+				SendClientMessage(playerid, GREY, "You do not have enough money for this!");
+				SendClientMessage(id, GREY, "The player has declined the ticket because they do not have enough money.");
+			}
+			else
+			{
+				Array[0] = 0;
+            	format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has wrote a citation to %s.", GetName(id), GetName(playerid));
+            	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
+
+            	new reason[128];
+            	GetPVarString(id, "BeingTicketedFor", reason, sizeof(reason));
+            	format(Array, sizeof(Array), "%s (%s) has wrote a citation to %s ($%s), for %s.", GetName(id), Group[Player[id][PlayerGroup]][GroupName], GetName(playerid), FormatNumberToString(GetPVarInt(playerid, "BeingTicketedPrice")), reason);
+            	Log(10, Array);
+
+            	GiveMoneyEx(playerid, -GetPVarInt(playerid, "BeingTicketedPrice"));
+            	new price[2];
+            	price[0] = floatround(GetPVarInt(playerid, "BeingTicketedPrice") * 0.30, floatround_round); // Takes 30% of the fine and gives it to the group responsible.
+            	price[1] = GetPVarInt(playerid, "BeingTicketedPrice") - price[0]; // Gives the rest to the government.
+
+            	Group[Player[id][PlayerGroup]][GroupMoney] += price[0];
+            	for(new i = 0; i < MAX_GROUPS; i++) { if(Group[i][GroupType] == 2) Group[i][GroupMoney] += price[1]; break; } // Fail safe. I don't like static group id's in the script, ensures even if the government group id does change from 0 in game it still adds it properly.
+            }
+
+			DeletePVar(playerid, "BeingTicketed");
+			DeletePVar(playerid, "BeingTicketedPrice");
+			DeletePVar(playerid, "BeingTicketedBy");
+			DeletePVar(playerid, "BeingTicketedFor");
+			DeletePVar(id, "Ticketing");
 		}
 	}
 	return 1;
@@ -219,6 +257,8 @@ CMD:cancel(playerid, params[])
         {
             SendClientMessage(playerid, WHITE, "SNYTAX: /cancel [name]");
             SendClientMessage(playerid, GREY, "Names: offer, truckrun, matrun, drugrun, pizzarun");
+            if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1) SendClientMessage(playerid, GREY, "(COP ONLY) Names: ticket");
+            if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 3) SendClientMessage(playerid, GREY, "(MEDIC ONLY) Names: patient");
             return 1;
         }
 		if(strcmp(params, "offer", true) == 0)
@@ -227,6 +267,31 @@ CMD:cancel(playerid, params[])
 
 			DeletePVar(playerid, "Offering");
 			SendClientMessage(playerid, WHITE, "You have successfully canceled your offer.");
+		}
+		if(strcmp(params, "ticket", true) == 0)
+		{
+			if(!GetPVarType(playerid, "Ticketing")) return SendClientMessage(playerid, GREY, "You have not offered anyone anything!");
+
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketed");
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedPrice");
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedBy");
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedFor");
+
+			SendClientMessage(GetPVarInt(playerid, "Ticketing"), WHITE, "The officer has canceled the ticket.");
+
+			DeletePVar(playerid, "Ticketing");
+			SendClientMessage(playerid, WHITE, "You have successfully canceled the ticket.");
+		}
+		if(strcmp(params, "patient", true) == 0)
+		{
+			if(!GetPVarType(playerid, "AcceptedPatient")) return SendClientMessage(playerid, GREY, "You have not accepted anyone!");
+
+			SendClientMessage(GetPVarInt(playerid, "AcceptedPatientID"), WHITE, "The EMS driver has canceled the call.");
+
+			KillTimer(GetPVarInt(playerid, "AcceptedPatient"));
+			DeletePVar(playerid, "AcceptedPatient");
+			DeletePVar(playerid, "AcceptedPatientID");
+			SendClientMessage(playerid, WHITE, "You have successfully canceled the patient.");
 		}
 		else if(strcmp(params, "truckrun", true) == 0)
 		{
@@ -318,7 +383,7 @@ CMD:killcheckpoint(playerid, params[])
 		}
 
 		if(GetPVarType(playerid, "Finding") >= 1) DeletePVar(playerid, "Finding");
-		if(GetPVarType(playerid, "AcceptedPatient") >= 1) DeletePVar(playerid, "AcceptedPatient");
+		if(GetPVarType(playerid, "AcceptedPatient") >= 1) { DeletePVar(playerid, "AcceptedPatient"); DeletePVar(playerid, "AcceptedPatientID"); }
 
 		SendClientMessage(playerid, WHITE, "You have cleared your checkpoint.");
 	}
@@ -329,7 +394,7 @@ CMD:limbo(playerid, params[])
 {
 	if(Player[playerid][Injured] == 2)
 	{
-		Player[playerid][Injured] = 3;
+		Player[playerid][Injured] = 4;
 		SetPlayerPosEx(playerid, 1201.12, -1324, -80.0, 0.0, 0, 0);
 		TogglePlayerControllableEx(playerid, FALSE);
 		TextDrawHideForPlayer(playerid, LimboTextDraw);
@@ -372,8 +437,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					new weaponname[16];
 					GetWeaponName(id[0], weaponname, 16);
 
-					format(Array, sizeof(Array), "* %s has dropped their %s.", GetName(playerid), weaponname); 
-					SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has dropped their %s.", GetName(playerid), weaponname); 
+					SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 				}
 			}
 		}

@@ -1,8 +1,3 @@
-#define 						SQL_HOST						     "localhost"
-#define 						SQL_USER						 		  "root"
-#define 						SQL_PASS				"F28Fj2kcah38WjfjaWHejk2"
-#define							SQL_DB						  				"rp"
-
 #define 						FALSE 										   0
 #define 						TRUE 										   1
 
@@ -137,6 +132,11 @@ be added to previous system. 												  */
 #define  						DIALOG_MDC									  80
 #define  						DIALOG_MDC_CIVINFO   						  81
 #define  						DIALOG_MDC_CIVINFO2 						  82
+
+#define  						DIALOG_CONTRACT		 						  90
+#define  						DIALOG_CONTRACT_NAME		 				  91
+#define  						DIALOG_CONTRACT_AMOUNT		 				  92
+#define  						DIALOG_CONTRACT_REASON						  93
 
 
 

@@ -25,16 +25,16 @@ CMD:engine(playerid)
 
 			if(engine != 1) 
 			{
-				format(Array, sizeof(Array), "* %s turns the key in the ignition.", GetName(playerid));
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s turns the key in the ignition.", GetName(playerid));
 				SetTimerEx("VehicleDelay", 1000, 0, "ii", playerid, vehicleid);
 			}
 			else
 			{
-				format(Array, sizeof(Array), "* %s turns the key in the ignition and the engine stops.", GetName(playerid));
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s turns the key in the ignition and the engine stops.", GetName(playerid));
 				SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_OFF, lights, alarm, doors, bonnet, boot, objective);
 			}
 
-			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 		}
 		else return SendClientMessage(playerid, WHITE, "You are not in a vehicle.");
 	}
@@ -56,12 +56,11 @@ CMD:hotwire(playerid)
 
 			if(engine != 1) 
 			{
-				format(Array, sizeof(Array), "* %s tweaks with some wires under the dashboard.", GetName(playerid));
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s tweaks with some wires under the dashboard.", GetName(playerid));
+				SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 				SetTimerEx("VehicleDelayHotwire", 5000, 0, "ii", playerid, vehicleid);
 			}
-			else return SendClientMessage(playerid, WHITE, "You cannot hotwire a vehicle that is already on.");
-
-			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			else return SendClientMessage(playerid, WHITE, "You cannot hotwire a vehicle that is already on.");			
 		}
 		else return SendClientMessage(playerid, WHITE, "You are not in a vehicle.");
 	}
@@ -73,7 +72,7 @@ CMD:park(playerid, params[])
 	new slot = IsPlayerInPersonalCar(playerid), vehicleid = GetPlayerVehicleID(playerid);
 	if(slot >= 0 || Player[playerid][PlayerGroup] == Vehicle[GetRealVehicleID(vehicleid)][VehicleGroup])
 	{
-		if(GetPlayerSpeed(playerid, 0) == 0)
+		if(GetPlayerSpeed(playerid) == 0)
 		{
 			if(GetPVarInt(playerid, "CarModification") < gettime())
 			{
@@ -174,14 +173,14 @@ CMD:lock(playerid, params[])
 		if(doors == VEHICLE_PARAMS_UNSET || doors == VEHICLE_PARAMS_OFF)
 		{
 			SetVehicleParamsEx(vehicleid, engine, lights, alarm, VEHICLE_PARAMS_ON, bonnet, boot, objective);
-			format(Array, sizeof(Array), "* %s has locked their vehicle.", GetName(playerid));
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has locked their vehicle.", GetName(playerid));
 		}
 		else
 		{
 			SetVehicleParamsEx(vehicleid, engine, lights, alarm, VEHICLE_PARAMS_OFF, bonnet, boot, objective);
-			format(Array, sizeof(Array), "* %s has unlocked their vehicle.", GetName(playerid));
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has unlocked their vehicle.", GetName(playerid));
 		}
-		SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+		SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	}
 	else SendClientMessage(playerid, WHITE, "You do not have the keys for this vehicle!");
 	return 1;
@@ -192,7 +191,7 @@ CMD:deletecar(playerid, params[])
 	new slot = IsPlayerInPersonalCar(playerid);
 	if(slot != -1)
 	{
-		if(GetPlayerSpeed(playerid, 0) == 0)
+		if(GetPlayerSpeed(playerid) == 0)
 		{
 			if(GetPVarInt(playerid, "CarModification") < gettime())
 			{
@@ -234,12 +233,12 @@ CMD:car(playerid, params[])
 			{
 				if(lights == VEHICLE_PARAMS_UNSET || lights == VEHICLE_PARAMS_OFF)
 				{
-					format(Array, sizeof(Array), "* %s switches their vehicle lights on.", GetName(playerid));
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s switches their vehicle lights on.", GetName(playerid));
 					SetVehicleParamsEx(vehicleid, engine, VEHICLE_PARAMS_ON, alarm, doors, bonnet, boot, objective);
 				}
 				else
 				{
-					format(Array, sizeof(Array), "* %s switches their vehicle lights off.", GetName(playerid));
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s switches their vehicle lights off.", GetName(playerid));
 					SetVehicleParamsEx(vehicleid, engine, VEHICLE_PARAMS_OFF, alarm, doors, bonnet, boot, objective);
 				}
 			}
@@ -258,22 +257,22 @@ CMD:car(playerid, params[])
 					case 1: 
 					{
 						SetVehicleParamsCarWindows(vehicleid, !driver, passenger, backleft, backright);
-						format(Array, sizeof(Array), "* %s rolls the driver side window %s.", GetName(playerid), (window == VEHICLE_PARAMS_UNSET || window == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the driver side window %s.", GetName(playerid), (window == VEHICLE_PARAMS_UNSET || window == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					case 2: 
 					{
 						SetVehicleParamsCarWindows(vehicleid, driver, !passenger, backleft, backright);
-						format(Array, sizeof(Array), "* %s rolls the passenger side window %s.", GetName(playerid), (passenger == VEHICLE_PARAMS_UNSET || passenger == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the passenger side window %s.", GetName(playerid), (passenger == VEHICLE_PARAMS_UNSET || passenger == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					case 3: 
 					{
 						SetVehicleParamsCarWindows(vehicleid, driver, passenger, !backleft, backright);
-						format(Array, sizeof(Array), "* %s rolls the back left side window %s.", GetName(playerid), (backleft == VEHICLE_PARAMS_UNSET || backleft == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the back left side window %s.", GetName(playerid), (backleft == VEHICLE_PARAMS_UNSET || backleft == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					case 4: 
 					{
 						SetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, !backright);
-						format(Array, sizeof(Array), "* %s rolls the back right side window %s.", GetName(playerid), (backright == VEHICLE_PARAMS_UNSET || backright == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the back right side window %s.", GetName(playerid), (backright == VEHICLE_PARAMS_UNSET || backright == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					default: return 1;
 				}
@@ -283,7 +282,7 @@ CMD:car(playerid, params[])
 				new driver, passenger, backleft, backright;
 				GetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, backright);
 				SetVehicleParamsCarWindows(vehicleid, !driver, !passenger, !backleft, !backright);
-				format(Array, sizeof(Array), "* %s rolls the driver side window %s, passenger side window %s, back left side window %s, and back right window %s.", GetName(playerid),
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the driver side window %s, passenger side window %s, back left side window %s, and back right window %s.", GetName(playerid),
 				 	(driver == VEHICLE_PARAMS_UNSET || driver == VEHICLE_PARAMS_ON) ? ("down") : ("up"),
 				 	(passenger == VEHICLE_PARAMS_UNSET || passenger == VEHICLE_PARAMS_ON) ? ("down") : ("up"),
 				 	(backleft == VEHICLE_PARAMS_UNSET || backleft == VEHICLE_PARAMS_ON) ? ("down") : ("up"),
@@ -294,7 +293,7 @@ CMD:car(playerid, params[])
 				SendClientMessage(playerid, WHITE, "SYNTAX: /car [usage]");
 				return SendClientMessage(playerid, GREY, "Usages: engine, lights, hood, trunk, window(s).");
 			}
-			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 		}
 		else if(GetPlayerState(playerid) == PLAYER_STATE_PASSENGER)
 		{
@@ -311,21 +310,21 @@ CMD:car(playerid, params[])
 					case 2:
 					{
 						SetVehicleParamsCarWindows(vehicleid, driver, !passenger, backleft, backright);
-						format(Array, sizeof(Array), "* %s rolls the passenger side window %s.", GetName(playerid), (passenger == VEHICLE_PARAMS_UNSET || passenger == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the passenger side window %s.", GetName(playerid), (passenger == VEHICLE_PARAMS_UNSET || passenger == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					case 3: 
 					{
 						SetVehicleParamsCarWindows(vehicleid, driver, passenger, !backleft, backright);
-						format(Array, sizeof(Array), "* %s rolls the back left side window %s.", GetName(playerid), (backleft == VEHICLE_PARAMS_UNSET || backleft == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the back left side window %s.", GetName(playerid), (backleft == VEHICLE_PARAMS_UNSET || backleft == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					case 4: 
 					{
 						SetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, !backright);
-						format(Array, sizeof(Array), "* %s rolls the back right side window %s.", GetName(playerid), (backright == VEHICLE_PARAMS_UNSET || backright == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s rolls the back right side window %s.", GetName(playerid), (backright == VEHICLE_PARAMS_UNSET || backright == VEHICLE_PARAMS_ON) ? ("down") : ("up"));
 					}
 					default: return 1;
 				}
-				SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+				SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 			}
 		}
 		else if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
@@ -340,19 +339,19 @@ CMD:car(playerid, params[])
 				{
 					if(doors == VEHICLE_PARAMS_UNSET || doors == VEHICLE_PARAMS_OFF)
 					{
-						format(Array, sizeof(Array), "* %s opens the vehicle hood.", GetName(playerid));
+						format(Array, sizeof(Array), "*{FF8000}** {C2A2DA}%s opens the vehicle hood.", GetName(playerid));
 						SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, VEHICLE_PARAMS_ON, boot, objective);
 					}
 					else if(doors == VEHICLE_PARAMS_ON && vehicleid == IsPlayersVehicle(playerid, vehicleid) || doors == VEHICLE_PARAMS_ON && Player[playerid][PlayerGroup] == Vehicle[GetRealVehicleID(vehicleid)][VehicleGroup])
 					{
-						format(Array, sizeof(Array), "* %s opens the vehicle hood.", GetName(playerid));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s opens the vehicle hood.", GetName(playerid));
 						SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, VEHICLE_PARAMS_ON, boot, objective);
 					}
 					else return SendClientMessage(playerid, WHITE, "You do not have the keys to this vehicle!");
 				}
 				else
 				{
-					format(Array, sizeof(Array), "* %s closes the vehicle hood.", GetName(playerid));
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s closes the vehicle hood.", GetName(playerid));
 					SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, VEHICLE_PARAMS_OFF, boot, objective);
 				}
 			}
@@ -362,19 +361,19 @@ CMD:car(playerid, params[])
 				{
 					if(doors == VEHICLE_PARAMS_UNSET || doors == VEHICLE_PARAMS_OFF)
 					{
-						format(Array, sizeof(Array), "* %s opens the vehicle trunk.", GetName(playerid));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s opens the vehicle trunk.", GetName(playerid));
 						SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, VEHICLE_PARAMS_ON, objective);
 					}
 					else if(doors == VEHICLE_PARAMS_ON && vehicleid == IsPlayersVehicle(playerid, vehicleid) || doors == VEHICLE_PARAMS_ON && Player[playerid][PlayerGroup] == Vehicle[GetRealVehicleID(vehicleid)][VehicleGroup])
 					{
-						format(Array, sizeof(Array), "* %s opens the vehicle trunk.", GetName(playerid));
+						format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s opens the vehicle trunk.", GetName(playerid));
 						SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, VEHICLE_PARAMS_ON, objective);
 					}
 					else return SendClientMessage(playerid, WHITE, "You do not have the keys to this vehicle!");
 				}
 				else
 				{
-					format(Array, sizeof(Array), "* %s closes the vehicle trunk.", GetName(playerid));
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s closes the vehicle trunk.", GetName(playerid));
 					SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, VEHICLE_PARAMS_OFF, objective);
 				}
 			}
@@ -383,7 +382,7 @@ CMD:car(playerid, params[])
 				SendClientMessage(playerid, WHITE, "SYNTAX: /car [usage]");
 				return SendClientMessage(playerid, GREY, "Usages: engine, lights, hood, trunk, window(s).");
 			}
-			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 		}
 	}
 	return 1;
@@ -413,7 +412,9 @@ GetClosestVehicle(playerid, Float:range, excludeinvehicle = 0)
 	new id = INVALID_VEHICLE_ID, Float:Pos[3], Float:temprange, Float:newrange = range;
 
 	for(new i = 1; i <= MAX_VEHICLES; ++i)
-	{
+	{	
+		if(GetPlayerVehicleID(playerid) == i && excludeinvehicle == 1) i++;
+
 		GetVehiclePos(i, Pos[0], Pos[1], Pos[2]);
 		temprange = GetPlayerDistanceFromPoint(playerid, Pos[0], Pos[1], Pos[2]);
 
@@ -422,8 +423,7 @@ GetClosestVehicle(playerid, Float:range, excludeinvehicle = 0)
 			if(temprange < newrange)
 			{
 				newrange = temprange;
-				if(GetPlayerVehicleID(playerid) == i && excludeinvehicle == 1) continue;
-				else id = i;
+				id = i;
 			}
 		}
 	}
@@ -539,20 +539,20 @@ public VehicleDelay(playerid, vehicleid)
 
 		if(Fuel[vehicleid] == 0) 
 		{
-			format(Array, sizeof(Array), "* The vehicle has ran out of fuel. (( %s ))", GetName(playerid));
-			return SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle has ran out of fuel. (( %s ))", GetName(playerid));
+			return SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 		}
 
 		if(health > 256.0)
 		{
-			format(Array, sizeof(Array), "* The vehicle engine starts (( %s ))", GetName(playerid));
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine starts (( %s ))", GetName(playerid));
 			SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_ON, lights, alarm, doors, bonnet, boot, objective);
 		}
-		else format(Array, sizeof(Array), "* The vehicle engine stalls (( %s ))", GetName(playerid));
+		else format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine stalls (( %s ))", GetName(playerid));
 	}
-	else format(Array, sizeof(Array), "* The vehicle engine doesn't start (( %s ))", GetName(playerid));
+	else format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine doesn't start (( %s ))", GetName(playerid));
 
-	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	return 1;
 }
 
@@ -568,22 +568,22 @@ public VehicleDelayHotwire(playerid, vehicleid)
 
 		if(Fuel[vehicleid] == 0) 
 		{
-			format(Array, sizeof(Array), "* The vehicle has ran out of fuel. (( %s ))", GetName(playerid));
-			return SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle has ran out of fuel. (( %s ))", GetName(playerid));
+			return SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 		}
 
 		if(health > 256.0)
 		{
-			format(Array, sizeof(Array), "* The vehicle engine starts (( %s ))", GetName(playerid));
+			format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine starts (( %s ))", GetName(playerid));
 			SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_ON, lights, VEHICLE_PARAMS_ON, doors, bonnet, boot, objective);
 
 			SetTimerEx("TurnOffAlarm", 15000, 0, "i", vehicleid);
 		}
-		else format(Array, sizeof(Array), "* The vehicle engine stalls (( %s ))", GetName(playerid));
+		else format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine stalls (( %s ))", GetName(playerid));
 	}
-	else format(Array, sizeof(Array), "* The vehicle engine doesn't start (( %s ))", GetName(playerid));
+	else format(Array, sizeof(Array), "{FF8000}** {C2A2DA}The vehicle engine doesn't start (( %s ))", GetName(playerid));
 
-	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	return 1;
 }
 
@@ -699,14 +699,13 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	return 1;
 }
 
-CheckVehicleSeats(vehicle, seat)
+IsVehicleRestricted(vehicle)
 {
 	switch(GetVehicleModel(vehicle)) 
 	{
-		case 425, 430, 432, 441, 446, 448, 452, 453, 454, 464, 465, 472, 473, 476, 481, 484, 485, 486, 493, 501, 509, 510, 519, 520, 530, 531, 532, 539, 553, 564, 568, 571, 572, 574, 583, 592, 594, 595: return 0;
-		default: if(IsVehicleOccupied(vehicle, seat)) return 0;
+		case 425, 430, 432, 441, 446, 448, 452, 453, 454, 464, 465, 472, 473, 476, 481, 484, 485, 486, 493, 501, 509, 510, 519, 520, 530, 531, 532, 539, 553, 564, 568, 571, 572, 574, 583, 592, 594, 595: return 1;
 	}
-	return 1;
+	return 0;
 }
 
 /*IsABoat(vehicle) 

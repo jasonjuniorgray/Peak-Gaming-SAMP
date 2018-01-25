@@ -27,10 +27,10 @@ CMD:guard(playerid, params[])
 
 			if(id == playerid && Player[playerid][JobSkill][2] >= 400)
             {
-            	SetPlayerArmour(playerid, amount);
+            	SetPlayerArmourEx(playerid, amount);
 
-            	format(Array, sizeof(Array), "* %s has strapped on a kevlar vest.", GetName(playerid));
-                SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+            	format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has strapped on a kevlar vest.", GetName(playerid));
+                SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
                 IncreaseJobSkill(playerid, 2, 1);
             	return 1;

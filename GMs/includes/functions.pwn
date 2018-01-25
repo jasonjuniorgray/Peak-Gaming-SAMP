@@ -18,6 +18,8 @@ GamemodeInitiate()
 	LoadPoints();
 
 	ClearReports();
+
+	gettime(GlobalHour, GlobalMinute, GlobalSecond);
 	SetTime();
 
 	for(new i = 0; i < sizeof(AdminVehicles); i++) AdminVehicles[i] = INVALID_VEHICLE_ID;
@@ -134,15 +136,16 @@ SpectatePlayer(playerid, id)
 	PlayerSpectatePlayer(playerid, id);
 }
 
-GetPlayerSpeed(playerid, get3d)
+GetPlayerSpeed(playerid) 
 {
-	new Float:x, Float:y, Float:z;
-	if(IsPlayerInAnyVehicle(playerid))
-	    GetVehicleVelocity(GetPlayerVehicleID(playerid), x, y, z);
-	else
-	    GetPlayerVelocity(playerid, x, y, z);
 
-	return SpeedCheck(x, y, z, 100.0, get3d);
+	new Float:Velocity[3], Speed;
+
+	if(IsPlayerInAnyVehicle(playerid)) GetVehicleVelocity(GetPlayerVehicleID(playerid), Velocity[0], Velocity[1], Velocity[2]);
+	else GetPlayerVelocity(playerid, Velocity[0], Velocity[1], Velocity[2]);
+
+	Speed = floatround(floatsqroot(((Velocity[0]*Velocity[0])+(Velocity[1]*Velocity[1]))+(Velocity[2]*Velocity[2])) * 136.666667, floatround_round);
+	return Speed;
 }
 
 SetSpawnCameraPosition(playerid)
@@ -631,6 +634,14 @@ Log(type, string[])
 		case 17: // Server Edit Log
 		{
 			logfile = fopen("Logs/ServerEdit.log", io_append);
+			fwrite(logfile, logstring);
+			fclose(logfile);
+
+			Log(0, logstring);
+		}
+		case 18: // Contract Log
+		{
+			logfile = fopen("Logs/Contract.log", io_append);
 			fwrite(logfile, logstring);
 			fclose(logfile);
 

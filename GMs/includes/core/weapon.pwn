@@ -13,8 +13,8 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 		{
 			if(IsPlayerNearPlayer(issuerid, playerid, 10.0))
 			{
-				SetPlayerHealth(playerid, health);
-				SetPlayerArmour(playerid, armour);
+				SetPlayerHealthEx(playerid, health);
+				SetPlayerArmourEx(playerid, armour);
 
 				TogglePlayerControllableEx(playerid, FALSE);
 				ClearAnimations(playerid);
@@ -27,23 +27,23 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 				SetPlayerDrunkLevel(playerid, 99999999);
 				SetTimerEx("TaserTimer", 15000, FALSE, "i", playerid);
 
-				format(Array, sizeof(Array), "* %s fires their taser at %s, stunning them.", GetName(issuerid), GetName(playerid));
-		    	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s fires their taser at %s, stunning them.", GetName(issuerid), GetName(playerid));
+		    	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	    	}
 	    	else
 	    	{
-	    		SetPlayerHealth(playerid, health);
-				SetPlayerArmour(playerid, armour);
+	    		SetPlayerHealthEx(playerid, health);
+				SetPlayerArmourEx(playerid, armour);
 
 				SetPVarInt(issuerid, "TaserReload", 15);
-	    		format(Array, sizeof(Array), "* %s fires their taser at %s, missing them.", GetName(issuerid), GetName(playerid));
-		    	SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	    		format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s fires their taser at %s, missing them.", GetName(issuerid), GetName(playerid));
+		    	SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	    	}
 		}
 		else
 		{
-			SetPlayerHealth(playerid, health);
-			SetPlayerArmour(playerid, armour);
+			SetPlayerHealthEx(playerid, health);
+			SetPlayerArmourEx(playerid, armour);
 			format(Array, sizeof(Array), "Your taser is still reloading! (%d seconds.)", GetPVarInt(issuerid, "TaserReload"));
 			SendClientMessage(issuerid, WHITE, Array);
 		}
@@ -52,7 +52,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	{
 		switch(weaponid)
 		{
-			case 14, 43: addeddamage[0] = 0.0;
+			case 14, 43, 47 .. 255: addeddamage[0] = 0.0;
 			case 22, 23: addeddamage[0] = 20.0;
 			case 30: addeddamage[0] = 20.0;
 			case 31: addeddamage[0] = 15.0;
@@ -67,24 +67,24 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 		}
 		modifieddamage = addeddamage[0] + addeddamage[1];
 
-		if(health == 0) SetPlayerHealth(playerid, 0);
-		else if(health > 0 && armour == 0) // Hasn't died, but has no armour.
+		if(health <= 0) { SetPlayerHealthEx(playerid, 0); SetPlayerArmourEx(playerid, 0); }
+		else if(health > 0 && armour == 0 || weaponid == 54) // Hasn't died, but has no armour. || or taking fall damage.
 		{
-			SetPlayerHealth(playerid, health + amount);
-			SetPlayerHealth(playerid, health - modifieddamage);
+			SetPlayerHealthEx(playerid, health + amount);
+			SetPlayerHealthEx(playerid, health - modifieddamage);
 		}
 		else if(health > 0 && armour > 0 && armour - modifieddamage > 0) // Still has armour after the damage is going to be given.
 		{
-			SetPlayerArmour(playerid, armour + amount);
-			SetPlayerArmour(playerid, armour - modifieddamage);
+			SetPlayerArmourEx(playerid, armour + amount);
+			SetPlayerArmourEx(playerid, armour - modifieddamage);
 		}
 		else if(health > 0 && armour > 0 && armour - modifieddamage < 0) // Damage will be spread throughout health and armour.
 		{
 			new Float:tempfloat;
 			tempfloat = modifieddamage - armour;
 
-			SetPlayerArmour(playerid, 0);
-			SetPlayerHealth(playerid, health - tempfloat);
+			SetPlayerArmourEx(playerid, 0);
+			SetPlayerHealthEx(playerid, health - tempfloat);
 		}
 	}
 	return 1;
@@ -92,11 +92,14 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
+	SetPlayerHealthEx(playerid, 0);
+	SetPlayerArmourEx(playerid, 0);
+
 	if(Player[playerid][Injured] == 0)
 	{
 		DeletePVar(playerid, "InAnimation");
 		DeletePVar(playerid, "LoopingAnimation");
-		TextDrawHideForPlayer(playerid,AnimationHelper);
+		TextDrawHideForPlayer(playerid, AnimationHelper);
 
 		GetPlayerPos(playerid, Player[playerid][PosX], Player[playerid][PosY], Player[playerid][PosZ]);
 		Player[playerid][Interior] = GetPlayerInterior(playerid);
@@ -104,26 +107,45 @@ hook OnPlayerDeath(playerid, killerid, reason)
 
 		Player[playerid][Injured] = 1;
 	}
+	else if(Player[playerid][Injured] > 0) 
+	{
+		SetSpawnInfo(playerid, 0, Player[playerid][Skin], 1201.12, -1324, -80.0, 0.0, 0, 0, 0, 0, 0, 0);
+		Player[playerid][Injured] = 4;
+	}
 	return 1;
 }
 
 hook OnPlayerSpawn(playerid)
 {
-	if(Player[playerid][Injured] == 1)
+	if(Player[playerid][Injured] == 4)
 	{
+		SetPlayerHealthEx(playerid, 50);
+		Player[playerid][Injured] = 4;
+
+		TogglePlayerControllableEx(playerid, FALSE);
+		TextDrawHideForPlayer(playerid, LimboTextDraw);
+
+		SetPlayerCameraPos(playerid, 1207.39, -1294.71, 24.61);
+		SetPlayerCameraLookAt(playerid, 1181.72, -1322.65, 13.58);
+
+		SetTimerEx("LimboTimer", 15000, FALSE, "i", playerid);
+	}
+	else if(Player[playerid][Injured] == 1)
+	{
+		SetPlayerHealthEx(playerid, 100);
+
 		TogglePlayerSpectating(playerid, FALSE);
 		Player[playerid][Injured] = 2;
 
-		SetSpawnInfo(playerid, 0, Player[playerid][Skin], Player[playerid][PosX], Player[playerid][PosY], Player[playerid][PosZ], 0.0, 0, 0, 0, 0, 0, 0);
-		SpawnPlayer(playerid);
-
-		SetPlayerInterior(playerid, Player[playerid][Interior]);
-		SetPlayerVirtualWorld(playerid, Player[playerid][VirtualWorld]);
+		SetPlayerPosEx(playerid, Player[playerid][PosX], Player[playerid][PosY], Player[playerid][PosZ], 0.0, Player[playerid][Interior], Player[playerid][VirtualWorld]);
+		SetPlayerSkin(playerid, Player[playerid][Skin]);
 
 		if(Player[playerid][Interior] > 0) PrepareStream(playerid);
 
 		ApplyAnimation(playerid, "PED", "KO_shot_stom", 4.0, 0, 1, 1, 1, 0, 1);
 		TextDrawShowForPlayer(playerid, LimboTextDraw);
+
+		SendClientMessage(playerid, WHITE, "The EMS have been informed of your location.");
 
 		SetTimerEx("DeathTimer", 3500, FALSE, "i", playerid);
 	}
@@ -152,20 +174,20 @@ public DeathTimer(playerid)
 
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, Player[playerid][PosX], Player[playerid][PosY], Player[playerid][PosZ]) && health > 2)
 		{
-			SetPlayerHealth(playerid, health - 1.0);
+			SetPlayerHealthEx(playerid, health - 1.0);
 
 			SetTimerEx("DeathTimer", 3500, FALSE, "i", playerid);
 		}
 		else
 		{
-			Player[playerid][Injured] = 3;
+			Player[playerid][Injured] = 4;
 			SetPlayerPosEx(playerid, 1201.12, -1324, -80.0, 0.0, 0, 0);
 			TogglePlayerControllableEx(playerid, FALSE);
 
 			SetPlayerCameraPos(playerid, 1207.39, -1294.71, 24.61);
 			SetPlayerCameraLookAt(playerid, 1181.72, -1322.65, 13.58);
 
-			SetPlayerHealth(playerid, 50.0);
+			SetPlayerHealthEx(playerid, 50.0);
 
 			TextDrawHideForPlayer(playerid, LimboTextDraw);
 
@@ -178,16 +200,16 @@ public DeathTimer(playerid)
 forward LimboTimer(playerid);
 public LimboTimer(playerid)
 {
-	if(Player[playerid][Injured] == 3)
+	if(Player[playerid][Injured] == 4)
 	{
 		SendClientMessage(playerid, LIGHTRED, "You have been charged $1,000 for your stay. Have a nice day!");
-		GiveMoneyEx(playerid, -1500);
+		GiveMoneyEx(playerid, -1000);
 		Player[playerid][Injured] = 0;
 		TogglePlayerSpectating(playerid, FALSE);
 		SetPlayerPosEx(playerid, 1176.7156, -1323.5863, 14.0350, 270.0, 0, 0);
 		ResetPlayerWeaponsEx(playerid);
 		TogglePlayerControllableEx(playerid, TRUE);
-		SetPlayerHealth(playerid, 50.0);
+		SetPlayerHealthEx(playerid, 50.0);
 
 		SetCameraBehindPlayer(playerid);
 	}

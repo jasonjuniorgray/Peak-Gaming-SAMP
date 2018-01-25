@@ -1,4 +1,4 @@
-new SQL, Float:Spawn[4], ServerGMX, SpawnMoney[2], LotteryInfo[2], GlobalHour, GlobalMinute, GlobalSecond, Weather;
+new SQL, Float:Spawn[4], ServerGMX, SpawnMoney[2], LotteryInfo[2], GlobalHour, GlobalMinute, GlobalSecond, Weather, Tax;
 
 new Array[4096]; // Much cleaner way of doing this, define it globally and use it when needed. Rather than defining strings locally. (Added 5/13/2016 - Do not remove, unless you want errors)
 
@@ -457,6 +457,12 @@ new Float:PrisonLSPD[3][3] = {
 {115.0158, 246.8853, 1024.4165},
 {114.4784, 234.3702, 1024.4231},
 {110.6974, 247.4793, 1024.4165}
+};
+
+// IDS 0-2 = /deliverpatient,    3-5 = SetPlayerCameraPos,     6-8 = SetPlayerCameraLookAt
+new Float:Hospitals[2][9] = {
+{1147.6750,-1311.6188,13.6789, /**/ 1207.39, -1294.71, 24.61, /**/ 1181.72, -1322.65, 13.58},
+{2036.0267,-1426.2239,16.9922, /**/ 1207.39, -1294.71, 24.61, /**/ 1181.72, -1322.65, 13.58}
 };
 
 new Float:TruckerCheckpoints[8][3] = {

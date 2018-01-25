@@ -418,10 +418,10 @@ CMD:groupdeposit(playerid, params[])
                         GiveMoneyEx(playerid, -amount);
                         Group[Player[playerid][PlayerGroup]][GroupMoney] += amount;
 
-                        format(Array, sizeof(Array), "You have deposited $%s from the group locker.", FormatNumberToString(amount));
+                        format(Array, sizeof(Array), "You have deposited $%s into the group locker.", FormatNumberToString(amount));
                         SendClientMessage(playerid, WHITE, Array);
 
-                        format(Array, sizeof(Array), "%s has deposited $%s from the group locker.", GetName(playerid), FormatNumberToString(amount));
+                        format(Array, sizeof(Array), "%s has deposited $%s into the group locker.", GetName(playerid), FormatNumberToString(amount));
                     }
                     default:
                     {
@@ -475,20 +475,20 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                         SetPlayerColor(playerid, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255);
                         Player[playerid][OnDuty] = 1;
 
-                        format(Array, sizeof(Array), "* %s takes out their badge from their locker.", GetName(playerid));
-                        SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+                        format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s takes out their badge from their locker.", GetName(playerid));
+                        SendNearbyMessage(playerid, Array, PURPLE, 30.0);
                     }
                     else
                     {
                         SetPlayerColor(playerid, WHITE);
                         Player[playerid][OnDuty] = 0;
 
-                        format(Array, sizeof(Array), "* %s places their badge back into their locker.", GetName(playerid));
-                        SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+                        format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s places their badge back into their locker.", GetName(playerid));
+                        SendNearbyMessage(playerid, Array, PURPLE, 30.0);
                     }
                 }
-                case 1: SetPlayerHealth(playerid, 100);
-                case 2: SetPlayerArmour(playerid, 100);
+                case 1: SetPlayerHealthEx(playerid, 100);
+                case 2: SetPlayerArmourEx(playerid, 100);
                 case 3: ShowPlayerDialog(playerid, DIALOG_LOCKER_CLOTHES, DIALOG_STYLE_INPUT, "Locker - Clothing", "Please enter a skin number to change into it.", "Select", "Cancel");
             }
         }
@@ -505,20 +505,20 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                         SetPlayerColor(playerid, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255);
                         Player[playerid][OnDuty] = 1;
 
-                        format(Array, sizeof(Array), "* %s takes out their badge from their locker.", GetName(playerid));
-                        SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+                        format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s takes out their badge from their locker.", GetName(playerid));
+                        SendNearbyMessage(playerid, Array, PURPLE, 30.0);
                     }
                     else
                     {
                         SetPlayerColor(playerid, WHITE);
                         Player[playerid][OnDuty] = 0;
 
-                        format(Array, sizeof(Array), "* %s places their badge back into their locker.", GetName(playerid));
-                        SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+                        format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s places their badge back into their locker.", GetName(playerid));
+                        SendNearbyMessage(playerid, Array, PURPLE, 30.0);
                     }
                 }
-                case 1: SetPlayerHealth(playerid, 100);
-                case 2: SetPlayerArmour(playerid, 100);
+                case 1: SetPlayerHealthEx(playerid, 100);
+                case 2: SetPlayerArmourEx(playerid, 100);
                 case 3: ShowPlayerDialog(playerid, DIALOG_LOCKER_CLOTHES, DIALOG_STYLE_INPUT, "Locker - Clothing", "Please enter a skin number to change into it.", "Purchase", "Cancel");
                 case 4: 
                 { 
@@ -533,8 +533,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             if(!response) return 1;
             switch(listitem)
             {
-                case 0: SetPlayerHealth(playerid, 100);
-                case 1: SetPlayerArmour(playerid, 100);
+                case 0: SetPlayerHealthEx(playerid, 100);
+                case 1: SetPlayerArmourEx(playerid, 100);
                 case 2: ShowPlayerDialog(playerid, DIALOG_LOCKER_CLOTHES, DIALOG_STYLE_INPUT, "Locker - Clothing", "Please enter a skin number to change into it.", "Purchase", "Cancel");
                 case 3: 
                 { 
@@ -565,8 +565,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     new weaponname[16];
                     GetWeaponName(id[0], weaponname, 16);
 
-                    format(Array, sizeof(Array), "* %s has taken a %s from their locker.", GetName(playerid), weaponname); 
-                    SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+                    format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has taken a %s from their locker.", GetName(playerid), weaponname); 
+                    SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
                     format(Array, sizeof(Array), "%s %s (%s) has withdrawn a %s from the group locker.", GroupRankNames[Player[playerid][PlayerGroup]][Player[playerid][GroupRank]], GetName(playerid), GroupDivisionNames[Player[playerid][PlayerGroup]][Player[playerid][GroupDiv]], weaponname); 
                     Log(16, Array);

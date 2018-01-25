@@ -1,31 +1,6 @@
 #include <YSI\y_hooks>
 
-new NametagTimer[MAX_PLAYERS];
+// Some anit-cheat functions are found under the "OneSecond" task in timers.pwn. //
 
-hook OnPlayerStreamIn(playerid, id)
-{
-	NametagTimer[id] = SetTimerEx("RangeCheck", 500, true, "ii", playerid, id);
-	return 1;
-}
-
-hook OnPlayerStreamOut(playerid, id)
-{
-	KillTimer(NametagTimer[id]);
-	return 1;
-}
-
-forward RangeCheck(playerid, id);
-public RangeCheck(playerid, id)
-{
-	new Float:X, Float:Y, Float:Z;
-	GetPlayerPos(id, X, Y, Z);
-	
-	if(IsPlayerInRangeOfPoint(playerid, 25.0, X, Y, Z))
-	{
-		ShowPlayerNameTagForPlayer(id, playerid, true);
-	}
-	else
-	{
-		ShowPlayerNameTagForPlayer(id, playerid, false);
-	}
-}
+SetPlayerHealthEx(playerid, Float:health) { SetPlayerHealth(playerid, health); Player[playerid][Health] = health; return 1; } // Serverside health.
+SetPlayerArmourEx(playerid, Float:armour) { SetPlayerArmour(playerid, armour); Player[playerid][Armour] = armour; return 1; } // Serverside armour.

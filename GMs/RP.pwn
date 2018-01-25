@@ -35,7 +35,7 @@
 
 
 		   // Credits to Kaicore for the SA:MP Modification //								 			
- *
+ *1
  * Copyright (c) 2017, by Jason Gray
  *
  * All rights reserved.
@@ -91,6 +91,7 @@
 #include "./includes/core/phone.pwn"
 #include "./includes/core/player.pwn"
 #include "./includes/core/report.pwn"
+#include "./includes/core/streamer.pwn"
 #include "./includes/core/textdraw.pwn"
 #include "./includes/core/vehicle.pwn"
 #include "./includes/core/weapon.pwn"
@@ -116,7 +117,10 @@
 #include "./includes/business/lottery.pwn"
 #include "./includes/business/store.pwn"
 
+#include "./includes/group/government.pwn"
 #include "./includes/group/lawenforcement.pwn"
+#include "./includes/group/medic.pwn"
+#include "./includes/group/hitman.pwn"
 
 #include "./includes/job/armsdealer.pwn"
 #include "./includes/job/bodyguard.pwn"

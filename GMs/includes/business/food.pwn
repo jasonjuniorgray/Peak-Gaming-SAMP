@@ -16,7 +16,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				case 0 .. sizeof(FoodItems):
 				{
 					Business[id][Stock] -= 1;
-					SetPlayerHealth(playerid, 100);
+					SetPlayerHealthEx(playerid, 100);
 
 					format(Array, sizeof(Array), "You have purchsed a %s from %s.", FoodItems[listitem], Business[id][BizName]);
 					SendClientMessage(playerid, WHITE, Array);

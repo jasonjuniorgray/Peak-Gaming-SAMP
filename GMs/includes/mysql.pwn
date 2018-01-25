@@ -179,7 +179,7 @@ public OnPlayerLogin(playerid)
 
     	TogglePlayerSpectating(playerid, FALSE);
 
-    	if(Player[playerid][Injured] > 0) Player[playerid][Injured] = 3;
+    	if(Player[playerid][Injured] > 0) Player[playerid][Injured] = 4;
 
     	SpawnPlayer(playerid);
     	OnPlayerLoginForward(playerid);
@@ -385,18 +385,16 @@ SavePlayerData(playerid, type)
 SavePlayerVehicleData(playerid, vehicle = -1)
 {
 	new Query[2056];
-	print("zzfewsaf");
 	for(new i; i < MAX_PLAYER_VEHICLES; i++)
 	{
 		if(i == vehicle || vehicle == -1)
 		{
 			printf("%d, %d, %d, %d", i, PlayerVehicle[playerid][CarID], PlayerVehicle[playerid][CarModel][i], Fuel[PlayerVehicle[playerid][CarID][i]]);
-			print("zzfewsaf");
-			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `Fuel` = '%d', \
+			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `PaintJob` = '%d', `Fuel` = '%d', \
 				`Mod0` = '%d', `Mod1` = '%d', `Mod2` = '%d', `Mod3` = '%d', `Mod4` = '%d', `Mod5` = '%d', `Mod6` = '%d', `Mod7` = '%d', `Mod8` = '%d', `Mod9` = '%d', `Mod10` = '%d', `Mod11` = '%d', `Mod12` = '%d' , `Mod13` = '%d' \
 				WHERE `id` = '%d'",
 				PlayerVehicle[playerid][CarModel][i], PlayerVehicle[playerid][CarX][i], PlayerVehicle[playerid][CarY][i], PlayerVehicle[playerid][CarZ][i], PlayerVehicle[playerid][CarA][i], PlayerVehicle[playerid][CarInt][i],
-				PlayerVehicle[playerid][CarVW][i], PlayerVehicle[playerid][CarColour][i], PlayerVehicle[playerid][CarColour2][i], Fuel[PlayerVehicle[playerid][CarID][i]], PlayerVehicle[playerid][CarMod0][i], PlayerVehicle[playerid][CarMod1][i],
+				PlayerVehicle[playerid][CarVW][i], PlayerVehicle[playerid][CarColour][i], PlayerVehicle[playerid][CarColour2][i], PlayerVehicle[playerid][CarPaintJob][i], Fuel[PlayerVehicle[playerid][CarID][i]], PlayerVehicle[playerid][CarMod0][i], PlayerVehicle[playerid][CarMod1][i],
 				PlayerVehicle[playerid][CarMod2][i], PlayerVehicle[playerid][CarMod3][i], PlayerVehicle[playerid][CarMod4][i], PlayerVehicle[playerid][CarMod5][i], PlayerVehicle[playerid][CarMod6][i], PlayerVehicle[playerid][CarMod7][i],
 				PlayerVehicle[playerid][CarMod8][i], PlayerVehicle[playerid][CarMod9][i], PlayerVehicle[playerid][CarMod10][i], PlayerVehicle[playerid][CarMod11][i], PlayerVehicle[playerid][CarMod12][i], PlayerVehicle[playerid][CarMod13][i],
 				PlayerVehicle[playerid][CarDatabaseID][i]);
@@ -567,8 +565,8 @@ SaveServer()
     Array[0] = 0;
 
     mysql_format(SQL, Array, sizeof Array, "UPDATE `server` SET \
-        `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Money` = '%d', `BankMoney` = '%d'",
-        Spawn[0], Spawn[1], Spawn[2], Spawn[3], SpawnMoney[0], SpawnMoney[1]
+        `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Money` = '%d', `BankMoney` = '%d', `Tax` = %d",
+        Spawn[0], Spawn[1], Spawn[2], Spawn[3], SpawnMoney[0], SpawnMoney[1], Tax
     );
     mysql_tquery(SQL, Array, "", "");
     return 1;
@@ -587,6 +585,8 @@ public InitiateServer()
 
     SpawnMoney[0] = cache_get_field_content_int(0, "Money", SQL);
     SpawnMoney[1] = cache_get_field_content_int(0, "BankMoney", SQL);
+
+    Tax = cache_get_field_content_int(0, "Tax", SQL);
 
     printf("[SCRIPT-LOAD] The script initiated the server properties.");
 }

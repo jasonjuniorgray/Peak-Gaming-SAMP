@@ -25,11 +25,11 @@ CMD:cuff(playerid, params[])
 
 	    			if(GetPlayerSpecialAction(id) == SPECIAL_ACTION_HANDSUP || GetPVarType(id, "Tasered"))
 	    			{
-	    				if(GetPVarType(id, "Tasered")) SetPlayerDrunkLevel(playerid, 0);
+	    				if(GetPVarType(id, "Tasered")) { SetPlayerDrunkLevel(id, 0); DeletePVar(id, "Tasered"); }
 	    				Array[0] = 0;
 	    				SetPVarInt(id, "Cuffed", 1);
-	    				DeletePVar(id, "Tasered");
 	    				ClearAnimations(id, 1);
+	    				SetPlayerSkin(id, GetPlayerSkin(id));
 
 	    				SetPlayerSpecialAction(id, SPECIAL_ACTION_CUFFED);
 
@@ -39,8 +39,8 @@ CMD:cuff(playerid, params[])
 	    					SetCameraBehindPlayer(id);
 	    				}
 
-	    				format(Array, sizeof(Array), "* %s takes out a pair of cuffs, securing them tightly on %s's wrists.", GetName(playerid), GetName(id));
-	    				SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+	    				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s takes out a pair of cuffs, securing them tightly on %s's wrists.", GetName(playerid), GetName(id));
+	    				SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 	    			}
 	    			else return SendClientMessage(playerid, WHITE, "This player does not have their hands up or has not been tased!");
 	    		}
@@ -84,8 +84,8 @@ CMD:uncuff(playerid, params[])
 
 						TogglePlayerControllableEx(id, TRUE);
 
-	    				format(Array, sizeof(Array), "* %s uses a key to remove the cuffs from %s.", GetName(playerid), GetName(id));
-	    				SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+	    				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s uses a key to remove the cuffs from %s.", GetName(playerid), GetName(id));
+	    				SendNearbyMessage(id, Array, PURPLE, 30.0);
 	    			}
 	    		}
 	    		else return SendClientMessage(playerid, WHITE, "You are not near that player!");
@@ -99,7 +99,7 @@ CMD:uncuff(playerid, params[])
 
 CMD:drag(playerid, params[]) // This command can also be used by medics.
 {
-	new id;
+	new id = INVALID_PLAYER_ID;
 	if(sscanf(params, "u", id) && !GetPVarType(playerid, "Dragging"))
 	{
 	    if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
@@ -112,6 +112,8 @@ CMD:drag(playerid, params[]) // This command can also be used by medics.
 	{
 	    if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 3)
 	    {
+	    	if(GetPVarType(playerid, "DraggingID")) id = GetPVarInt(playerid, "DraggingID");
+	    	
 	    	if(IsPlayerConnectedEx(id))
 	    	{
 	    		if(playerid == id) return SendClientMessage(playerid, WHITE, "You cannot drag yourself!");
@@ -119,25 +121,28 @@ CMD:drag(playerid, params[]) // This command can also be used by medics.
 	    		if(IsPlayerNearPlayer(playerid, id, 5.0))
 	    		{
 	    			if(!GetPVarInt(id, "Cuffed") && Group[Player[playerid][PlayerGroup]][GroupType] != 3) return SendClientMessage(playerid, WHITE, "This player is not cuffed!");
-	    			if(Player[playerid][Injured] != 2 && Group[Player[playerid][PlayerGroup]][GroupType] == 3) return SendClientMessage(playerid, WHITE, "This player is not injured!");
+	    			if(Player[playerid][Injured] != 3 && GetPVarInt(playerid, "SavingPatient") != id && Group[Player[playerid][PlayerGroup]][GroupType] == 3) return SendClientMessage(playerid, WHITE, "This player is not injured or you have not taken them as your patient!");
 	    			else
 	    			{
 	    				Array[0] = 0;
-	    				if(GetPVarType(playerid, "Dragging"))
+	    				if(!GetPVarType(playerid, "Dragging"))
 	    				{
 	    					SetPVarInt(playerid, "Dragging", SetTimerEx("DragTimer", 1000, TRUE, "ii", playerid, id));
+	    					SetPVarInt(playerid, "DraggingID", id);
 
-	    					if(Group[Player[playerid][PlayerGroup]][GroupType] != 3) format(Array, sizeof(Array), "* %s grabs ahold of %s and begins to move them.", GetName(playerid), GetName(id));
-	    					else format(Array, sizeof(Array), "* %s places %s on a stretcher and begins to move them.", GetName(playerid), GetName(id));
-	    					SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+	    					if(Group[Player[playerid][PlayerGroup]][GroupType] != 3) format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s grabs ahold of %s and begins to move them.", GetName(playerid), GetName(id));
+	    					else format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s places %s on a stretcher and begins to move them.", GetName(playerid), GetName(id));
+	    					SendNearbyMessage(id, Array, PURPLE, 30.0);
 	    					format(Array, sizeof(Array), "You have started dragging %s. Type /drag again to stop.", GetName(playerid), GetName(id));
 	    				}
 	    				else
 	    				{
 	    					KillTimer(GetPVarInt(playerid, "Dragging"));
+	    					DeletePVar(playerid, "Dragging");
+	    					DeletePVar(playerid, "DraggingID");
 
-	    					format(Array, sizeof(Array), "* %s has stopped moving %s.", GetName(playerid), GetName(id));
-	    					SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+	    					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has stopped moving %s.", GetName(playerid), GetName(id));
+	    					SendNearbyMessage(id, Array, PURPLE, 30.0);
 	    				}
 	    			}
 	    		}
@@ -178,16 +183,16 @@ CMD:detain(playerid, params[]) // This command can also be used by medics.
 					if(doors == VEHICLE_PARAMS_UNSET || doors == VEHICLE_PARAMS_OFF)
 					{
 		    			if(!GetPVarInt(id, "Cuffed") && Group[Player[playerid][PlayerGroup]][GroupType] != 3) return SendClientMessage(playerid, WHITE, "This player is not cuffed!");
-	    				if(Player[playerid][Injured] != 2 && Group[Player[playerid][PlayerGroup]][GroupType] == 3) return SendClientMessage(playerid, WHITE, "This player is not injured!");
+	    				if(Player[playerid][Injured] != 3 && GetPVarInt(playerid, "SavingPatient") != id && Group[Player[playerid][PlayerGroup]][GroupType] == 3) return SendClientMessage(playerid, WHITE, "This player is not injured or you have not taken them as your patient!");
 		    			else
 		    			{
-		    				if(seat < 1 || seat > 3 || CheckVehicleSeats(vehicle, seat)) return SendClientMessage(playerid, WHITE, "You entered an invalid seat number.");
+		    				if(seat < 1 || seat > 3 || IsVehicleRestricted(vehicle) || IsVehicleOccupied(vehicle, seat)) return SendClientMessage(playerid, WHITE, "You entered an invalid seat number.");
 		    				if(IsPlayerInAnyVehicle(id)) return SendClientMessage(playerid, WHITE, "This player is already in a vehicle.");
 		    				Array[0] = 0;
-		    				PutPlayerInVehicle(playerid, vehicle, seat);
+		    				PutPlayerInVehicle(id, vehicle, seat);
 
-		    				format(Array, sizeof(Array), "* %s has placed %s inside the vehicle.", GetName(playerid), GetName(id));
-		    				SendNearbyMessage(id, Array, SCRIPTPURPLE, 30.0);
+		    				format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s has placed %s inside the vehicle.", GetName(playerid), GetName(id));
+		    				SendNearbyMessage(id, Array, PURPLE, 30.0);
 		    			}
 		    		}
 		    		else return SendClientMessage(playerid, WHITE, "This vehicle is locked!");
@@ -314,6 +319,45 @@ CMD:charge(playerid, params[])
 	return 1;
 }
 
+CMD:ticket(playerid, params[])
+{
+	if(Player[playerid][PlayerGroup] > -1)
+	{
+		if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1)
+		{
+			new id, price, reason[128];
+			if(sscanf(params, "uds[128]", id, price, reason)) 
+			{
+				return SendClientMessage(playerid, WHITE, "SYNTAX: /ticket [playerid] [price] [reason]");
+			}
+			else
+			{
+				if(IsPlayerConnectedEx(id))
+				{
+					if(!IsPlayerNearPlayer(playerid, id, 15.0)) return SendClientMessage(playerid, WHITE, "You are not near this player.");
+
+					if(price > 2500 || price <= 0) return SendClientMessage(playerid, WHITE, "The price must be greater than zero and less than $2,500.");
+					
+					Array[0] = 0;
+					SetPVarInt(id, "BeingTicketed", price);
+					SetPVarInt(id, "BeingTicketedBy", playerid);
+					SetPVarInt(id, "BeingTicketedPrice", price);
+					SetPVarString(id, "BeingTicketedFor", reason);
+
+					format(Array, sizeof(Array), "%s (%s) has issued you a citation for $%s, reason: %s (/accept ticket)", GetName(playerid), Group[Player[playerid][PlayerGroup]][GroupName], FormatNumberToString(price), reason);
+					SendClientMessage(id, LIGHTBLUE, Array);
+					format(Array, sizeof(Array), "You have issued a citation to %s for $%s, reason: %s", GetName(id), FormatNumberToString(price), reason);
+					SendClientMessage(id, LIGHTBLUE, Array);
+				}
+				else return SendClientMessage(playerid, WHITE, "This player is not connected.");
+			}
+		}
+		else return SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+	}
+	else SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+	return 1;
+}
+
 CMD:find(playerid, params[])
 {
 	if(Player[playerid][PlayerGroup] > -1)
@@ -388,16 +432,16 @@ CMD:taser(playerid, params[])
 					ResetPlayerWeapons(playerid);
 					GivePlayerWeapon(playerid, 23, 99999);
 
-					format(Array, sizeof(Array), "* %s unholsters their taser.", GetName(playerid));
-	    			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s unholsters their taser.", GetName(playerid));
+	    			SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 					Player[playerid][Taser] = 1;
 				}
 				default: // Unholstered.
 				{
 					ResetPlayerWeapons(playerid);
 					GivePlayerSavedWeapons(playerid);
-					format(Array, sizeof(Array), "* %s holsters their taser.", GetName(playerid));
-	    			SendNearbyMessage(playerid, Array, SCRIPTPURPLE, 30.0);
+					format(Array, sizeof(Array), "{FF8000}** {C2A2DA}%s holsters their taser.", GetName(playerid));
+	    			SendNearbyMessage(playerid, Array, PURPLE, 30.0);
 
 					Player[playerid][Taser] = 0;
 				}
@@ -409,7 +453,17 @@ CMD:taser(playerid, params[])
 	return 1;
 }
 
-CMD:tow(playerid, params[])
+CMD:myclosestcar(playerid, params[]) //test command, remove.
+{
+	Array[0] = 0;
+	new VehicleToTow =  GetClosestVehicle(playerid, 8.0, .excludeinvehicle = 1);
+	new VehicleToTow2 =  GetClosestVehicle(playerid, 8.0, .excludeinvehicle = 0);
+	format(Array, sizeof(Array), "exclude = %d. notexclude = %d", VehicleToTow, VehicleToTow2);
+	SendClientMessage(playerid, WHITE, Array);
+	return 1;
+}
+
+CMD:tow(playerid, params[]) // Anybody in a group can use this command.
 {
     if(Player[playerid][PlayerGroup] > -1)
 	{
@@ -417,10 +471,14 @@ CMD:tow(playerid, params[])
 		{
 	        if(IsPlayerInAnyVehicle(playerid))
 	        {
-				new vehicle = GetPlayerVehicleID(playerid);
-				if(GetVehicleModel(vehicle) == 525)
+				if(GetVehicleModel(GetPlayerVehicleID(playerid)) == 525)
 				{
 					new VehicleToTow =  GetClosestVehicle(playerid, 8.0, .excludeinvehicle = 1);
+
+					Array[0] = 0;
+					format(Array, 50, "Tow: %d", VehicleToTow);
+					SendClientMessage(playerid, WHITE, Array);
+
 					if(VehicleToTow != INVALID_VEHICLE_ID)
 					{
 						if(!IsTrailerAttachedToVehicle(GetPlayerVehicleID(playerid)))
@@ -452,7 +510,7 @@ CMD:mdc(playerid, params[])
 			{
 				new vehicle = GetPlayerVehicleID(playerid), id = GetRealVehicleID(vehicle);
 
-				if(Vehicle[id][Model] == 0) return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
+				if(Player[playerid][PlayerGroup] != Vehicle[id][VehicleGroup]) return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
 				else ShowPlayerDialog(playerid, DIALOG_MDC, DIALOG_STYLE_LIST, "Mobile Database Computer", "Civilian Information\nWarrants\nBackup Calls", "Select", "Cancel");
 			}
 			else return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
@@ -536,6 +594,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(!response) return 1;
 			if(Player[playerid][PlayerGroup] == -1 && Group[Player[playerid][PlayerGroup]][GroupType] != 0 && Group[Player[playerid][PlayerGroup]][GroupType] != 1) return SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+			if(Player[playerid][PlayerGroup] != Vehicle[GetRealVehicleID(GetPlayerVehicleID(playerid))][VehicleGroup]) return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
 
 			switch(listitem)
 			{
@@ -548,6 +607,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(!response) return 1;
 			if(Player[playerid][PlayerGroup] == -1 && Group[Player[playerid][PlayerGroup]][GroupType] != 0 && Group[Player[playerid][PlayerGroup]][GroupType] != 1) return SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+			if(Player[playerid][PlayerGroup] != Vehicle[GetRealVehicleID(GetPlayerVehicleID(playerid))][VehicleGroup]) return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
 
 			new id;
 			if(sscanf(inputtext, "u", id)) return ShowPlayerDialog(playerid, DIALOG_MDC_CIVINFO, DIALOG_STYLE_INPUT, "Mobile Database Computer - Civilian Information", "Please enter the ID or the full name of the person you would like to search.", "Select", "Cancel");
@@ -556,7 +616,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				if(id == -1) return SendClientMessage(playerid, WHITE, "This player is not connected.");
 				if(!IsPlayerConnectedEx(id)) return SendClientMessage(playerid, WHITE, "This player is not connected.");
 
-				ShowPlayerDialog(playerid, DIALOG_MDC_CIVINFO2, DIALOG_STYLE_LIST, "Mobile Database Computer - Civilian Information", "Licenses\nRecord\nVehicles\nAdd Charge\nAdd Ticket\nClear Charges", "Select", "Cancel");
+				if(Group[Player[playerid][PlayerGroup]][GroupType] == 0) ShowPlayerDialog(playerid, DIALOG_MDC_CIVINFO2, DIALOG_STYLE_LIST, "Mobile Database Computer - Civilian Information", "Licenses\nRecord\nVehicles\nAdd Charge", "Select", "Cancel");
+				else if(Group[Player[playerid][PlayerGroup]][GroupType] == 1) ShowPlayerDialog(playerid, DIALOG_MDC_CIVINFO2, DIALOG_STYLE_LIST, "Mobile Database Computer - Civilian Information", "Licenses\nRecord\nVehicles\nAdd Charge\nClear Charges", "Select", "Cancel");
 				SetPVarInt(playerid, "CivlianInformation", id);
 			}
 		}
@@ -564,6 +625,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			if(!response) return 1;
 			if(Player[playerid][PlayerGroup] == -1 && Group[Player[playerid][PlayerGroup]][GroupType] != 0 && Group[Player[playerid][PlayerGroup]][GroupType] != 1) return SendClientMessage(playerid, WHITE, "You are not in a law enforcement agency.");
+			if(Player[playerid][PlayerGroup] != Vehicle[GetRealVehicleID(GetPlayerVehicleID(playerid))][VehicleGroup]) return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
 
 			if(GetPVarInt(playerid, "CivilianInformation") == -1) return SendClientMessage(playerid, WHITE, "This player is not connected.");
 			if(!IsPlayerConnectedEx(GetPVarInt(playerid, "CivilianInformation"))) return SendClientMessage(playerid, WHITE, "This player is not connected.");
@@ -600,8 +662,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 					return cmd_charge(playerid, id);
 				}
-				case 4: return 1; //return cmd_ticket(playerid, GetPVarInt(playerid, "CivilianInformation"));
-				case 5:
+				case 4:
 				{
 					if(Group[Player[playerid][PlayerGroup]][GroupType] == 1) // Law Enforcement (IA)
 					{
