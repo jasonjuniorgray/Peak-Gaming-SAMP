@@ -59,7 +59,7 @@
                                                
 		/*  ---------------- SCRIPT REVISION ----------------- */
 
-#define                     	VERSION                         "PG:RP 0.01.085"
+#define                     	VERSION                         "PG:RP 0.01.087"
 
 #include <a_samp>
 #include <a_mysql>
