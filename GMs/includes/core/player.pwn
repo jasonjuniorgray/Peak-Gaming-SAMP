@@ -258,7 +258,8 @@ CMD:cancel(playerid, params[])
             SendClientMessage(playerid, WHITE, "SNYTAX: /cancel [name]");
             SendClientMessage(playerid, GREY, "Names: offer, truckrun, matrun, drugrun, pizzarun");
             if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1) SendClientMessage(playerid, GREY, "(COP ONLY) Names: ticket");
-            if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 3) SendClientMessage(playerid, GREY, "(MEDIC ONLY) Names: patient");
+            if(Group[Player[playerid][PlayerGroup]][GroupType] == 3) SendClientMessage(playerid, GREY, "(MEDIC ONLY) Names: patient");
+            if(Group[Player[playerid][PlayerGroup]][GroupType] == 4) SendClientMessage(playerid, GREY, "(HMA ONLY) Names: contract");
             return 1;
         }
 		if(strcmp(params, "offer", true) == 0)
@@ -267,31 +268,6 @@ CMD:cancel(playerid, params[])
 
 			DeletePVar(playerid, "Offering");
 			SendClientMessage(playerid, WHITE, "You have successfully canceled your offer.");
-		}
-		if(strcmp(params, "ticket", true) == 0)
-		{
-			if(!GetPVarType(playerid, "Ticketing")) return SendClientMessage(playerid, GREY, "You have not offered anyone anything!");
-
-			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketed");
-			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedPrice");
-			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedBy");
-			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedFor");
-
-			SendClientMessage(GetPVarInt(playerid, "Ticketing"), WHITE, "The officer has canceled the ticket.");
-
-			DeletePVar(playerid, "Ticketing");
-			SendClientMessage(playerid, WHITE, "You have successfully canceled the ticket.");
-		}
-		if(strcmp(params, "patient", true) == 0)
-		{
-			if(!GetPVarType(playerid, "AcceptedPatient")) return SendClientMessage(playerid, GREY, "You have not accepted anyone!");
-
-			SendClientMessage(GetPVarInt(playerid, "AcceptedPatientID"), WHITE, "The EMS driver has canceled the call.");
-
-			KillTimer(GetPVarInt(playerid, "AcceptedPatient"));
-			DeletePVar(playerid, "AcceptedPatient");
-			DeletePVar(playerid, "AcceptedPatientID");
-			SendClientMessage(playerid, WHITE, "You have successfully canceled the patient.");
 		}
 		else if(strcmp(params, "truckrun", true) == 0)
 		{
@@ -340,6 +316,40 @@ CMD:cancel(playerid, params[])
 			DeletePVar(playerid, "PizzaPoint");
 
 			SendClientMessage(playerid, WHITE, "You have successfully canceled your pizzarun.");
+		}
+		if(strcmp(params, "ticket", true) == 0)
+		{
+			if(!GetPVarType(playerid, "Ticketing")) return SendClientMessage(playerid, GREY, "You have not offered anyone anything!");
+
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketed");
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedPrice");
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedBy");
+			DeletePVar(GetPVarInt(playerid, "Ticketing"), "BeingTicketedFor");
+
+			SendClientMessage(GetPVarInt(playerid, "Ticketing"), WHITE, "The officer has canceled the ticket.");
+
+			DeletePVar(playerid, "Ticketing");
+			SendClientMessage(playerid, WHITE, "You have successfully canceled the ticket.");
+		}
+		if(strcmp(params, "patient", true) == 0)
+		{
+			if(!GetPVarType(playerid, "AcceptedPatient")) return SendClientMessage(playerid, GREY, "You have not accepted anyone!");
+
+			SendClientMessage(GetPVarInt(playerid, "AcceptedPatientID"), WHITE, "The EMS driver has canceled the call.");
+
+			KillTimer(GetPVarInt(playerid, "AcceptedPatient"));
+			DeletePVar(playerid, "AcceptedPatient");
+			DeletePVar(playerid, "AcceptedPatientID");
+			SendClientMessage(playerid, WHITE, "You have successfully canceled the patient.");
+		}
+		if(strcmp(params, "contract", true) == 0)
+		{
+			if(!GetPVarType(playerid, "AcceptedContract")) return SendClientMessage(playerid, GREY, "You have not accepted anyone!");
+
+			DeletePVar(playerid, "AcceptedContract");
+   			DeletePVar(playerid, "AcceptedContractID");
+
+			SendClientMessage(playerid, WHITE, "You have successfully canceled the contract.");
 		}
 	}
 	return 1;
@@ -450,8 +460,12 @@ ShowStatistics(playerid, id) // Make sure to use 'id' when getting information, 
 {
 	Array[0] = 0;
 
-	new jobstring[50], groupstring[256], rankstring[50], divstring[50], leaderstring[15], vehiclestring[MAX_PLAYER_VEHICLES][50];
+	new genderstring[10], jobstring[50], groupstring[256], rankstring[50], divstring[50], leaderstring[15], vehiclestring[MAX_PLAYER_VEHICLES][50];
 	SendClientMessage(id, WHITE, "---------------------------------------------------------------------------------------------------------------------------------------");
+
+	if(Player[id][Gender] < 0 || Player[id][Gender] > 1) { Player[id][Gender] = 0; format(genderstring, 50, "Male"); }
+	else if(Player[id][Gender] == 0) format(genderstring, 50, "Male");
+	else if(Player[id][Gender] == 1) format(genderstring, 50, "Female");
 
 	if(Player[id][PlayerJob] > -1) format(jobstring, 50, "%s", Job[Player[id][PlayerJob]][JobName]);
 	else format(jobstring, 50, "Nothing");
@@ -469,14 +483,25 @@ ShowStatistics(playerid, id) // Make sure to use 'id' when getting information, 
 	else if(Player[id][Leader] >= 1 && GetMaxGroupRank(Player[id][PlayerGroup]) == Player[id][GroupRank]) format(leaderstring, 50, "Slotholder");
 	else format(leaderstring, 50, "No");
 
-	for(new i; i < MAX_PLAYER_VEHICLES; i++)
+	if(Player[playerid][AdminDuty] > 0)
 	{
-		if(PlayerVehicle[id][CarModel][i] > 0) format(vehiclestring[i], 50, "%s", VehicleNames[PlayerVehicle[id][CarModel][i] - 400]);
-		else format(vehiclestring[i], 50, "Nothing");
+		for(new i; i < MAX_PLAYER_VEHICLES; i++)
+		{
+			if(PlayerVehicle[id][CarModel][i] > 0) format(vehiclestring[i], 50, "%s (%d)", VehicleNames[PlayerVehicle[id][CarModel][i] - 400], PlayerVehicle[id][CarID][i]);
+			else format(vehiclestring[i], 50, "Nothing");
+		}
+	}
+	else
+	{
+		for(new i; i < MAX_PLAYER_VEHICLES; i++)
+		{
+			if(PlayerVehicle[id][CarModel][i] > 0) format(vehiclestring[i], 50, "%s", VehicleNames[PlayerVehicle[id][CarModel][i] - 400]);
+			else format(vehiclestring[i], 50, "Nothing");
+		}
 	}
 
 
-	format(Array, sizeof(Array), "Name: %s | Age: 18 | Gender: Female | Accent: %s | Job: %s | Second Job: Nothing | Third Job: Nothing", GetName(id), GetPlayerAccent(id), jobstring);
+	format(Array, sizeof(Array), "Name: %s | Age: %d | Gender: %s | Accent: %s | Job: %s | Second Job: Nothing | Third Job: Nothing", GetName(id), Player[playerid][Age], genderstring, GetPlayerAccent(id), jobstring);
 	SendClientMessage(playerid, WHITE, Array);
 
 	format(Array, sizeof(Array), "Group: %s | Rank: %s | Division: %s | Badge: [000-000] | Hourly Pay: $%s | Group Leader: %s", groupstring, rankstring, divstring, FormatNumberToString(Group[Player[id][PlayerGroup]][GroupPaycheque][Player[id][GroupRank]]), leaderstring);
@@ -497,7 +522,7 @@ ShowStatistics(playerid, id) // Make sure to use 'id' when getting information, 
 		SendClientMessage(playerid, GREY, Array);
 	}
 
-	format(Array, sizeof(Array), "Playing Hours: %d | Married To: Nobody | Money: $%s | Bank Money: $0 | Total Wealth: $%s | Player Rank: Newbie", Player[playerid][PlayingHours], FormatNumberToString(Player[playerid][Money]), FormatNumberToString(Player[playerid][Money]));
+	format(Array, sizeof(Array), "Playing Hours: %d | Married To: Nobody | Money: $%s | Bank Money: $%s | Total Wealth: $%s | Player Rank: Newbie", Player[playerid][PlayingHours], FormatNumberToString(Player[playerid][Money]), FormatNumberToString(Player[playerid][BankMoney]), FormatNumberToString(Player[playerid][Money] + Player[playerid][BankMoney]));
 	SendClientMessage(playerid, WHITE, Array);
 
 	format(Array, sizeof(Array), "Vehicle 1: %s | Vehicle 2: %s | Vehicle 3: %s | Vehicle 4: %s | Vehicle 5: %s", vehiclestring[0], vehiclestring[1], vehiclestring[2], vehiclestring[3], vehiclestring[4]);

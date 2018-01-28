@@ -59,11 +59,11 @@ hook OnPlayerEnterCheckpoint(playerid)
             new Distance;
             Distance = floatround(GetPlayerDistanceFromPoint(playerid, Point[GetPVarInt(playerid, "PizzaPoint")][poPos][0], Point[GetPVarInt(playerid, "PizzaPoint")][poPos][1], Point[GetPVarInt(playerid, "PizzaPoint")][poPos][2]));
             
-            new time = 300 - GetPVarInt(playerid, "PizzaRun");
+            new time = 300 - GetPVarInt(playerid, "PizzaRun"), realpay = Distance / 75 * time / 3;
             
-            GiveMoneyEx(playerid, Distance / 75 * time);
+            GiveMoneyEx(playerid, realpay);
 
-            format(Array, sizeof(Array), "You delivered the pizza in time and received $%s.", FormatNumberToString(Distance / 75 * time));
+            format(Array, sizeof(Array), "You delivered the pizza in time and received $%s.", FormatNumberToString(realpay));
             SendClientMessage(playerid, WHITE, Array);
 
             DeletePVar(playerid, "PizzaRun");

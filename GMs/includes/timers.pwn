@@ -159,7 +159,12 @@ task OneSecond[1000]()
 			format(string, sizeof(string), "~b~MPH: %s%d", color1, GetPlayerSpeed(i));
 			PlayerTextDrawSetString(i, SpeedTextDraw[i], string);
 		}
-
+		if(Player[i][InsideBusiness] >= 1)
+		{
+			if(!IsPlayerInRangeOfPoint(i, 70.0, Business[Player[i][InsideBusiness]][BizPos][4], Business[Player[i][InsideBusiness]][BizPos][5], Business[Player[i][InsideBusiness]][BizPos][6]) 
+				|| Business[Player[i][InsideBusiness]][BizVW][1] != GetPlayerVirtualWorld(i) 
+				|| Business[Player[i][InsideBusiness]][BizInt][1] != GetPlayerInterior(i)) Player[i][InsideBusiness] = -1;
+		}
 		// ANTI-CHEAT STARTS HERE //
 
 		new Float:health, Float:armour;
@@ -338,11 +343,13 @@ public DragTimer(playerid, id)
 		new Float:Pos[3];
 		GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
 
-		SetPlayerPos(id, Pos[0], Pos[1] + 0.8, Pos[2]);
+		SetPlayerPosEx(id, Pos[0], Pos[1] + 0.8, Pos[2], 0.0, GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid));
 
 		Player[playerid][PosX] = Pos[0];
 		Player[playerid][PosY] = Pos[1] + 0.8;
 		Player[playerid][PosZ] = Pos[2];
+		Player[playerid][Interior] = GetPlayerInterior(playerid);
+		Player[playerid][VirtualWorld] = GetPlayerVirtualWorld(playerid);
 	}
 	else
 	{

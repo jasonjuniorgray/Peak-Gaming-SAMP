@@ -56,7 +56,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 			case 22, 23: addeddamage[0] = 20.0;
 			case 30: addeddamage[0] = 20.0;
 			case 31: addeddamage[0] = 15.0;
-			default: addeddamage[0] = amount;
+			default: addeddamage[0] = 0.0;
 		}
 		switch(bodypart)
 		{
@@ -70,12 +70,10 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 		if(health <= 0) { SetPlayerHealthEx(playerid, 0); SetPlayerArmourEx(playerid, 0); }
 		else if(health > 0 && armour == 0 || weaponid == 54) // Hasn't died, but has no armour. || or taking fall damage.
 		{
-			SetPlayerHealthEx(playerid, health + amount);
 			SetPlayerHealthEx(playerid, health - modifieddamage);
 		}
 		else if(health > 0 && armour > 0 && armour - modifieddamage > 0) // Still has armour after the damage is going to be given.
 		{
-			SetPlayerArmourEx(playerid, armour + amount);
 			SetPlayerArmourEx(playerid, armour - modifieddamage);
 		}
 		else if(health > 0 && armour > 0 && armour - modifieddamage < 0) // Damage will be spread throughout health and armour.
@@ -146,8 +144,10 @@ hook OnPlayerSpawn(playerid)
 		TextDrawShowForPlayer(playerid, LimboTextDraw);
 
 		SendClientMessage(playerid, WHITE, "The EMS have been informed of your location.");
-
-		SetTimerEx("DeathTimer", 3500, FALSE, "i", playerid);
+		format(Array, sizeof(Array), "%s (%d) has been reported injured. Use /acceptpatient %d to accept the call.", GetName(playerid), playerid, playerid);
+   		foreach(new i: Player) { if(Group[Player[i][PlayerGroup]][GroupType] == 3) SendClientMessage(i, Group[Player[playerid][PlayerGroup]][GroupColour] * 256 + 255, Array); }
+		
+		SetTimerEx("DeathTimer", 3500, FALSE, "i", playerid);		
 	}
 	return 1;
 }

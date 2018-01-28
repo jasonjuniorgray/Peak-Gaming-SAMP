@@ -310,6 +310,15 @@ public SetPlayerPosEx(playerid, Float: X, Float: Y, Float: Z, Float: A, interior
 		SetVehicleVirtualWorld(GetPlayerVehicleID(playerid), virtualworld);
 	    LinkVehicleToInterior(GetPlayerVehicleID(playerid), interior);
 	    SetVehicleZAngle(GetPlayerVehicleID(playerid), A);
+
+	    foreach(new i: Player)
+	    {
+	    	if(GetPlayerVehicleID(i) == GetPlayerVehicleID(playerid))
+	    	{
+	    		SetPlayerVirtualWorld(i, virtualworld);
+	   			SetPlayerInterior(i, interior);
+	    	}
+	    }
 	    return 1;
 	}
 	else

@@ -59,7 +59,7 @@
                                                
 		/*  ---------------- SCRIPT REVISION ----------------- */
 
-#define                     	VERSION                         "PG:RP 0.01.087"
+#define                     	VERSION                         "PG:RP 0.01.088"
 
 #include <a_samp>
 #include <a_mysql>
@@ -83,6 +83,7 @@
 #include "./includes/core/admin.pwn"
 #include "./includes/core/animations.pwn"
 #include "./includes/core/anticheat.pwn"
+#include "./includes/core/bank.pwn"
 #include "./includes/core/business.pwn"
 #include "./includes/core/chat.pwn"
 #include "./includes/core/group.pwn"

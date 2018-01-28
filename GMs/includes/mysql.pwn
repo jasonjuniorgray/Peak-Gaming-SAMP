@@ -114,10 +114,13 @@ public OnPlayerLogin(playerid)
     	Player[playerid][Health] = cache_get_field_content_float(row, "Health");
     	Player[playerid][Armour] = cache_get_field_content_float(row, "Armour");
     	Player[playerid][Money] = cache_get_field_content_int(row, "Money");
+    	Player[playerid][BankMoney] = cache_get_field_content_int(row, "BankMoney");
     	Player[playerid][Interior] = cache_get_field_content_int(row, "Interior");
     	Player[playerid][VirtualWorld] = cache_get_field_content_int(row, "VirtualWorld");
     	Player[playerid][Accent] = cache_get_field_content_int(row, "Accent");
     	Player[playerid][Skin] = cache_get_field_content_int(row, "Skin");
+    	Player[playerid][Gender] = cache_get_field_content_int(row, "Gender");
+    	Player[playerid][Age] = cache_get_field_content_int(row, "Age");
     	Player[playerid][AdminLevel] = cache_get_field_content_int(row, "AdminLevel");
 		Player[playerid][PlayerGroup] = cache_get_field_content_int(row, "Group");
 		Player[playerid][GroupRank] = cache_get_field_content_int(row, "Rank");
@@ -159,6 +162,12 @@ public OnPlayerLogin(playerid)
 		Player[playerid][Drugs][1] = cache_get_field_content_int(row, "Crack");
 		Player[playerid][ConnectedSeconds] = cache_get_field_content_int(row, "ConnectedSeconds");
 		Player[playerid][PlayingHours] = cache_get_field_content_int(row, "Hours");
+
+		Player[playerid][ContractID] = cache_get_field_content_int(row, "ContractID");
+		Player[playerid][Contracted] = cache_get_field_content_int(row, "Contracted");
+		Player[playerid][ContractAmount] = cache_get_field_content_int(row, "ContractAmount");
+		cache_get_field_content(row, "ContractedBy", Player[playerid][ContractedBy], SQL, MAX_PLAYER_NAME);
+		cache_get_field_content(row, "ContractedReason", Player[playerid][ContractedReason], SQL, 150);
 
 		if(Player[playerid][AdminLevel] >= 1)
 		{
@@ -320,6 +329,7 @@ SavePlayerData(playerid, type)
     			SavePlayerFloat(Query, Player[playerid][DatabaseID], "Health", pHealth);
     			SavePlayerFloat(Query, Player[playerid][DatabaseID], "Armour", pArmour);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Money", Player[playerid][Money]);
+    			SavePlayerInteger(Query, Player[playerid][DatabaseID], "BankMoney", Player[playerid][BankMoney]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Interior", GetPlayerInterior(playerid));
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "VirtualWorld", GetPlayerVirtualWorld(playerid));
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "AdminLevel", Player[playerid][AdminLevel]);
@@ -328,6 +338,8 @@ SavePlayerData(playerid, type)
     			SavePlayerString(Query, Player[playerid][DatabaseID], "AdminName", Player[playerid][AdminName]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Accent", Player[playerid][Accent]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Skin", Player[playerid][Skin]);
+    			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Gender", Player[playerid][Gender]);
+    			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Age", Player[playerid][Age]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Group", Player[playerid][PlayerGroup]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Rank", Player[playerid][GroupRank]);
     			SavePlayerInteger(Query, Player[playerid][DatabaseID], "Division", Player[playerid][GroupDiv]);
@@ -375,6 +387,12 @@ SavePlayerData(playerid, type)
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "ConnectedSeconds", Player[playerid][ConnectedSeconds]);
 				SavePlayerInteger(Query, Player[playerid][DatabaseID], "Hours", Player[playerid][PlayingHours]);
 
+				SavePlayerInteger(Query, Player[playerid][DatabaseID], "ContractID", Player[playerid][ContractID]);
+				SavePlayerInteger(Query, Player[playerid][DatabaseID], "Contracted", Player[playerid][Contracted]);
+				SavePlayerInteger(Query, Player[playerid][DatabaseID], "ContractAmount", Player[playerid][ContractAmount]);
+				SavePlayerString(Query, Player[playerid][DatabaseID], "ContractedBy", Player[playerid][ContractedBy]);
+				SavePlayerString(Query, Player[playerid][DatabaseID], "ContractedReason", Player[playerid][ContractedReason]);
+
     			SQLPlayerSaveFinish(Query, Player[playerid][DatabaseID]);
     		}
 	    }
@@ -389,7 +407,6 @@ SavePlayerVehicleData(playerid, vehicle = -1)
 	{
 		if(i == vehicle || vehicle == -1)
 		{
-			printf("%d, %d, %d, %d", i, PlayerVehicle[playerid][CarID], PlayerVehicle[playerid][CarModel][i], Fuel[PlayerVehicle[playerid][CarID][i]]);
 			mysql_format(SQL, Query, sizeof(Query), "UPDATE `playervehicles` SET `Model` = '%d', `X` = '%f', `Y` = '%f', `Z` = '%f', `A` = '%f', `Int` = '%d', `VW` = '%d', `Colour` = '%d', `Colour2` = '%d', `PaintJob` = '%d', `Fuel` = '%d', \
 				`Mod0` = '%d', `Mod1` = '%d', `Mod2` = '%d', `Mod3` = '%d', `Mod4` = '%d', `Mod5` = '%d', `Mod6` = '%d', `Mod7` = '%d', `Mod8` = '%d', `Mod9` = '%d', `Mod10` = '%d', `Mod11` = '%d', `Mod12` = '%d' , `Mod13` = '%d' \
 				WHERE `id` = '%d'",

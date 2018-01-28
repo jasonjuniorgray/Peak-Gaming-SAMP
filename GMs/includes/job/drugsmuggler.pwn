@@ -44,7 +44,7 @@ CMD:getcrate(playerid, params[])
 			}
 		}
 	}
-	else SendClientMessage(playerid, WHITE, "You are not an arms dealer.");
+	else SendClientMessage(playerid, WHITE, "You are not a drug smuggler.");
 	return 1;
 }
 

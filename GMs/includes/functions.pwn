@@ -647,6 +647,14 @@ Log(type, string[])
 
 			Log(0, logstring);
 		}
+		case 19: // Bank Log
+		{
+			logfile = fopen("Logs/Bank.log", io_append);
+			fwrite(logfile, logstring);
+			fclose(logfile);
+
+			Log(0, logstring);
+		}
 	}
 	return 1;
 }

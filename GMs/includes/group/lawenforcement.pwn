@@ -358,11 +358,11 @@ CMD:ticket(playerid, params[])
 	return 1;
 }
 
-CMD:find(playerid, params[])
+CMD:find(playerid, params[]) // Can also be used by Hitman.
 {
 	if(Player[playerid][PlayerGroup] > -1)
 	{
-		if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1)
+		if(Group[Player[playerid][PlayerGroup]][GroupType] == 0 || Group[Player[playerid][PlayerGroup]][GroupType] == 1 || Group[Player[playerid][PlayerGroup]][GroupType] == 4)
 		{
 			new id;
 			if(sscanf(params, "u", id)) 

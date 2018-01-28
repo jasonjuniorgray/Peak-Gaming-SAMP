@@ -34,7 +34,7 @@ CMD:ah(playerid, params[])
 
 	if(Player[playerid][AdminLevel] >= 5)
 	{
-	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /makeadmin, /adminname, /lottery, /nexthouse, /edithouse, /createvehicle, /editvehicle, /evplate");
+	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /makeadmin, /adminname, /lottery, /nexthouse, /edithouse, /createvehicle, /editvehicle, /evplate, /contracts");
 	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /nextbusiness, /editbusiness, /businessname, /createdealershipvehicle, /editdealershipvehicle, /crimelist");
 	    SendClientMessage(playerid, WHITE, "Level 5 Administrator: /nextdoor, /editdoor, /doorname, /nextarrest, /editarrest, /nextlocker, /editlocker, /editpoint, /editserver");
 	}
@@ -2589,7 +2589,7 @@ CMD:set(playerid, params[])
 	    if(Player[playerid][AdminLevel] >= 3)
 	    {
 	        SendClientMessage(playerid, WHITE, "SYNTAX: /set [playerid] [usage] [value]");
-	        return SendClientMessage(playerid, GREY, "Usages: Health, Armour, Int(erior), V(irtual)W(orld), Accent, Skin, Money");
+	        return SendClientMessage(playerid, GREY, "Usages: Health, Armour, Int(erior), V(irtual)W(orld), Accent, Skin, Gender, Age, Money");
 	    }
 	    else return SendClientMessage(playerid, WHITE, "You are not authorized to preform this command.");
     }
@@ -2612,10 +2612,24 @@ CMD:set(playerid, params[])
 	        	{
 	        		if(SkinNumberInvalid(Value)) { return SendClientMessage(playerid, WHITE, "Invalid skin model! Valid skins start at 0 and end at 311."); }
 
-	        		if(Player[playerid][AdminDuty] >= 1) Player[id][AdminSkin] = Value;
+	        		if(Player[id][AdminDuty] >= 1) Player[id][AdminSkin] = Value;
 	        		else Player[id][Skin] = Value;
 
 	        		SetPlayerSkin(id, Value);
+	        	}
+
+	        	else if(strcmp(Usage, "gender", true) == 0)
+	        	{
+	        		if(Value < 0 || Value > 1) return SendClientMessage(playerid, WHITE, "Genders are 0 for Male and 1 for Female.");
+
+	        		Player[id][Gender] = Value;
+	        	}
+
+	        	else if(strcmp(Usage, "age", true) == 0)
+	        	{
+	        		if(Value < 18 || Value > 99) return SendClientMessage(playerid, WHITE, "Ages are from 18-99.");
+
+	        		Player[id][Age] = Value;
 	        	}
 
 	        	else if(strcmp(Usage, "interior", true) == 0 || strcmp(Usage, "int", true) == 0)
@@ -2630,12 +2644,17 @@ CMD:set(playerid, params[])
 	        		SetPlayerVirtualWorld(playerid, Value);
 	        	}
 
-	        	else if(strcmp(Usage, "money", true) == 0) GiveMoneyEx(id, Value);
+	        	else if(strcmp(Usage, "money", true) == 0) 
+	        	{
+	        		if(Value < 0) return SendClientMessage(playerid, WHITE, "You cannot give negative money, use /fine to take away money.");
+
+	        		GiveMoneyEx(id, Value);
+	        	}
 
 	        	else
 	        	{
 	        		SendClientMessage(playerid, WHITE, "SYNTAX: /set [playerid] [usage] [value]");
-	        		return SendClientMessage(playerid, GREY, "Usages: Health, Armour, Interior, V(irtual)W(orld), Accent, Skin, Money");
+	        		return SendClientMessage(playerid, GREY, "Usages: Health, Armour, Interior, V(irtual)W(orld), Accent, Skin, Gender, Age, Money");
 	        	}
 
 	        	Usage[0] = tolower(Usage[0]);

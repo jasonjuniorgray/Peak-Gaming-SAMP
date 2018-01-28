@@ -91,34 +91,31 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 GetLotteryWinners(number)
 {
-	new winners;
 	foreach(new i: Player)
 	{
-		if(Player[i][LotteryNumber] == number)
-		{
-			SetPVarInt(i, "WonLottery", 1);
-			winners++;
-		}
+		if(Player[i][LotteryNumber] == number) SetPVarInt(i, "WonLottery", 1);
 	}
 
-	LotteryCheck(number, winners);
+	LotteryCheck(number);
 }
 
-LotteryCheck(number, winners)
+LotteryCheck(number)
 {
 	Array[0] = 0;
 	mysql_format(SQL, Array, sizeof(Array), "SELECT * FROM `accounts` WHERE `LotteryNumber` = '%d'", number);
-	mysql_tquery(SQL, Array, "OnLotteryCheck", "ii", number, winners);
+	mysql_tquery(SQL, Array, "OnLotteryCheck", "i", number);
 }
 
-forward OnLotteryCheck(number, winners);
-public OnLotteryCheck(number, winners)
+forward OnLotteryCheck(number);
+public OnLotteryCheck(number)
 {
-	new rows, fields, realwin;
+	new rows, fields, realwin, winners;
 	Array[0] = 0;
 	cache_get_data(rows, fields, SQL);
 
-	realwin = LotteryInfo[1] / winners;
+	winners = cache_num_rows();
+	if(winners > 0) realwin = LotteryInfo[1] / winners;
+	else realwin = LotteryInfo[1];
 
 	if(rows)
 	{

@@ -14,6 +14,7 @@ enum PlayerData
     Interior,
     VirtualWorld,
     Money,
+    BankMoney,
     Weapon[12],
     AdminLevel,
     AdminDuty,
@@ -21,6 +22,8 @@ enum PlayerData
     AdminName[MAX_PLAYER_NAME],
 	Skin,
     Accent,
+    Gender,
+    Age,
     PlayerGroup,
     GroupRank,
     GroupDiv,
@@ -52,7 +55,12 @@ enum PlayerData
     Materials,
     Drugs[2],
     ConnectedSeconds,
-    PlayingHours
+    PlayingHours,
+    ContractID,
+    Contracted,
+    ContractAmount,
+    ContractedBy[MAX_PLAYER_NAME],
+    ContractedReason[150]
 };
 
 enum PlayerVehicleData

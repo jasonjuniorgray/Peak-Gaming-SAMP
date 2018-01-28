@@ -15,6 +15,7 @@ CMD:takepatient(playerid, params[])
 			{
 				if(Player[id][Injured] == 2)
 				{
+					if(playerid == id) return SendClientMessage(playerid, WHITE, "You cannot take yourself.");
 					if(GetPVarInt(playerid, "Checkpoint") >= 1) return SendClientMessage(playerid, WHITE, "You already have an active checkpoint. Reach it, or type /killcheckpoint to clear it.");
 					if(GetPVarInt(playerid, "AcceptedPatient")) return SendClientMessage(playerid, WHITE, "You already have a patient. Reach them first or /killcheckpoint.");
 							
@@ -59,6 +60,7 @@ CMD:deliverpatient(playerid, params[])
 			{
 				if(Player[id][Injured] == 3)
 				{
+					if(playerid == id) return SendClientMessage(playerid, WHITE, "You cannot deliver yourself.");
 					if(GetPlayerVehicleID(playerid) != GetPlayerVehicleID(id)) return SendClientMessage(playerid, WHITE, "You are not in the same vehicle as that player.");
 					if(Player[playerid][PlayerGroup] != Vehicle[GetRealVehicleID(GetPlayerVehicleID(playerid))][VehicleGroup]) return SendClientMessage(playerid, WHITE, "You need to be in one of your group's vehicles to do this.");
 

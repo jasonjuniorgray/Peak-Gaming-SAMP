@@ -20,7 +20,7 @@ CMD:buybusiness(playerid, params[])
 				}
 				else return SendClientMessage(playerid, WHITE, "You do not have enough money!");
 			}
-			else return SendClientMessage(playerid, WHITE, "You cannot buy this house!");
+			else return SendClientMessage(playerid, WHITE, "You cannot buy this business!");
 		}
 	}
 	return 1;
